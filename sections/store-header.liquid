@@ -1,0 +1,41 @@
+<div class="store_header_section_wrap">
+  {% if section.settings.announce_text != blank %}
+  <div class="store_announce_bar">
+    <div class="wrapper">
+      <div class="announce_text text-center">
+        {{ section.settings.announce_text }}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="store_header__logo">
+    <div class="wrapper">
+      <img src="{{ section.settings.logo }}">
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Store Header",
+	"class": "store-header__section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "announce_text",
+        "label": "Store Announce Text"
+      },
+ 	  {
+        "type": "text",
+        "id": "logo",
+        "label": "Add store logo url here"
+      }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

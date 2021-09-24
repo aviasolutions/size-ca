@@ -1,0 +1,216 @@
+<!-- /snippets/search-bar.liquid -->
+{% comment %}
+
+  A snippet to include a search bar anywhere in your theme.
+  Note we are using 'input-group' for the layout. Look under Forms > Input Groups for some demos.
+
+  More information:
+   - http://docs.shopify.com/themes/liquid-variables/search
+
+  To return only products in results:
+    - http://docs.shopify.com/manual/configuration/store-customization/return-only-product-in-storefront-search-results
+    - Or manually add type=product to the search URL as a query parameter
+    - Uncomment hidden input with value="product" below
+
+{% endcomment %}
+
+<form action="/search" method="get" class="input-group search-bar" role="search">
+  {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+  <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search" class="input-group-field" aria-label="{{ 'general.search.placeholder' | t }}">
+  <span class="input-group-btn">
+    <button type="submit" class="btn icon-fallback-text">
+      <svg class="header_icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <g id="Layer_1-2" data-name="Layer 1-2"> <path id="Path_190" data-name="Path 190" d="M16.095,14.545A9.014,9.014,0,0,0,3.495,1.906,8.64,8.64,0,0,0,1.9,3.5,9.032,9.032,0,0,0,9,18.081a8.874,8.874,0,0,0,5.52-1.911l7.89,7.93L24,22.475Zm-1.612-1.618A6.718,6.718,0,1,1,15.75,9.053,6.685,6.685,0,0,1,14.482,12.928Z" transform="translate(0 -0.1)" fill="#fff"/> </g></svg>
+    </button>
+  </span>
+</form>
+{% comment %}
+<div class="predictive__search">
+  <div class="search__close"><svg class="close__icon" height="329pt" viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"></path></svg></div>
+  <div class="search_container">
+    <div class="default--search">
+      <div class="search__left-menu">
+        <h4 class="menu_title">{{ linklists[section.settings.trending_search_linklist].title | escape }}</h4>        
+        <ul>
+          {% for link in linklists[section.settings.trending_search_linklist].links %}
+          <li>
+            <a class="site-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="search__recently-view-product">
+        {% if section.settings.search_pro_title != blank %}
+        <h4 class="search_product__title">{{ section.settings.search_pro_title }}</h4>
+        {% endif %}
+        <div class="grid-uniform">          
+          {% if section.settings.product1 != blank %}
+          <div class="grid__item large--one-quarter medium--one-half small--one-half">
+            {% assign c_pro1 = all_products[section.settings.product1] %}
+            
+            <a href="{{ c_pro1.url | within: collection }}" class="grid__image">
+              <img src="{{ c_pro1.featured_image.src | img_url: 'large' }}" alt="{{ c_pro1.featured_image.alt | escape }}">
+            </a>
+
+            <div class="product__meta">
+              <p class="h6">
+                <a href="{{ c_pro1.url | within: collection }}">{{ c_pro1.title }}</a>
+              </p>
+              <p class="pro_price">
+                {% if on_sale %}
+                  {% if c_pro1.price_varies %}
+                    {% assign sale_price = c_pro1.price | money %}
+                    {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                  {% else %}
+                    <strong>{{ 'products.product.on_sale' | t }}</strong>
+                    {{ c_pro1.price | money }}
+                  {% endif %}
+                {% else %}
+                  {% if c_pro1.price_varies %}
+                    {% assign price = c_pro1.price | money %}
+                    {{ 'products.general.from_text_html' | t: price: price }}
+                  {% else %}
+                    {{ c_pro1.price | money }}
+                  {% endif %}
+                {% endif %}
+                {% if sold_out %}
+                  <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+                {% endif %}
+                {% if on_sale %}
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <br><s>{{ c_pro1.compare_at_price | money }}</s>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+          
+          {% if section.settings.product2 != blank %}
+          <div class="grid__item large--one-quarter medium--one-half small--one-half">
+            {% assign c_pro2 = all_products[section.settings.product2] %}
+            
+            <a href="{{ c_pro2.url | within: collection }}" class="grid__image">
+              <img src="{{ c_pro2.featured_image.src | img_url: 'large' }}" alt="{{ c_pro2.featured_image.alt | escape }}">
+            </a>
+
+            <div class="product__meta">
+              <p class="h6">
+                <a href="{{ c_pro2.url | within: collection }}">{{ c_pro2.title }}</a>
+              </p>
+              <p class="pro_price">                          
+                {% if on_sale %}
+                  {% if c_pro2.price_varies %}
+                    {% assign sale_price = c_pro2.price | money %}
+                    {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                  {% else %}
+                    <strong>{{ 'products.product.on_sale' | t }}</strong>
+                    {{ c_pro2.price | money }}
+                  {% endif %}
+                {% else %}
+                  {% if c_pro2.price_varies %}
+                    {% assign price = c_pro2.price | money %}
+                    {{ 'products.general.from_text_html' | t: price: price }}
+                  {% else %}
+                    {{ c_pro2.price | money }}
+                  {% endif %}
+                {% endif %}
+                {% if sold_out %}
+                  <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+                {% endif %}
+                {% if on_sale %}
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <br><s>{{ c_pro2.compare_at_price | money }}</s>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+          
+          {% if section.settings.product3 != blank %}
+          <div class="grid__item large--one-quarter medium--one-half small--one-half">
+            {% assign c_pro3 = all_products[section.settings.product3] %}
+            
+            <a href="{{ c_pro3.url | within: collection }}" class="grid__image">
+              <img src="{{ c_pro3.featured_image.src | img_url: 'large' }}" alt="{{ c_pro3.featured_image.alt | escape }}">
+            </a>
+
+            <div class="product__meta">
+              <p class="h6">
+                <a href="{{ c_pro3.url | within: collection }}">{{ c_pro3.title }}</a>
+              </p>
+              <p class="pro_price">
+                {% if on_sale %}
+                  {% if c_pro3.price_varies %}
+                    {% assign sale_price = c_pro3.price | money %}
+                    {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                  {% else %}
+                    <strong>{{ 'products.product.on_sale' | t }}</strong>
+                    {{ c_pro3.price | money }}
+                  {% endif %}
+                {% else %}
+                  {% if c_pro3.price_varies %}
+                    {% assign price = c_pro3.price | money %}
+                    {{ 'products.general.from_text_html' | t: price: price }}
+                  {% else %}
+                    {{ c_pro3.price | money }}
+                  {% endif %}
+                {% endif %}
+                {% if sold_out %}
+                  <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+                {% endif %}
+                {% if on_sale %}
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <br><s>{{ c_pro3.compare_at_price | money }}</s>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+          
+          {% if section.settings.product4 != blank %}
+          <div class="grid__item large--one-quarter medium--one-half small--one-half">
+            {% assign c_pro4 = all_products[section.settings.product4] %}
+            
+            <a href="{{ c_pro4.url | within: collection }}" class="grid__image">
+              <img src="{{ c_pro4.featured_image.src | img_url: 'large' }}" alt="{{ c_pro4.featured_image.alt | escape }}">
+            </a>
+			
+            <div class="product__meta">
+              <p class="h6">
+                <a href="{{ c_pro4.url | within: collection }}">{{ c_pro4.title }}</a>
+              </p>
+              <p class="pro_price">
+                {% if on_sale %}
+                  {% if c_pro4.price_varies %}
+                    {% assign sale_price = c_pro4.price | money %}
+                    {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+                  {% else %}
+                    <strong>{{ 'products.product.on_sale' | t }}</strong>
+                    {{ c_pro4.price | money }}
+                  {% endif %}
+                {% else %}
+                  {% if c_pro4.price_varies %}
+                    {% assign price = c_pro4.price | money %}
+                    {{ 'products.general.from_text_html' | t: price: price }}
+                  {% else %}
+                    {{ c_pro4.price | money }}
+                  {% endif %}
+                {% endif %}
+                {% if sold_out %}
+                  <br><strong>{{ 'products.product.sold_out' | t }}</strong>
+                {% endif %}
+                {% if on_sale %}
+                  <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+                  <br><s>{{ c_pro4.compare_at_price | money }}</s>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+          {% endif %}
+          
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% endcomment %}

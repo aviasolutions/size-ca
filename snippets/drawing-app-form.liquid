@@ -1,0 +1,102 @@
+<!-- launches by seed -->
+<script>
+    var url = window.location.href;
+    if (url.indexOf('?') > -1){
+    }else{
+        var d=new Date();
+        window.location.href += '?t='+d.getTime();
+    }
+    var addresses = []
+    var country   = 'not-set'
+    var countryCode   = 'not-set'
+    {% for address in customer.addresses %}
+    country = '{{ address.country }}'
+    countryCode = '{{ address.country_code }}'
+    var addressObject = {
+        'address1': '{{ address.address1 }}',
+        'address2': '{{ address.address2 }}',
+        'city': '{{ address.city }}',
+        'company': '{{ address.company }}',
+        'country': '{{ address.country }}',
+        'country_code': '{{ address.country_code }}',
+        'first_name': '{{ address.first_name }}',
+        'id': '{{ address.id }}',
+        'last_name': '{{ address.last_name }}',
+        'phone': '{{ address.phone }}',
+        'province': '{{ address.province }}',
+        'province_code': '{{ address.province_code }}',
+        'street': '{{ address.street }}',
+        'zip': '{{ address.zip }}',
+    }
+    addresses.push(addressObject)
+    {% endfor %}
+    window.customerObject = [];
+
+    var dataLayerDrawing = {
+        'currentDate': '{{'now' | date: '%Y-%m-%dT%H:%M:00.000-05:00' }}',
+        'campaignId': '{{ page.metafields.global.drawing }}',
+        'accepts_marketing': '{{ customer.accepts_marketing }}',
+        'addresses': addresses,
+        'addresses_count': '{{ customer.addresses_count }}',
+        'email': '{{ customer.email }}',
+        'first_name': '{{ customer.first_name }}',
+        'has_account': '{{ customer.has_account }}',
+        'id': '{{ customer.id }}',
+        'last_name': '{{ customer.last_name }}',
+        'last_order': '{{ customer.last_order }}',
+        'name': '{{ customer.name }}',
+        'orders_count': '{{ customer.orders_count }}',
+        'phone': '{{ customer.phone }}',
+        'tags': '{{ customer.tags }}',
+        'tax_exempt': '{{ customer.tax_exempt }}',
+        'total_spent': '{{ customer.total_spent }}',
+        'country': country,
+        'country_code': countryCode
+    }
+
+    window.customerObject[0] = dataLayerDrawing;
+
+    if(country === 'xxxnot-setxxx'){
+        console.log( 'get country ')
+        GeolizrAPI.addEventListener('geolizr.geoData', function(geoData) {
+            //console.log(geoData);
+            dataLayerDrawing = {
+                'currentDate': '{{'now' | date: '%Y-%m-%dT%H:%M:00.000-05:00' }}',
+                {% comment %}'campaignId': '{{ page.metafields.global.drawing }}', {% endcomment %}
+                'campaignId': 'UR9dHPgA58WjGA78DubH',
+                'accepts_marketing': '{{ customer.accepts_marketing }}',
+                'addresses': addresses,
+                'addresses_count': '{{ customer.addresses_count }}',
+                'email': '{{ customer.email }}',
+                'first_name': '{{ customer.first_name }}',
+                'has_account': '{{ customer.has_account }}',
+                'id': '{{ customer.id }}',
+                'last_name': '{{ customer.last_name }}',
+                'last_order': '{{ customer.last_order }}',
+                'name': '{{ customer.name }}',
+                'orders_count': '{{ customer.orders_count }}',
+                'phone': '{{ customer.phone }}',
+                'tags': '{{ customer.tags }}',
+                'tax_exempt': '{{ customer.tax_exempt }}',
+                'total_spent': '{{ customer.total_spent }}',
+                'country': geoData.countryName,
+                'country_code': geoData.countryCode
+            }
+            window.customerObject[0] = dataLayerDrawing;
+        });
+    }else{
+        window.customerObject[0] = dataLayerDrawing;
+    }
+    console.log('drawing app data ', dataLayerDrawing);
+</script>
+
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-app.css?campaign={{ page.metafields.global.drawing }}' rel='preload' as='style'>
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-chunk-vendors.css?campaign={{ page.metafields.global.drawing }}' rel='preload' as='style'>
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-app.js?campaign={{ page.metafields.global.drawing }}' rel='preload' as='script'>
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-chunk-vendors.js?campaign={{ page.metafields.global.drawing }}' rel='preload' as='script'>
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-chunk-vendors.css?campaign={{ page.metafields.global.drawing }}' rel='stylesheet'>
+<link href='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-app.css?campaign={{ page.metafields.global.drawing }}' rel='stylesheet'>
+<div id='drawingapp'></div>
+<script src='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-chunk-vendors.js?campaign={{ page.metafields.global.drawing }}'></script>
+<script src='https://storage.googleapis.com/launches-by-seed.appspot.com/drawing-v2-app.js?campaign={{ page.metafields.global.drawing }}'></script>
+<script async='' src='https://platform.twitter.com/widgets.js' charset='utf-8'></script>

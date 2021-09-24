@@ -1,0 +1,156 @@
+{% assign results_box_width = '242px' %}
+{% assign results_box_background_color = '#ffffff' %}
+{% assign results_box_border_color = '#d4d4d4' %}
+
+<script>
+$(function() {
+  // Current Ajax request.
+  var currentAjaxRequest = null;
+  // Grabbing all search forms on the page, and adding a .search-results list to each.
+  var searchForms = $('form[action="/search"]').css('position','relative').each(function() {
+    // Grabbing text input.
+    var input = $(this).find('input[name="q"]');
+    // Adding a list for showing search results.
+    var offSet = input.position().top + input.innerHeight();
+    $('.ctm_search').remove();
+    $('<div class="ctm_search"></div>').css( { 'left': '0px', 'top': offSet } ).appendTo('.default--search').hide();    
+    // Listening to keyup and change on the text field within these search forms.
+    input.attr('autocomplete', 'off').bind('keyup change', function() {
+      // What's the search term?
+      var term = $(this).val();
+      // What's the search form?
+      var form = $(this).closest('form');
+      // What's the search URL?
+      var searchURL = '/search?type=product&q=' + term;
+      // What's the search results list?
+      console.log(term,searchURL);
+      var resultsList = $('.ctm_search');
+      // If that's a new term and it contains at least 3 characters.
+      if (term.length > 2) {
+        // Saving old query.
+        $(this).attr('data-old-term', term);
+        // Killing any Ajax request that's currently being processed.
+        if (currentAjaxRequest != null) currentAjaxRequest.abort();
+        // Pulling results.
+        currentAjaxRequest = $.getJSON('/search/suggest.json',{
+          // Reset results.
+          "q": term,
+          "resources": {
+            "type": "product",
+            "limit": 4,
+            "options": {
+              "unavailable_products": "last",
+              "fields": "title,product_type,variants.title"
+            }
+          }
+        }).done(function(response){
+          var data = response.resources.results.products;
+          console.log(term,'test',data,searchURL);
+          resultsList.empty();
+          // If we have no results.
+          if(data.length == 0) {
+            // resultsList.html('<li><span class="title">No results.</span></li>');
+            // resultsList.fadeIn(200);
+            console.log('no products')
+            $('.search__recently-view-product').show();
+            setTimeout(function(e){
+              $('.ctm_search').hide();
+//               $('.ctm_search').append('<p class="error_msg">No data found</p>');
+            },300)
+            resultsList.hide();
+          } else {
+            // If we have results.
+            var html = '<div class="grid-uniform">'
+//             for(var i = 0; i< data.length; i++){}
+            $.each(data, function(index, item) {
+              var img = item.image;
+//               img += '_500x.png' 
+              console.log(img)
+              html += '<div class="grid__item large--one-quarter medium--one-half small--one-half">'
+              html +='<a href="'+item.url+'" class="grid__image"><img src="' + img + '" /></a>'
+              html += '<div class="product__meta">'
+              html += '<p class="h6">'
+              html += '<a href="'+item.url+'">"'+item.title+'"</a></p>'
+              html += '<p class="pro_price">$'+item.price+'</p>'
+              html += '</div>'
+              html += '</div>'
+//               var link = $('<a class="grid__image"></a>').attr('href', item.url);
+//               link.append('<img src="' + item.thumbnail + '" />');
+//               link.append('<div class="product__meta">' + item.title + '</span>');
+//               link.wrap('<div class="grid-uniform"><div class="grid__item large--one-quarter medium--one-quarter"></div></div>');
+              
+            });
+            console.log(html+'</div>');
+            resultsList.append(html+'</div>');
+            // The Ajax request will return at the most 10 results.
+            // If there are more than 10, let's link to the search results page.
+            if(data.length > 4) {
+              resultsList.append('<div><span class="title"><a href="' + searchURL + '">See all results (' + data.results_count + ')</a></span></div>');
+            }
+            resultsList.fadeIn(200);
+            $('.search__recently-view-product').hide();
+          }        
+        });
+      }
+      if(term.length < 3){
+        $('.search__recently-view-product').show();
+        $('.ctm_search').hide(); 
+      }
+    });
+  });
+  // Clicking outside makes the results disappear.
+  $('body').bind('click', function(){
+    $('.search-results').hide();
+  });
+});
+</script>
+
+<!-- Some styles to get you started. -->
+<style>
+.search-results {
+  z-index: 8889;
+  list-style-type: none;   
+  width: {{ results_box_width }};
+  margin: 0;
+  padding: 0;
+  background: {{ results_box_background_color }};
+  border: 1px solid {{ results_box_border_color }};
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 4px 7px 0px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+.search-results li {
+  display: block;
+  width: 100%;
+  height: 38px;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid {{ results_box_border_color }};
+  line-height: 38px;
+  overflow: hidden;
+}
+.search-results li:first-child {
+  border-top: none;
+}
+.search-results .title {
+  float: left;
+  width: {{ results_box_width | remove: 'px' | to_number | minus: 50 }}px;
+  padding-left: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  /* The text-overflow property is supported in all major browsers. */  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-align: left;
+}
+.search-results .thumbnail {
+  float: left;
+  display: block;
+  width: 32px;
+  height: 32px;    
+  margin: 3px 0 3px 3px;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
+}
+</style>

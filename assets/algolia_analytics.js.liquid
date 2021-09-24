@@ -1,0 +1,181 @@
+(function(algolia) {
+  'use strict';
+  var aa = algolia.externals.aa;
+
+  var enabled = algolia.config.analytics_enabled;
+  if (!enabled) return;
+
+  aa.init({
+    appId: algolia.config.app_id,
+    apiKey: algolia.config.search_api_key,
+  });
+
+  const localStorageKey = 'algolia_analytics_clicked_objects';
+  
+  function sendConversionEvent() {
+     if(document.querySelector(".page--thank-you")) {
+       var products = document.querySelectorAll(".product-table .product");
+       var items = [];
+       [].forEach.call(products, function(product) {
+         items.push({
+           product_id: product.dataset.productId,
+           variant_id: product.dataset.variantId
+         });
+       });
+       
+       try {
+         // Get any previously stored data.
+         var previousClickItemsString = localStorage.getItem(localStorageKey);
+         // If data was found, send a conversion event for those products.
+         if (!!previousClickItemsString) {
+           var previousClickItems = JSON.parse(previousClickItemsString);
+           previousClickItems.forEach(function(item) {
+             var hasItem = items.find(function(i) {
+               return i.variant_id == item.variantID
+             });
+             if(hasItem) {
+               hasItem.converted = true;
+               delete item.positions;
+               item.eventName = 'Product Purchased';
+               aa.convertedObjectIDsAfterSearch(item);
+             }
+           });
+         }
+
+         var data = {
+           index: algolia.config.index_prefix + 'products',
+           eventName: 'Product Purchased',
+           objectIDs: [],
+         };
+
+         if (typeof ShopifyAnalytics.lib.user().id === 'function') {
+           data.userToken = ShopifyAnalytics.lib.user().id();
+         }
+
+         items.forEach(function(item) {
+           if(!item.converted) {
+             data.objectIDs.push(item.variant_id);
+           }
+         });
+
+         if(data.objectIDs.length) {
+           aa.convertedObjectIDs(data);
+         }
+       } catch (error) {
+         // No need to do anything in this scenario.
+         console.error(error);
+       }
+
+       // Try to remove the items from local storage.
+       try {
+         localStorage.removeItem(localStorageKey);
+       } catch (error) {
+         // No need to do anything in this scenario.
+       }
+     }
+  }
+  
+  function trackPLPView() {
+    if(document.body.classList.contains("template-collection")) {
+      const viewData = {
+        index: algolia.config.index_prefix + 'products',
+        eventName: 'Landing Page Viewed',
+        filters: ['category:' + encodeURIComponent(document.querySelector(".section-header__title").innerText)],
+        userToken: ShopifyAnalytics.lib.user().traits().uniqToken,
+      };
+
+      if (typeof ShopifyAnalytics.lib.user().id === 'function') {
+        viewData.userToken = ShopifyAnalytics.lib.user().id();
+      }
+
+      aa.viewedFilters(viewData);
+    }
+  }
+  
+  $('body').on('afterAddItem.ajaxCart', function(e, line_item) {
+    try {
+      let previousClickItemsString = localStorage.getItem(localStorageKey);
+      let previousItem;
+      // If data was found, send a conversion event for those products.
+      if (!!previousClickItemsString) {
+        var previousClickItems = JSON.parse(previousClickItemsString);
+        previousItem = previousClickItems.find((item) => {
+          return item.objectIDs.some((id) => id = line_item.variant_id) || item.productId == line_item.product_id;
+        });
+      }
+      
+      if(previousItem) {
+        delete previousItem.positions;
+        previousItem.eventName = 'Product Added to Cart';
+        aa.convertedObjectIDsAfterSearch(previousItem);
+      } else {
+        var clickData = {
+          index: algolia.config.index_prefix + 'products',
+          eventName: 'Product Added to Cart',
+          objectIDs: [String(line_item.variant_id)]
+        };
+
+        if (typeof ShopifyAnalytics.lib.user().id === 'function') {
+          clickData.userToken = ShopifyAnalytics.lib.user().id();
+        }
+
+        aa.convertedObjectIDs(clickData);
+      }
+    } catch (err) {
+    	console.error(err);
+    }
+  });
+  
+  function trackAnalytics() {
+    sendConversionEvent();
+    trackPLPView();
+  }
+  
+  var retries = 0;
+  function setupUserToken() {
+    if(ShopifyAnalytics.lib.user === undefined) {
+      if(retries++ < 10) {
+      	return setTimeout(setupUserToken, 500);
+      } else {
+        return trackAnalytics();
+      }
+    }
+    
+    if (typeof ShopifyAnalytics.lib.user().id === 'function') {
+      aa.setUserToken(ShopifyAnalytics.lib.user().id());
+    } else {
+      aa.setUserToken(ShopifyAnalytics.lib.user().traits().uniqToken);
+    }
+    
+    trackAnalytics();
+  }
+  setupUserToken();
+
+  /**
+   * Saves details in local storage for conversion tracking
+   */
+  algolia.saveForConversionTracking = function (data) {
+    /**
+     * We're using a try, catch here to handle any possible exceptions
+     * resulting from local storage or JSON parsing.
+     */
+    try {
+      // Get any data previously stored
+      const previousClickItemsString = localStorage.getItem(localStorageKey) || '[]';
+      const previousClickItems = JSON.parse(previousClickItemsString);
+
+      var conversionData = data;
+
+      // Changing the event to 'convert' from 'click'
+      conversionData.eventName = 'convert';
+      // Removing the `positions` property
+      delete conversionData.positions;
+
+      // Add the current products data to local storage
+      previousClickItems.unshift(conversionData);
+      localStorage.setItem(localStorageKey, JSON.stringify(previousClickItems))
+    } catch (error) {
+      // No need to do anything in this scenario
+    }
+  };
+})(window.algoliaShopify);

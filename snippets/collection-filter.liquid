@@ -1,0 +1,361 @@
+<!-- Collection Filter -->
+{% assign abcd = 'a b c d e f g h i j k l m n o p q r s t u v w x y z' %}
+{% comment %} ===== Crisp Filter :: Start ===== {% endcomment %}
+
+{%- unless settings.allowed_filter_tags == blank -%}
+	{%- assign allowed_filter_tags = settings.allowed_filter_tags | downcase -%}
+{%- endunless -%}
+
+<script>
+  crispTheme.collAllTags = {{- collection.all_tags | json -}};
+</script>
+
+{%- assign rename_grpName = 'gender designation=Gender;filter category=Category' | split:';' -%}
+{%- assign size_filter_order = 'One Size;X-Small;Small;Medium;Large;X-Large;XX-Large' | split:';' -%}
+
+{%- assign collectionTagPrefixArr = '' -%}
+{%- for tag in collection.all_tags -%}
+  	{%- if tag contains '_' -%}
+		{%- assign tag_arr = tag | split: '_' -%}
+        {%- assign grpName = tag_arr[0] -%}
+		
+		{%- assign grpName_downcase = grpName | downcase | strip -%}
+		{%- assign show_filter = false -%}
+		{%- unless allowed_filter_tags == blank -%}
+			{%- assign allowed_filter_tags_arr = allowed_filter_tags | split:';' -%}
+			{% for allowTag in allowed_filter_tags_arr %}
+				{% assign allowTag_downcase = allowTag | downcase | strip %}
+				{%- if allowTag_downcase == grpName_downcase -%}
+					{%- assign show_filter = true -%}
+				{%- endif -%}
+			{% endfor %}
+		{%- else -%}
+			{%- assign show_filter = true -%}
+		{%- endunless -%}
+		
+		{%- if show_filter -%}
+          {% unless collectionTagPrefixArr contains grpName_downcase %}
+              {%- assign collectionTagPrefixArr =  collectionTagPrefixArr | append: grpName_downcase | append: ',' -%}
+          {%- endunless -%}
+		{%- endif -%}
+
+	{%- endif -%}
+{%- endfor -%}
+
+
+{% comment %} settings.collection_filter_prefix != blank {% endcomment %}
+
+
+{% if collection and collectionTagPrefixArr != '' %}
+  <article class="listing-filters__container">
+      <div class="listing-filters__actions"><button class="text-link">Filters</button></div>
+      <h4 class="large--hide">You have selected</h4>
+      <div class="listing-filters__tags"></div>
+      <button type="button" class="btn-clear-all">Clear All</button>
+      <div class="listing-filters__selectors">
+        {% assign filter_prefix = collectionTagPrefixArr | strip | split: ',' %}
+        {% assign addedTag = '' %}
+        
+        {% for prefix in filter_prefix %}
+        	{% assign prefixName = prefix | append: '_' | strip %}
+        	{% assign prefixName_downcase = prefix | append: '_' | strip | downcase %}
+        	{% assign addedTag = addedTag | append: prefix | append: '=' %}
+        	
+        	{%- assign filter_visible_name = prefix | strip -%}
+        
+        	<div class="listing-filters__group {% if forloop.index == 1 %}open{% endif %}" data-group="{{- prefix | strip -}}">
+              
+              {%- for f_name in rename_grpName -%}
+                {%- assign f_name_arr = f_name | strip | split:'=' -%}
+                {%- assign exist_prefix = f_name_arr | first | strip -%}
+                {%- assign new_name = f_name_arr | last | strip -%}
+
+                {%- if exist_prefix == prefix -%}
+                	{%- assign filter_visible_name = new_name -%}
+                	{%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+              
+              
+              <div class="filter-title-wrapper">
+    			<button class="filter-group__title select">
+                  {{- filter_visible_name -}}
+                  <span class="filter-group__title--number"></span>
+              	</button>
+                <button class="filter-group__action--clear btn btn--secondary">Clear</button>
+              </div>
+              
+                <div class="filter-group__actions {% if forloop.index == 1 %}open{% endif %}">
+                  <div class="filter-group__action--filters">
+                    {% assign addedTagTemp = '' %}
+                    {% for tag in collection.all_tags %}
+                    	{% assign tagName_downcase = tag | downcase %}
+                    	{% assign filterItemName = tagName_downcase | remove: prefixName_downcase | remove: 'sub ' | capitalize %}			
+                    	
+                    	{% if tag contains 'Brand_' or tag contains 'brand_'  %}
+                    		{% if tag contains 'Brand_' %}
+                    			{% assign filterItemName_first = tag | split: 'Brand_' | last | remove: 'sub ' %}
+                    		{% else %}
+                    			{% assign filterItemName_first = tag | split: 'brand_' | last | remove: 'sub ' %}
+                    		{% endif %}
+                    		
+                    		{% comment %}
+                              {% assign word_first_letter = filterItemName_first | slice: 0 %}
+                              {% if abcd contains word_first_letter %}
+                                  {% assign filterItemName_first = filterItemName_first | capitalize %}
+                              {% endif %}
+                    		{% endcomment %}
+                    
+                    	{% else %}
+                    		{% assign filterItemName_first = tagName_downcase | split: prefixName_downcase | last | remove: 'sub ' | capitalize %}
+                    	{% endif %}
+                    
+                    
+                      	{% if tagName_downcase contains prefixName_downcase %}
+                          {% unless addedTag contains tagName_downcase %}
+                    		{% unless addedTagTemp contains filterItemName_first %}
+                              <div class="filter-group__filter" data-filter="{{- tag | downcase -}}">
+                                  <input data-group="{{- prefix -}}" data-filter="{{- tag -}}" id="{{- tag | handle -}}" class="filter-group__filter--checkbox" type="checkbox" value="{{- tag | downcase -}}" />
+                                  <label data-group="{{- prefix -}}" data-filter="{{- tag -}}" for="{{- tag | handle -}}" class="filter-group__filter--label">
+                                    {{- filterItemName_first -}}
+                                  </label>
+                              </div>			
+                              {% assign addedTag = addedTag | append: tagName_downcase | append:';' %}
+                              {% assign addedTagTemp = addedTagTemp | append: filterItemName_first | append:';' %}
+                          	{% endunless %}
+                    	  {% endunless %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  
+                  {% comment %}
+                  <div class="filter-group__action--buttons">
+                      <button class="filter-group__action--apply btn">APPLY</button>
+                      <button class="filter-group__action--clear btn btn--secondary">Clear</button>
+                  </div>
+				  {% endcomment %}
+                  
+                </div>
+             </div>
+
+        	{% assign addedTag = addedTag | append:'||' %}
+        {% endfor %}  
+        
+        
+        {% comment %} :: Size ::{% endcomment %}
+        {% if settings.size_filter_enable and settings.allowed_size_tags != blank %}
+        	{%- assign sizeRenameList = 'xsml=X-Small;sm=Small;med=Medium;lrg=Large;xlrg=X-Large;xxlrg=XX-Large;2xlrg==XX-Large' | split:';' -%}
+          {% assign all_size_arr = settings.allowed_size_tags | split:';' %}	
+          <div class="listing-filters__group" data-group="size">
+            <div class="filter-title-wrapper">
+              <button class="filter-group__title select">
+                Size
+                <span class="filter-group__title--number"></span>
+              </button>
+              <button class="filter-group__action--clear btn btn--secondary">Clear</button>
+            </div>
+
+            <div class="filter-group__actions">
+              <div class="filter-group__action--filters">
+                {% for size in all_size_arr %}
+                  {% assign new_name = size %}
+                  {% assign sizeTemp = size | strip | downcase %}
+                
+                  {%- for rename in sizeRenameList -%}
+                  	{% assign renameArr = rename | split:'='  %}
+                	{% assign current_name = renameArr | first %}
+                    {% assign current_nameTemp = current_name | strip | downcase %}
+                	{% if current_nameTemp == sizeTemp %}
+                		{% assign new_name = renameArr | last %}
+                	{% endif %}
+                  {% endfor %}
+                
+                  {%- assign size_tag = size | strip | prepend:'size_' | downcase -%}                  
+                  <div class="filter-group__filter" data-filter="{{- size_tag | downcase -}}">
+                    <input 
+                           data-group="size" 
+                           data-filter="{{- size_tag -}}" 
+                           id="{{- size_tag | handle -}}" 
+                           class="filter-group__filter--checkbox" 
+                           type="checkbox" 
+                           value="{{- size_tag | strip -}}" />
+                    <label 
+                           data-group="size" 
+                           data-filter="{{- size_tag -}}" 
+                           for="{{size_tag | handle}}" 
+                           title="{{- size -}}"
+                           class="filter-group__filter--label">{{- new_name -}}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% comment %} :: Color ::{% endcomment %}
+        {% if settings.color_filter_enable and settings.allowed_color_tags != blank %}
+        	{% assign all_color_arr = settings.allowed_color_tags | split:';' %}
+        	{% assign color_list = '' %}
+        
+            {% for p_obj in collection.products %}
+              {% for product_option in p_obj.options_with_values %}
+                {%- assign opt_name = product_option.name | downcase -%}
+                {% if opt_name contains 'colour' or opt_name contains 'color' %}
+                  {% for value in product_option.values %}
+                    {% unless color_list contains value %}
+                        {% assign color_list = color_list | append: value | append: ' = ' %}
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+        
+          	{% assign layout_class = 'layout-' | append: settings.color_filter_layout %}
+        
+          	<div class="listing-filters__group {{layout_class}}" data-group="colour">
+            <div class="filter-title-wrapper">
+              <button class="filter-group__title select">
+                Colour
+                <span class="filter-group__title--number"></span>
+              </button>
+              <button class="filter-group__action--clear btn btn--secondary">Clear</button>
+            </div>
+
+            <div class="filter-group__actions">
+              <div class="filter-group__action--filters">
+                {% assign color_list_arr = color_list | split:'=' %}
+                {% for color in all_color_arr %}
+                  {%- assign color_tag = color | strip | prepend:'Colour_' -%}                  
+                  <div class="filter-group__filter" data-filter="{{- color_tag | downcase -}}">
+                    <input data-group="Colour" data-filter="{{- color_tag -}}" id="{{- color_tag | handle -}}" class="filter-group__filter--checkbox" type="checkbox" value="{{- color_tag | strip | downcase -}}" />
+                    <label 
+                           data-group="Colour" 
+                           data-filter="{{- color_tag -}}" 
+                           for="{{color_tag | handle}}" 
+                           title="{{- color -}}"
+                           {% if layout_class == 'layout-swatch' %}
+                       		style="background-color: {{ color | split: ' ' | last | handle }}; background-image: url({{ color | handle | append: '.png' | asset_url }})"
+                       		{% endif %}
+                           class="filter-group__filter--label">{{- color -}}</label>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        
+        {% comment %} :: Price ::{% endcomment %}
+        {% assign priceMin = settings.price_filter_min_price | default: 1 %}
+        {% assign priceMax = settings.price_filter_max_price | default: 1000 %}
+        
+		{% if settings.price_filter_enable %}
+          <div class="listing-filters__group" data-group="price">
+            <div class="filter-title-wrapper">
+                <button class="filter-group__title select">
+                  Price
+                  <span class="filter-group__title--number"></span>
+              </button>
+                <button class="filter-group__action--clear btn btn--secondary">Clear</button>
+            </div>
+
+            <div class="filter-group__actions">
+                <div class="filter-group__action--filters">
+                  <div id="slider-range"></div>
+                  <input 
+                         type="text" 
+                         id="slider-range-amount" 
+                         readonly 
+                         value="From {{ priceMin | times: 100 | money }} - To {{ priceMax | times: 100 | money }}"  
+                         />
+                </div>
+            </div>
+          </div>
+		{% endif %}
+        
+        <div class="large--hide apply_filter">
+          <button class="filter_close">Apply Filters</button>
+        </div>
+        
+      </div>
+  </article>
+
+<script>
+  (function(){
+    window.crispTheme = window.crispTheme || {};
+    var collectionFilterObj = {};
+    var colorList = [];
+    var sizeList = [];
+    {% for color in all_color_arr %}
+    	{%- assign color_tag = color | strip | prepend:'Colour_' -%}
+    	colorList.push({{- color_tag | downcase | json -}});
+    {% endfor %}
+    {% for size in all_size_arr %}
+    	{%- assign size_tag = size | strip | prepend:'Size_' -%}
+    	sizeList.push({{- size_tag | downcase | json -}});
+    {% endfor %}
+    
+    crispTheme.settings = {
+        title: document.title,
+        parameters: (typeof URLSearchParams == "function" ? new URLSearchParams(window.location.search) : ""), 
+        hide_oos: false,
+        oos_override: false,
+        template: "collection", 
+        collection_handle: "{{collection.handle}}",
+        collection_filters: {},
+       	moneyFormat: {{ shop.money_format | json }},
+        loadMoreType: {{- settings.loadmore_type | json -}},
+        paginate: {
+          current_offset: {{- paginate.current_offset | json -}},
+          current_page: {{- paginate.current_page | json -}},
+          items: {{- paginate.items | json -}},
+          parts: {{- paginate.parts | json -}},
+          next: {{- paginate.next | json -}},
+          previous: 1,
+          page_size: {{- paginate.page_size | json -}},
+          pages: {{- paginate.pages | json -}}
+        },
+        priceMinMax: {
+          min: {{- priceMin | json -}}, 
+          max: {{- priceMax | json -}},
+          enable: {{- settings.price_filter_enable | json -}}
+        },
+        colorFilterEnable: {{- settings.color_filter_enable | json -}}
+    };
+    
+    var availableTags = {{- addedTag | strip | split:'||' | json -}};
+    if(availableTags && availableTags.length){
+      availableTags.map(function(item){
+        var itemArr = item.split('=');
+        if(itemArr.length > 1 && itemArr[1] && itemArr[1] != ''){
+          var groupName = itemArr[0].trim();
+          var filterValue = itemArr[1].slice(0,-1).split(';');
+          collectionFilterObj[groupName] = filterValue;
+        } else {
+          if(itemArr[0]){
+            var groupName = itemArr[0].trim();
+            var elem_notavailable = document.querySelector('.listing-filters__group[data-group="'+ groupName +'"]');
+            if(elem_notavailable){
+              elem_notavailable.style.display = 'none'
+            }            
+          }
+        }
+      });
+      //console.log(collectionFilterObj);
+    }
+    
+    if(collectionFilterObj && Object.keys(collectionFilterObj).length > 0){
+      crispTheme.settings.collection_filters["{{collection.handle}}"] = collectionFilterObj;
+      //crispTheme.settings.collection_filters.all['price'] = ['price'];
+      crispTheme.settings.collection_filters["{{collection.handle}}"]['price'] = ['price'];
+      if(colorList.length){
+      	crispTheme.settings.collection_filters["{{collection.handle}}"]['colour'] = colorList;
+      }
+	  if(sizeList.length){
+      	crispTheme.settings.collection_filters["{{collection.handle}}"]['size'] = sizeList;
+      }
+    }
+  })();
+</script>
+{% endif %}
+
+{% comment %} ===== Crisp Filter :: End ===== {% endcomment %}

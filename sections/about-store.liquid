@@ -1,0 +1,67 @@
+<div class="about-store__section_wrap">
+  <div class="wrapper">   
+    <div class="about_store_content">
+      <div class="grid">
+        <div class="grid__item large--two-quarters push--large--one-quarter small--one-whole">
+          {% if section.settings.heading != blank %}
+          <h4 class="text-center">{{ section.settings.heading }}</h4>
+          {% endif %}
+          {% if section.settings.about_content != blank %}
+          <div class="rte">
+            {{ section.settings.about_content }}
+          </div>
+          {% endif %}        
+        </div>
+      </div>
+    </div>
+    <div class="store_images">
+      <div class="grid">
+        {% if section.settings.about_img1 != blank %}
+        <div class="grid__item large--one-half">
+          <img src="{{ section.settings.about_img1 | img_url:'master' }}">
+        </div>
+        {% endif %}
+        {% if section.settings.about_img2 != blank %}
+        <div class="grid__item large--one-half">
+          <img src="{{ section.settings.about_img2 | img_url:'master' }}">
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "About Store",
+	"class": "about-store__section",
+    "settings": [
+		{
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "about_content",
+          "label": "About content"
+        },
+        {
+          "type": "image_picker",
+          "id": "about_img1",
+          "label": "About Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "about_img2",
+          "label": "About Image"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

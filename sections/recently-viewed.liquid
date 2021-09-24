@@ -1,0 +1,172 @@
+{{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+{{ 'jquery.products.js' | asset_url | script_tag }}
+
+
+  <div class="section_header">
+    <h3>{{ section.settings.heading }}</h3>
+  </div>
+  <div class="grid-uniform">
+    <div id="recently-viewed-products" class="collection clearfix" style="display:none">
+    </div>
+  </div>
+
+{% raw %}
+<div class="grid-uniform">
+<script id="recently-viewed-product-template"  type="text/x-jquery-tmpl">
+<div id="product-${handle}" class="grid__item large--one-quarter medium--one-half">
+	<div class="grid-product__content">
+      <div class="product_img_wrap">    
+         <a href="${url}" class="grid__image">
+            <img src="${Shopify.Products.resizeImage(featured_image, "700x")}" />
+         </a>
+         <div class="quick-view-button">
+           <a class="quick-view" data-handle="${handle}" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 200 200"><defs><style>.cls-1 { fill-rule: evenodd;}</style></defs><path id="BASKET" class="cls-1" d="M128.167,87H150l-14,55H64L50,87H71L99.583,58.417ZM70.8,134h58.4L139,95H61Zm46.367-47L99.583,69.417,82,87h35.167Z"></path></svg> <span>Quick Buy</span></a>
+         </div>
+       </div>
+       <div class="product_meta_wrap">
+         <p class="h6">
+           <a href="${url}">${title}</a>
+         </p>
+         <p>
+          {{if price_varies}}From {{/if}}${Shopify.formatMoney(price)}
+         </p>
+         
+       </div>
+     </div>
+  </div>
+</script>
+</div>
+{% endraw %}
+
+<div id="coll_sizeguide_popup" style="display:none">
+  {% assign page =  pages['size-guide'] %}
+  <h3>Size Guide</h3>
+  <div class="rte-meta_data">
+    <div class="acc">
+
+      <!--Men's Footwear-->
+      <div class="acc__card">            
+        <div class="acc__title">Men's Footwear</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.men_brand.men_brand_name %}
+          {% if page.metafields.men_brand.men_brand_name != blank or page.metafields.men_table.men_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.men_brand.men_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.men_table.men_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Men's Footwear-->
+
+      <!--Women's Footwear-->
+      <div class="acc__card">            
+        <div class="acc__title">Women's Footwear</div>
+        <div class="acc__panel">
+          {% assign count = 0 %}
+          {% for brand in page.metafields.women_brand.women_brand_name %}
+          {% if page.metafields.women_brand.women_brand_name != blank or page.metafields.women_table.women_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.women_brand.women_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.women_table.women_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Women's Footwear-->
+
+      <!--Men's Clothing-->
+      <div class="acc__card">            
+        <div class="acc__title">Men's Clothing</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.men_cloth_brand.men_cloth_brand_name %}
+          {% if page.metafields.men_cloth_brand.men_cloth_brand_name != blank or page.metafields.men_cloth_table.men_cloth_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.men_cloth_brand.men_cloth_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.men_cloth_table.men_cloth_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Men's Clothing-->
+      
+      <!--Women's Clothing-->
+      <div class="acc__card">            
+        <div class="acc__title">Women's Clothing</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.women_cloth_brand.women_cloth_brand_name %}
+          {% if page.metafields.women_cloth_brand.women_cloth_brand_name != blank or page.metafields.women_cloth_table.women_cloth_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.women_cloth_brand.women_cloth_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.women_cloth_table.women_cloth_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Women's Clothing-->
+
+      <!--Accessories-->
+      <div class="acc__card">            
+        <div class="acc__title">Accessories</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.accessories_brand.accessories_brand_name %}
+          {% if page.metafields.accessories_brand.accessories_brand_name != blank or page.metafields.accessories_table.accessories_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.accessories_brand.accessories_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.accessories_table.accessories_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Accessories-->
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  Shopify.Products.showRecentlyViewed( { howManyToShow:4 } );
+</script>
+
+{% schema %}
+  {
+    "name": "Recently View",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Recently View Product"
+      },
+      {
+        "type": "text",
+        "id": "heading",
+        "label": "Header"
+      }
+	]
+  }
+{% endschema %}

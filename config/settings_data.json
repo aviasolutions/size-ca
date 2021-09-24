@@ -1,0 +1,1753 @@
+{
+  "current": {
+    "color_primary": "#2e2e2e",
+    "color_secondary": "#2e2e2e",
+    "color_borders": "#dfdfdf",
+    "color_body_bg": "#ffffff",
+    "color_body_text": "#1b1c1e",
+    "color_footer_bg": "#1b1c1e",
+    "color_footer_text": "#ffffff",
+    "color_footer_social_link": "#ffffff",
+    "favicon_enable": true,
+    "geolocation_allowed_ccode": "CA",
+    "hide_afterpay_on_pdp": false,
+    "cart_notes_enable": false,
+    "cart_vendor_enable": false,
+    "ajax_cart_method": "drawer",
+    "social_facebook_link": "https:\/\/www.facebook.com\/sizeofficialcanada\/",
+    "social_twitter_link": "",
+    "social_pinterest_link": "",
+    "social_instagram_link": "https:\/\/instagram.com\/sizeofficialca",
+    "social_snapchat_link": "",
+    "social_tumblr_link": "",
+    "social_linkedin_link": "",
+    "social_youtube_link": "",
+    "social_vimeo_link": "",
+    "share_facebook": true,
+    "share_twitter": true,
+    "share_pinterest": true,
+    "loadmore_type": "infinite",
+    "price_filter_max_price": 400,
+    "allowed_filter_tags": "Brand; Department; Filter Category; Gender Designation",
+    "color_filter_layout": "list",
+    "allowed_color_tags": "Black; Blue; Brown; Green; Grey; Multi; Orange; Purple; Red; White; Yellow",
+    "allowed_size_tags": "5.5; 6; 6.5; 7; 7.5; 8; 8.5; 9; 9.5; 10; 10.5; 11; 11.5; 12; 12.5; 13; xsml; sm; med; lrg; xlrg; 2xlrg",
+    "text": "When your purchase is complete, you’ll receive a confirmation email. Hit us back at <a href=\"mailto:shop@size.ca\">shop@size.ca<\/a> or 1.833.477.7493 with any enquiries, changes or if you just want someone to chat with.",
+    "customer_service_hours_title": "Customer service hours",
+    "customer_service_hours": "9:00AM - 5:00PM PST Daily<br>\nClosed on statutory holidays",
+    "checkout_sidebar_background_color": "#f7f7f7",
+    "checkout_heading_font": "Helvetica Neue",
+    "checkout_body_font": "Helvetica Neue",
+    "checkout_accent_color": "#ff600b",
+    "checkout_button_color": "#1b1c1e",
+    "footer_social_enable": true,
+    "footer_newsletter_enable": true,
+    "logo_use_image": true,
+    "sections": {
+      "header": {
+        "type": "header",
+        "blocks": {
+          "2dc176e4-f912-472b-a494-5af835a7ae8b": {
+            "type": "article",
+            "settings": {
+              "menu_item": "Releases",
+              "article1": "release-calendar\/jordan-6-retro-black-bordeaux-light-graphite",
+              "article1_link": "shopify:\/\/products\/jordan-6-retro-black-bordeaux-light-graphite",
+              "c_pro1_launch_date": "shop now",
+              "article2": "release-calendar\/nike-womens-dunk-high-rebel-sail-iron-purple-college-grey-2",
+              "article2_link": "shopify:\/\/products\/nike-womens-dunk-high-rebel-sail-iron-purple-college-grey",
+              "c_pro2_launch_date": "shop now",
+              "article3": "release-calendar\/jordan-13-retro-white-obsidian-dark-powder-blue",
+              "article3_link": "shopify:\/\/products\/jordan-13-retro-white-obsidian-dark-powder-blue",
+              "c_pro3_launch_date": "shop now",
+              "article4": "release-calendar\/nike-air-max-90-prm-hemp-sand-drift-light-orewood",
+              "article4_link": "shopify:\/\/products\/nike-air-max-90-prm-hemp-sand-drift-light-orewood",
+              "c_pro4_launch_date": "shop now",
+              "btn_text": "",
+              "btn_link": ""
+            }
+          },
+          "27be637c-dd03-44c4-9c8f-1939323ae3e6": {
+            "type": "menu",
+            "settings": {
+              "menu_item": "New In",
+              "column1_enable": true,
+              "column1_show_border": true,
+              "column1_layout": false,
+              "column1_add_space": false,
+              "column1_image_link": "",
+              "column1_menu1": "new-in-mens",
+              "column1_menu1_title": "Mens",
+              "column1_menu2": "new-in-mens-brands",
+              "column1_menu2_title": "Brands",
+              "column1_btn_text": "View All Men's New In",
+              "column1_btn_link": "https:\/\/size.ca\/collections\/new-in-mens",
+              "column2_enable": true,
+              "column2_show_border": true,
+              "column2_layout": false,
+              "column2_add_space": false,
+              "column2_image_link": "",
+              "column2_menu1": "new-in-womens-categories",
+              "column2_menu1_title": "Womens",
+              "column2_menu2": "new-in-womens-brands",
+              "column2_menu2_title": "Brands",
+              "column2_btn_text": "View All Women's New In",
+              "column2_btn_link": "https:\/\/size.ca\/collections\/womens-new-in",
+              "column3_enable": true,
+              "column3_show_border": false,
+              "column3_layout": false,
+              "column3_add_space": false,
+              "column3_image": "shopify:\/\/shop_images\/2021_09_15_CONVERSE_NAV_2.jpg",
+              "column3_image_link": "shopify:\/\/collections\/converse",
+              "column3_menu1": "",
+              "column3_menu1_title": "",
+              "column3_menu2": "",
+              "column3_menu2_title": "",
+              "column3_btn_text": "",
+              "column3_btn_link": "",
+              "column4_enable": true,
+              "column4_show_border": false,
+              "column4_layout": false,
+              "column4_add_space": false,
+              "column4_image": "shopify:\/\/shop_images\/2021_09_15_REEBOK_NAV.jpg",
+              "column4_image_link": "shopify:\/\/collections\/reebok",
+              "column4_menu1": "",
+              "column4_menu1_title": "",
+              "column4_menu2": "",
+              "column4_menu2_title": "",
+              "column4_btn_text": "",
+              "column4_btn_link": "",
+              "column5_enable": true,
+              "column5_show_border": false,
+              "column5_layout": false,
+              "column5_add_space": false,
+              "column5_image": "shopify:\/\/shop_images\/2021_09_15_NIKE-ACG_NAV.jpg",
+              "column5_image_link": "https:\/\/size.ca\/collections\/nike-acg",
+              "column5_menu1": "",
+              "column5_menu1_title": "",
+              "column5_menu2": "",
+              "column5_menu2_title": "",
+              "column5_btn_text": "",
+              "column5_btn_link": "",
+              "column6_enable": false,
+              "column6_show_border": false,
+              "column6_layout": false,
+              "column6_add_space": false,
+              "column6_image_link": "",
+              "column6_menu1": "",
+              "column6_menu1_title": "",
+              "column6_menu2": "",
+              "column6_menu2_title": "",
+              "column6_btn_text": "",
+              "column6_btn_link": ""
+            }
+          },
+          "5ac0ae70-8cc3-441c-bd85-e11fe623fc91": {
+            "type": "menu",
+            "settings": {
+              "menu_item": "Men",
+              "column1_enable": true,
+              "column1_show_border": true,
+              "column1_layout": false,
+              "column1_add_space": false,
+              "column1_image_link": "",
+              "column1_menu1": "mens-footwear",
+              "column1_menu1_title": "Footwear",
+              "column1_menu2": "",
+              "column1_menu2_title": "",
+              "column1_btn_text": "View All Men's",
+              "column1_btn_link": "https:\/\/size.ca\/collections\/mens",
+              "column2_enable": true,
+              "column2_show_border": true,
+              "column2_layout": false,
+              "column2_add_space": false,
+              "column2_image_link": "",
+              "column2_menu1": "mens-clothing",
+              "column2_menu1_title": "Clothing",
+              "column2_menu2": "",
+              "column2_menu2_title": "",
+              "column2_btn_text": "",
+              "column2_btn_link": "",
+              "column3_enable": true,
+              "column3_show_border": true,
+              "column3_layout": false,
+              "column3_add_space": false,
+              "column3_image_link": "",
+              "column3_menu1": "mens-accessories",
+              "column3_menu1_title": "Accessories",
+              "column3_menu2": "",
+              "column3_menu2_title": "",
+              "column3_btn_text": "",
+              "column3_btn_link": "",
+              "column4_enable": true,
+              "column4_show_border": true,
+              "column4_layout": false,
+              "column4_add_space": false,
+              "column4_image_link": "",
+              "column4_menu1": "mens-brands",
+              "column4_menu1_title": "Brands",
+              "column4_menu2": "",
+              "column4_menu2_title": "",
+              "column4_btn_text": "",
+              "column4_btn_link": "",
+              "column5_enable": true,
+              "column5_show_border": false,
+              "column5_layout": false,
+              "column5_add_space": false,
+              "column5_image": "shopify:\/\/shop_images\/2021_09_15_ADIDAS_NAV.jpg",
+              "column5_image_link": "https:\/\/size.ca\/collections\/mens-adidas",
+              "column5_menu1": "",
+              "column5_menu1_title": "",
+              "column5_menu2": "",
+              "column5_menu2_title": "",
+              "column5_btn_text": "",
+              "column5_btn_link": "",
+              "column6_enable": true,
+              "column6_show_border": false,
+              "column6_layout": false,
+              "column6_add_space": false,
+              "column6_image_link": "shopify:\/\/collections\/converse",
+              "column6_menu1": "",
+              "column6_menu1_title": "",
+              "column6_menu2": "",
+              "column6_menu2_title": "",
+              "column6_btn_text": "",
+              "column6_btn_link": ""
+            }
+          },
+          "1ba520da-8696-41f4-bb0c-26d681dca82a": {
+            "type": "menu",
+            "settings": {
+              "menu_item": "Women",
+              "column1_enable": true,
+              "column1_show_border": true,
+              "column1_layout": false,
+              "column1_add_space": false,
+              "column1_image_link": "",
+              "column1_menu1": "womens-footwear",
+              "column1_menu1_title": "Footwear",
+              "column1_menu2": "",
+              "column1_menu2_title": "",
+              "column1_btn_text": "View All Women's",
+              "column1_btn_link": "shopify:\/\/collections\/womens",
+              "column2_enable": true,
+              "column2_show_border": true,
+              "column2_layout": false,
+              "column2_add_space": false,
+              "column2_image_link": "",
+              "column2_menu1": "womens-clothing",
+              "column2_menu1_title": "Clothing",
+              "column2_menu2": "",
+              "column2_menu2_title": "",
+              "column2_btn_text": "",
+              "column2_btn_link": "",
+              "column3_enable": true,
+              "column3_show_border": true,
+              "column3_layout": false,
+              "column3_add_space": false,
+              "column3_image_link": "",
+              "column3_menu1": "womens-accessories",
+              "column3_menu1_title": "Accessories",
+              "column3_menu2": "",
+              "column3_menu2_title": "",
+              "column3_btn_text": "",
+              "column3_btn_link": "",
+              "column4_enable": true,
+              "column4_show_border": true,
+              "column4_layout": false,
+              "column4_add_space": false,
+              "column4_image_link": "",
+              "column4_menu1": "womens-brands",
+              "column4_menu1_title": "Brands",
+              "column4_menu2": "",
+              "column4_menu2_title": "",
+              "column4_btn_text": "",
+              "column4_btn_link": "",
+              "column5_enable": true,
+              "column5_show_border": false,
+              "column5_layout": false,
+              "column5_add_space": false,
+              "column5_image": "shopify:\/\/shop_images\/2021_09_15_OBEY_NAV.jpg",
+              "column5_image_link": "https:\/\/size.ca\/collections\/womens-obey",
+              "column5_menu1": "",
+              "column5_menu1_title": "",
+              "column5_menu2": "",
+              "column5_menu2_title": "",
+              "column5_btn_text": "",
+              "column5_btn_link": "",
+              "column6_enable": true,
+              "column6_show_border": false,
+              "column6_layout": false,
+              "column6_add_space": false,
+              "column6_image_link": "https:\/\/size.ca\/collections\/womens-adidas\/products\/adidas-womens-ultraboost-5-0-dna-halo-ivory-cream-white",
+              "column6_menu1": "",
+              "column6_menu1_title": "",
+              "column6_menu2": "",
+              "column6_menu2_title": "",
+              "column6_btn_text": "",
+              "column6_btn_link": ""
+            }
+          },
+          "d8d314c3-a58e-49da-befd-828957589043": {
+            "type": "menu",
+            "settings": {
+              "menu_item": "Brands",
+              "column1_enable": true,
+              "column1_show_border": true,
+              "column1_layout": false,
+              "column1_add_space": false,
+              "column1_image_link": "",
+              "column1_menu1": "top-brands",
+              "column1_menu1_title": "Top Brands",
+              "column1_menu2": "",
+              "column1_menu2_title": "",
+              "column1_btn_text": "View All Brands",
+              "column1_btn_link": "shopify:\/\/pages\/brands",
+              "column2_enable": true,
+              "column2_show_border": true,
+              "column2_layout": false,
+              "column2_add_space": false,
+              "column2_image_link": "",
+              "column2_menu1": "brands-our-picks",
+              "column2_menu1_title": "Our Picks",
+              "column2_menu2": "",
+              "column2_menu2_title": "",
+              "column2_btn_text": "",
+              "column2_btn_link": "",
+              "column3_enable": true,
+              "column3_show_border": true,
+              "column3_layout": false,
+              "column3_add_space": false,
+              "column3_image_link": "",
+              "column3_menu1": "brands-collections",
+              "column3_menu1_title": "Collections",
+              "column3_menu2": "",
+              "column3_menu2_title": "",
+              "column3_btn_text": "",
+              "column3_btn_link": "",
+              "column4_enable": true,
+              "column4_show_border": false,
+              "column4_layout": false,
+              "column4_add_space": false,
+              "column4_image": "shopify:\/\/shop_images\/2021_09_15_NIKE-AF1_NAV.jpg",
+              "column4_image_link": "shopify:\/\/collections\/nike",
+              "column4_menu1": "",
+              "column4_menu1_title": "",
+              "column4_menu2": "",
+              "column4_menu2_title": "",
+              "column4_btn_text": "",
+              "column4_btn_link": "",
+              "column5_enable": true,
+              "column5_show_border": false,
+              "column5_layout": false,
+              "column5_add_space": false,
+              "column5_image": "shopify:\/\/shop_images\/2021_09_15_CARHARTT_NAV_1.jpg",
+              "column5_image_link": "shopify:\/\/collections\/carhartt-wip",
+              "column5_menu1": "",
+              "column5_menu1_title": "",
+              "column5_menu2": "",
+              "column5_menu2_title": "",
+              "column5_btn_text": "",
+              "column5_btn_link": "",
+              "column6_enable": false,
+              "column6_show_border": false,
+              "column6_layout": false,
+              "column6_add_space": false,
+              "column6_image_link": "https:\/\/size.ca\/collections\/watches",
+              "column6_menu1": "",
+              "column6_menu1_title": "",
+              "column6_menu2": "",
+              "column6_menu2_title": "",
+              "column6_btn_text": "",
+              "column6_btn_link": ""
+            }
+          },
+          "e423e86a-670d-4589-87ec-ba39dabe07c3": {
+            "type": "menu",
+            "settings": {
+              "menu_item": "Sale",
+              "column1_enable": true,
+              "column1_show_border": true,
+              "column1_layout": false,
+              "column1_add_space": false,
+              "column1_image_link": "",
+              "column1_menu1": "shop-by-discount",
+              "column1_menu1_title": "Shop by Discount",
+              "column1_menu2": "",
+              "column1_menu2_title": "",
+              "column1_btn_text": "Shop All Sale",
+              "column1_btn_link": "shopify:\/\/collections\/sale",
+              "column2_enable": true,
+              "column2_show_border": true,
+              "column2_layout": false,
+              "column2_add_space": false,
+              "column2_image_link": "",
+              "column2_menu1": "shop-by-category",
+              "column2_menu1_title": "Shop By Category",
+              "column2_menu2": "",
+              "column2_menu2_title": "",
+              "column2_btn_text": "",
+              "column2_btn_link": "",
+              "column3_enable": true,
+              "column3_show_border": true,
+              "column3_layout": false,
+              "column3_add_space": false,
+              "column3_image_link": "",
+              "column3_menu1": "shop-by-brand",
+              "column3_menu1_title": "Shop By Brand",
+              "column3_menu2": "",
+              "column3_menu2_title": "",
+              "column3_btn_text": "",
+              "column3_btn_link": "",
+              "column4_enable": true,
+              "column4_show_border": false,
+              "column4_layout": false,
+              "column4_add_space": false,
+              "column4_image": "shopify:\/\/shop_images\/size_sale_nav2_c729cd7e-fb9a-4de7-aa2f-17a34b3ab11e.jpg",
+              "column4_image_link": "shopify:\/\/collections\/sale",
+              "column4_menu1": "",
+              "column4_menu1_title": "",
+              "column4_menu2": "",
+              "column4_menu2_title": "",
+              "column4_btn_text": "",
+              "column4_btn_link": "",
+              "column5_enable": false,
+              "column5_show_border": false,
+              "column5_layout": false,
+              "column5_add_space": false,
+              "column5_image_link": "",
+              "column5_menu1": "",
+              "column5_menu1_title": "",
+              "column5_menu2": "",
+              "column5_menu2_title": "",
+              "column5_btn_text": "",
+              "column5_btn_link": "",
+              "column6_enable": false,
+              "column6_show_border": false,
+              "column6_layout": false,
+              "column6_add_space": false,
+              "column6_image_link": "",
+              "column6_menu1": "",
+              "column6_menu1_title": "",
+              "column6_menu2": "",
+              "column6_menu2_title": "",
+              "column6_btn_text": "",
+              "column6_btn_link": ""
+            }
+          }
+        },
+        "block_order": [
+          "2dc176e4-f912-472b-a494-5af835a7ae8b",
+          "27be637c-dd03-44c4-9c8f-1939323ae3e6",
+          "5ac0ae70-8cc3-441c-bd85-e11fe623fc91",
+          "1ba520da-8696-41f4-bb0c-26d681dca82a",
+          "d8d314c3-a58e-49da-befd-828957589043",
+          "e423e86a-670d-4589-87ec-ba39dabe07c3"
+        ],
+        "settings": {
+          "use_svg_logo": true,
+          "logo_url": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/logo.svg?v=1620036231",
+          "logo_use_image": false,
+          "logo": "shopify:\/\/shop_images\/logo.png",
+          "logo_max_widths": 110,
+          "main_linklist": "main-menu",
+          "side_linklist": "sidebar-menu",
+          "service_linklist": "services-menu",
+          "announce_text": "Our new Queen St location in Toronto is now open!",
+          "announce_linkable_text": "Learn More",
+          "announce_link": "https:\/\/size.ca\/pages\/toronto-1000-queen-st-w",
+          "ca_amount": "50",
+          "usa_amount": "75",
+          "inside_ca_prod_less_text": "Free Standard Shipping on orders over $50*",
+          "inside_usa_prod_less_text": "Free Standard Shipping on orders over $75*",
+          "inside_ca_prod_over_text": "Free Standard Delivery on this item",
+          "inside_usa_prod_over_text": "Free Standard Delivery on this item",
+          "global_prod_text": "Global Shipping available",
+          "trending_search_linklist": "tending-searches",
+          "search_pro_title": "Staff Picks",
+          "product1": "salomon-xt-6-black-black-phantom",
+          "product2": "vans-anaheim-factory-old-skool-36-dx-black-check",
+          "product3": "converse-colour-run-star-hike-white-black-gum",
+          "product4": "teva-womens-jadito-universal-white"
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "app_title": "",
+          "app_link1": "#",
+          "app_link2": "#",
+          "footer_newsletter_enable": true,
+          "newsletter_form_action": "#",
+          "footer_social_enable": true,
+          "store_btn_title": "",
+          "store_btn_link": "#",
+          "footer_menu1": "footer",
+          "footer_menu2": "footer-menu2",
+          "footer_bottom-menu": "footer-bottom-menu",
+          "footer_text": ""
+        }
+      },
+      "password-content": {
+        "type": "password-content",
+        "settings": {
+          "video_url": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/size7.mp4?v=1608761323",
+          "logo": "shopify:\/\/shop_images\/logo.png",
+          "pwd_message_head": "It all started with a question… <i>“what’s your size?”<\/i>",
+          "pwd_message": "Back in 2000 the size? brand was born with the aim to make niche and sought-after footwear and apparel more easily accessible to key destinations in the UK. Two decades later and size? is now a global phenomenon with a growing innovative community. We are proud to celebrate and support the culture that surrounds our product, and are excited to embark on our next step.",
+          "form_title": "size? is coming to Canada",
+          "form_sub_title": "Sign up below for exclusive offers and launch details:",
+          "privacy_page": "privacy-policy"
+        }
+      },
+      "1611055595bba5a832": {
+        "type": "brands",
+        "blocks": {
+          "1611055595bba5a832-0": {
+            "type": "text",
+            "settings": {
+              "heading": "Men's Footwear",
+              "brand_link": "shopify:\/\/collections\/mens-footwear"
+            }
+          },
+          "1611055595bba5a832-1": {
+            "type": "text",
+            "settings": {
+              "heading": "Nike",
+              "brand_link": "shopify:\/\/collections\/nike"
+            }
+          },
+          "97a92875-cfe9-4361-967d-5d4ba3dd18cb": {
+            "type": "text",
+            "settings": {
+              "heading": "adidas",
+              "brand_link": "shopify:\/\/collections\/adidas"
+            }
+          },
+          "2581d0e4-666e-4da7-9a99-e264425e0b7f": {
+            "type": "text",
+            "settings": {
+              "heading": "Women's Footwear",
+              "brand_link": "shopify:\/\/collections\/womens-footwear"
+            }
+          },
+          "0f48337a-2eed-406b-af5d-6d0c9880edc8": {
+            "type": "text",
+            "settings": {
+              "heading": "Vans",
+              "brand_link": "shopify:\/\/collections\/vans"
+            }
+          },
+          "bc0f19cf-8137-42d6-9184-5efb40d08cb9": {
+            "type": "text",
+            "settings": {
+              "heading": "Converse",
+              "brand_link": "shopify:\/\/collections\/converse"
+            }
+          },
+          "dbc2d0f5-b2ee-4162-baff-e1414a2e247f": {
+            "type": "text",
+            "settings": {
+              "heading": "Shorts",
+              "brand_link": "shopify:\/\/collections\/shorts"
+            }
+          },
+          "a092b6ae-9213-48e7-ab3f-d5a32c02fdab": {
+            "type": "text",
+            "settings": {
+              "heading": "Socks",
+              "brand_link": "shopify:\/\/collections\/socks"
+            }
+          },
+          "bee66581-0a36-442a-8e78-dcd9a3ef7741": {
+            "type": "text",
+            "settings": {
+              "heading": "Bags",
+              "brand_link": "shopify:\/\/collections\/bags-1"
+            }
+          },
+          "c1d840c6-8580-4657-923d-276fa147e20c": {
+            "type": "text",
+            "settings": {
+              "heading": "Publications",
+              "brand_link": "shopify:\/\/collections\/publications"
+            }
+          }
+        },
+        "block_order": [
+          "1611055595bba5a832-0",
+          "1611055595bba5a832-1",
+          "97a92875-cfe9-4361-967d-5d4ba3dd18cb",
+          "2581d0e4-666e-4da7-9a99-e264425e0b7f",
+          "0f48337a-2eed-406b-af5d-6d0c9880edc8",
+          "bc0f19cf-8137-42d6-9184-5efb40d08cb9",
+          "dbc2d0f5-b2ee-4162-baff-e1414a2e247f",
+          "a092b6ae-9213-48e7-ab3f-d5a32c02fdab",
+          "bee66581-0a36-442a-8e78-dcd9a3ef7741",
+          "c1d840c6-8580-4657-923d-276fa147e20c"
+        ],
+        "settings": {
+          "title": "Quick Links:",
+          "bg_color": "#1b1c1e"
+        }
+      },
+      "1611064113269ef0e6": {
+        "type": "image-with-text-overlay",
+        "disabled": true,
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/size_video.mp4",
+          "mobile_video": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/size_video.mp4",
+          "image": "shopify:\/\/shop_images\/HP_DESKTOP_2880x1474_acgonmodel_80967f43-3b75-4302-aa53-9d00df4dabb8.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/HP_MOBILE_894x1208_acgonmodel_257c77fb-98bc-41e4-8498-5e443dedb411.jpg",
+          "slide_title": "Nike ACG",
+          "button_label": "Shop Now",
+          "button_link": "shopify:\/\/collections\/nike-acg",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#fff",
+          "enable_arrow": true,
+          "respective_section": "#shopify-section-16110703502a19b00c"
+        }
+      },
+      "16110703502a19b00c": {
+        "type": "image-with-text-overlay",
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "",
+          "mobile_video": "",
+          "image": "shopify:\/\/shop_images\/2021_09_21_NIKE_DUNK_1UP-HOMEPAGE-BANNER_2x_e30ce26d-852d-426e-9362-e2d4b1d10e6b.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_09_21_NIKE_DUNK_1UP-MOBILE-BANNER_2x_1a046e2d-86e0-492d-b19b-34330d588e28.jpg",
+          "slide_title": "Nike Women's <br> Dunk High",
+          "button_label": "Shop Now",
+          "button_link": "https:\/\/size.ca\/products\/nike-womens-dunk-high-rebel-sail-iron-purple-college-grey",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#fff",
+          "enable_arrow": true,
+          "respective_section": "#shopify-section-1611071069ff04c2d5"
+        }
+      },
+      "1611071069ff04c2d5": {
+        "type": "image-with-text-overlay",
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "",
+          "mobile_video": "",
+          "image": "shopify:\/\/shop_images\/2021_09_15_NIKE_1UP-HOMEPAGE-BANNER_2x_18cff540-8e5a-417f-ac2d-141786f62829.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_09_15_NIKE_1UP-MOBILE-BANNER_2x_d973d0d1-12f0-4aed-944a-1a774355d07b.jpg",
+          "slide_title": "Women's Nike",
+          "button_label": "Shop Now",
+          "button_link": "shopify:\/\/collections\/womens-nike",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#1B1C1E",
+          "enable_arrow": true,
+          "respective_section": "#shopify-section-1611071443cb742d6c"
+        }
+      },
+      "1611071443cb742d6c": {
+        "type": "image-with-text-overlay",
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "",
+          "mobile_video": "",
+          "image": "shopify:\/\/shop_images\/2021_08_31_NEWBALANCE_1UP-HOMEPAGE-BANNER_2x_e6e05151-9bb8-4dee-bf99-35e2b1f349ba.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_08_31_NEWBALANCE_1UP-MOBILE-BANNER_2x_5d9bfd0a-0fe6-4885-84d1-a4eb5d2076d7.jpg",
+          "slide_title": "New Balance",
+          "button_label": "Shop Now",
+          "button_link": "https:\/\/size.ca\/collections\/new-balance",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#fff",
+          "enable_arrow": false,
+          "respective_section": "#shopify-section-1619572970ec56f0d3"
+        }
+      },
+      "16113257370fabad13": {
+        "type": "image-overlay-half-column",
+        "blocks": {
+          "50b33ed3-f2c3-443a-90e3-ce2c042cfebd": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2021_08_30_SHOPMENS_2UP-HOMEPAGE-BANNER_2x_53c97f61-76cd-48dd-bb91-c2d2bd616633.jpg",
+              "slide_title": "",
+              "button_label": "Shop Men's",
+              "button_link": "shopify:\/\/collections\/mens",
+              "button_style": "style1",
+              "btn_bg_color": "#1b1c1e",
+              "btn_text_color": "#ffffff",
+              "text_alignment": "right",
+              "text_position": "middle"
+            }
+          },
+          "dd15d26e-27d6-44b4-82d9-6d3a54856df3": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2021_08_30_SHOPWOMENS_2UP-HOMEPAGE-BANNER_2x_2x_82484ba5-5296-44a2-9a1a-db682e312708.jpg",
+              "slide_title": "",
+              "button_label": "Shop Women's",
+              "button_link": "shopify:\/\/collections\/womens",
+              "button_style": "style1",
+              "btn_bg_color": "#ffffff",
+              "btn_text_color": "#1b1c1e",
+              "text_alignment": "left",
+              "text_position": "middle"
+            }
+          }
+        },
+        "block_order": [
+          "50b33ed3-f2c3-443a-90e3-ce2c042cfebd",
+          "dd15d26e-27d6-44b4-82d9-6d3a54856df3"
+        ],
+        "settings": {
+          "section_height": "100",
+          "show_overlay": false,
+          "enable_arrow": true,
+          "respective_section": "#shopify-section-1611064113269ef0e6"
+        }
+      },
+      "product-template": {
+        "type": "product-template",
+        "settings": {
+          "shipping_text": "Free Standard Shipping over $50*<br>Learn more",
+          "shipping_link": "shopify:\/\/pages\/delivery",
+          "payment_text": "More Ways to Pay<br>Alipay",
+          "show_quantity_selector": false,
+          "page1_title": "Delivery",
+          "page1": "delivery-collection",
+          "page2_title": "Returns",
+          "page2": "free-uk-returns"
+        }
+      },
+      "recently-viewed": {
+        "type": "recently-viewed",
+        "settings": {
+          "heading": "Recently Viewed"
+        }
+      },
+      "page-sidebar": {
+        "type": "page-sidebar",
+        "blocks": {
+          "bd9f7617-0a5b-40c1-bfc4-e52bd0230966": {
+            "type": "sidebar",
+            "settings": {
+              "title": "FAQs",
+              "link": "shopify:\/\/pages\/faq"
+            }
+          },
+          "d4f7a9c7-3907-4c44-9091-ad7dbdc03db1": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Contact Us",
+              "link": "shopify:\/\/pages\/contact"
+            }
+          },
+          "2aaf2075-77ce-44cb-82e6-db3dd26ba8ac": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Privacy",
+              "link": "https:\/\/size.ca\/pages\/privacy-policy"
+            }
+          },
+          "2ff07dfd-1854-4095-9ab9-0937588caba0": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Payment Methods",
+              "link": "shopify:\/\/pages\/payment-methods"
+            }
+          },
+          "97d45274-e262-45ad-9cfa-a00edb54e3d6": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Size Guide",
+              "link": "shopify:\/\/pages\/size-guide"
+            }
+          },
+          "8952f082-1fbb-4f22-8a8a-df26128a1597": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Delivery",
+              "link": "shopify:\/\/pages\/delivery"
+            }
+          },
+          "ff8a01a0-3db7-45b5-9adb-e0380932f260": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Terms & Conditions",
+              "link": "shopify:\/\/pages\/terms-conditions"
+            }
+          },
+          "559eb15a-d9c9-4bc8-8fc8-a62355b5c38f": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Returns",
+              "link": "shopify:\/\/pages\/returns"
+            }
+          },
+          "093acd15-a274-45ed-b63f-f047c6a67603": {
+            "type": "sidebar",
+            "settings": {
+              "title": "Where's My Order",
+              "link": "shopify:\/\/pages\/track-my-order"
+            }
+          }
+        },
+        "block_order": [
+          "bd9f7617-0a5b-40c1-bfc4-e52bd0230966",
+          "d4f7a9c7-3907-4c44-9091-ad7dbdc03db1",
+          "2aaf2075-77ce-44cb-82e6-db3dd26ba8ac",
+          "2ff07dfd-1854-4095-9ab9-0937588caba0",
+          "97d45274-e262-45ad-9cfa-a00edb54e3d6",
+          "8952f082-1fbb-4f22-8a8a-df26128a1597",
+          "ff8a01a0-3db7-45b5-9adb-e0380932f260",
+          "559eb15a-d9c9-4bc8-8fc8-a62355b5c38f",
+          "093acd15-a274-45ed-b63f-f047c6a67603"
+        ],
+        "settings": {
+          "header": "Help & Information"
+        }
+      },
+      "faq-slider": {
+        "type": "faq-slider",
+        "blocks": {
+          "b1ef5968-8766-4a5c-837c-81f743e909bb": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/faq-orders-global_1.png",
+              "heading": "Order and Deliveries",
+              "description": "<p>Can I change or add items to my order?<br\/><\/p><p>Do I need to sign for the delivery?<br\/><\/p><p>Can I cancel my order?<br\/><\/p><p>Can I track my order?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          },
+          "9c0e2025-9636-4bb6-b27a-0ef6f39c33c0": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/faq-returns-global_1.png",
+              "heading": "Returns and Refunds",
+              "description": "<p>Do I have to pay to return?<\/p><p>How long can I keep my order before returning?<\/p><p>How long will it take to get my refund?<\/p><p>Can I return my order?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          },
+          "bf32fec5-43e9-4489-b838-ca52f92aecbf": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/faq-product-stock_1.png",
+              "heading": "Products and Stock",
+              "description": "<p>Are the pictures on the website accurate?<\/p><p>Can you give me any more information on a product?<\/p><p>Products and Stock<\/p><p>I cannot find the product I am looking for. Do you stock it?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          },
+          "1c83eece-79d2-4bd7-9ff6-8fc53900adb5": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/more_1.png",
+              "heading": "Other",
+              "description": "<p>Do you have a size chart?<\/p><p>What is my account?<\/p><p>Will the recipient have to pay duty on the order?<\/p><p>Do I need to sign up to size? to shop?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          },
+          "3321888e-6eaa-4d5e-83b5-cbcc43bfc786": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/payment_1.png",
+              "heading": "Payments Promo and Gift cards",
+              "description": "<p>Do I have to sign up to enter competitions?<\/p><p>I forgot to use my discount code?<\/p><p>I have a discount code. How do I use it?<\/p><p>Can I use my size? Giftcard to pay Online?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          },
+          "973e4413-94d3-4c2b-8aad-8ac9750b54c0": {
+            "type": "slide",
+            "settings": {
+              "icon": "shopify:\/\/shop_images\/technical_1.png",
+              "heading": "Technical",
+              "description": "<p>I have forgotten my password<\/p><p>Is it safe to order online?<\/p><p>Do I need to sign up to size? to shop?<\/p><p>How does the size? launches app work?<\/p>",
+              "btn_title": "See All",
+              "btn_link": "#"
+            }
+          }
+        },
+        "block_order": [
+          "b1ef5968-8766-4a5c-837c-81f743e909bb",
+          "9c0e2025-9636-4bb6-b27a-0ef6f39c33c0",
+          "bf32fec5-43e9-4489-b838-ca52f92aecbf",
+          "1c83eece-79d2-4bd7-9ff6-8fc53900adb5",
+          "3321888e-6eaa-4d5e-83b5-cbcc43bfc786",
+          "973e4413-94d3-4c2b-8aad-8ac9750b54c0"
+        ],
+        "settings": {
+          "subtitle": "How can we help?",
+          "title": "Find the right answer",
+          "promise_text": "<p>For the safety of our staff and customer community, our stores are temporarily closed. Good news! Our website and apps are open as normal. <\/p><p>To check out your delivery options head over to the delivery page <a href=\"https:\/\/www.size.co.uk\/customer-service\/delivery\">here<\/a><\/p>"
+        }
+      },
+      "faq-accordion": {
+        "type": "faq-accordion",
+        "blocks": {
+          "f9d0c1b9-4692-4a12-ae98-5b66eba73a40": {
+            "type": "question",
+            "settings": {
+              "question": "Where is my order?",
+              "answer": "<p>Please allow 1-2 days before your order to ship. Track the status of your order <a href=\"https:\/\/size.ca\/pages\/track-my-order\" target=\"_blank\" title=\"https:\/\/size.ca\/pages\/track-my-order\">here<\/a>.<\/p>"
+            }
+          },
+          "c9abed4b-c63a-4b9d-9e9d-268e83638142": {
+            "type": "question",
+            "settings": {
+              "question": "Can I pick my order up in-store?",
+              "answer": "<p>Absolutely! If you live in Toronto or the GTA, you can select “In-Store Pick Up” free of charge at checkout. Please allow 1-7 business days for your order(s) to be processed and prepared, and we’ll send you an email notification as soon as your pick up is ready.<\/p>"
+            }
+          },
+          "ed31247e-7080-4e78-986c-80eaf995c291": {
+            "type": "question",
+            "settings": {
+              "question": "Will my order arrive on time\/How will COVID-19 affect delivery times?",
+              "answer": "<p>Due to COVID-19 protocols and high order volume, we are currently experiencing minor delays in processing times. Please allow additional time for your order to process and ship at this time.<\/p>"
+            }
+          },
+          "2ca45551-6368-4b8c-a619-b136fe8af6a9": {
+            "type": "question",
+            "settings": {
+              "question": "Do you ship internationally?",
+              "answer": "<p>Yes, we do. You can find all of our delivery methods and shipping rates <a href=\"https:\/\/size.ca\/pages\/delivery\">here<\/a>.<\/p><p>Please note, however, all Nike and Jordan products are ineligible for shipment outside of Canada.<\/p>"
+            }
+          },
+          "1c27ef41-d254-42a2-a14e-887a24550230": {
+            "type": "question",
+            "settings": {
+              "question": "Can I cancel my order?",
+              "answer": "<p><br\/>All order cancellation requests are processed in the order they are received, and are not a guarantee. If your order has shipped, please process a return request <a href=\"https:\/\/size.ca\/pages\/returns\" target=\"_blank\" title=\"https:\/\/size.ca\/pages\/returns\">here<\/a> when you've received your package. All items marked \"Final Sale\" are not eligible for cancellation, and they may be subject to a 25% restocking fee. Refused shipments, sequential orders, or orders indicative of bot activity may be subject to a 25% restocking fee if cancelled. They may also be subject to additional shipping costs where applicable.<\/p>"
+            }
+          },
+          "869495a9-f29b-4d35-b3d2-844fb7ce0fad": {
+            "type": "question",
+            "settings": {
+              "question": "What is your return policy?",
+              "answer": "<p>Regular priced items can be returned for refund or exchange within 28 days of purchase with receipt (some exclusions apply).<br\/><br\/>For online returns, a pre-paid shipping label will be issued with the amount being deducted from the refund total upon return.<br\/><br\/>For in-store returns, our staff can help you process refunds or exchanges at our <a href=\"https:\/\/size.ca\/pages\/toronto-1000-queen-st-w\" title=\"https:\/\/size.ca\/pages\/toronto-1000-queen-st-w\">Toronto location<\/a> if you’re based in the city or GTA.<\/p><p><\/p><p>Visit our Returns page <a href=\"https:\/\/size.ca\/pages\/returns\"><span style=\"text-decoration:underline\">here<\/span><\/a> to initiate a return and to learn more about our return policy.<\/p>"
+            }
+          },
+          "8a62f7d2-6b8f-43da-84df-b3a740b61260": {
+            "type": "question",
+            "settings": {
+              "question": "What consists as \"Final Sale\"?",
+              "answer": "<p>\"Final Sale\" indicates that the item is not eligible for return, exchange, or cancellation. This may include but is not limited to: products that are on sale or purchased using a promotional code; all products purchased on their scheduled release date or purchased during a raffle; any purchases made while a \"Final Sale\" disclaimer is noted on the product page; and orders with an indication that a bot\/restock monitor has been used.<\/p>"
+            }
+          },
+          "a699d730-60fe-4c2e-a5f5-de90ad3022ca": {
+            "type": "question",
+            "settings": {
+              "question": "How do I use my Discount\/Promo code?",
+              "answer": "<p>All Discount\/Promo codes are one-time use and can be applied when you’re ready to checkout.<\/p><p><\/p><p>On the checkout page, where you enter your Contact Information, you’ll find a “Discount code” prompt on the right-hand side. Enter your Discount\/Promo code and click “Apply” before proceeding to the next page.<br\/><br\/>Your Discount\/Promo will be applied to your subtotal, and you can complete your transaction after that.<br\/><br\/>Please note, Discount\/Promo codes can only be applied to regular priced items.<br\/><br\/>On sale, “Final Sale,” release, raffle, Nike, and Jordan products are excluded from all promotional offers and cannot be purchased with Discount\/Promo codes. <\/p>"
+            }
+          },
+          "49fe6cff-e57e-4b47-a74a-d5449c37aae1": {
+            "type": "question",
+            "settings": {
+              "question": "How can I stay up to date with product releases?",
+              "answer": "<p>Please sign up for our mailer <a href=\"https:\/\/size.us7.list-manage.com\/subscribe\/post?u=51a8c7a5c2f45d17985c84815&amp;amp;id=4a809103ef\" target=\"_blank\" title=\"https:\/\/size.us7.list-manage.com\/subscribe\/post?u=51a8c7a5c2f45d17985c84815&amp;amp;id=4a809103ef\">here<\/a>, and don&#x27;t forget to turn on post notifications social media. You may also visit our product Release Calendar <a href=\"https:\/\/size.ca\/blogs\/release-calendar\" target=\"_blank\" title=\"https:\/\/size.ca\/blogs\/release-calendar\">here<\/a>.<\/p>"
+            }
+          },
+          "174d9f5f-35a4-47c9-890d-9c451dd5d14e": {
+            "type": "question",
+            "settings": {
+              "question": "Will there be size? Exclusive products available online?",
+              "answer": "<p>There will be size? Exclusive products available in the coming weeks. Be sure to sign up for our mailer <a href=\"https:\/\/size.us7.list-manage.com\/subscribe\/post?u=51a8c7a5c2f45d17985c84815&amp;id=4a809103ef\" target=\"_blank\" title=\"https:\/\/size.us7.list-manage.com\/subscribe\/post?u=51a8c7a5c2f45d17985c84815&amp;id=4a809103ef\">here<\/a>, and don't forget to turn on post notifications on social media. <\/p>"
+            }
+          },
+          "c44da43c-3618-4b73-ae79-1d6afad9f366": {
+            "type": "question",
+            "settings": {
+              "question": "How does Sezzle work?",
+              "answer": "<p>Please view more information directly on Sezzle&#x27;s website <a href=\"https:\/\/shopper-help.sezzle.com\/hc\/en-us\/categories\/360003665751-FAQ\" target=\"_blank\" title=\"https:\/\/shopper-help.sezzle.com\/hc\/en-us\/categories\/360003665751-FAQ\">here<\/a>.<\/p>"
+            }
+          },
+          "162e1281-b4c3-4740-962d-4249b7159f5f": {
+            "type": "question",
+            "settings": {
+              "question": "How does Afterpay work?",
+              "answer": "<p>Please view more information directly on Afterpay&#x27;s website <a href=\"https:\/\/www.afterpay.com\/en-US\/how-it-works\" target=\"_blank\" title=\"https:\/\/www.afterpay.com\/en-US\/how-it-works\">here<\/a>.<\/p>"
+            }
+          }
+        },
+        "block_order": [
+          "f9d0c1b9-4692-4a12-ae98-5b66eba73a40",
+          "c9abed4b-c63a-4b9d-9e9d-268e83638142",
+          "ed31247e-7080-4e78-986c-80eaf995c291",
+          "2ca45551-6368-4b8c-a619-b136fe8af6a9",
+          "1c27ef41-d254-42a2-a14e-887a24550230",
+          "869495a9-f29b-4d35-b3d2-844fb7ce0fad",
+          "8a62f7d2-6b8f-43da-84df-b3a740b61260",
+          "a699d730-60fe-4c2e-a5f5-de90ad3022ca",
+          "49fe6cff-e57e-4b47-a74a-d5449c37aae1",
+          "174d9f5f-35a4-47c9-890d-9c451dd5d14e",
+          "c44da43c-3618-4b73-ae79-1d6afad9f366",
+          "162e1281-b4c3-4740-962d-4249b7159f5f"
+        ],
+        "settings": {
+          "heading": "Frequently Asked Questions",
+          "desc": "<p>Please note that our Customer Care team is currently experiencing a large volume of calls, emails & queries. As ever, our aim is to provide you with an answer to your questions as quickly as possible. Please refer to our FAQs above before getting in touch as your questions may already be answered and also please be aware that as information and guidelines are changing on a daily basis, we will endeavour to keep this page and yourselves up to date.<\/p>",
+          "contact_title": "Other ways to get help",
+          "help_icon1": "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" x=\"0px\" y=\"0px\" viewbox=\"0 0 512 512\" style=\"enable-background:new 0 0 512 512;\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" xml:space=\"preserve\"><path d=\"M512,97.248c-19.04,8.352-39.328,13.888-60.48,16.576c21.76-12.992,38.368-33.408,46.176-58.016c-20.288,12.096-42.688,20.64-66.56,25.408C411.872,60.704,384.416,48,354.464,48c-58.112,0-104.896,47.168-104.896,104.992c0,8.32,0.704,16.32,2.432,23.936c-87.264-4.256-164.48-46.08-216.352-109.792c-9.056,15.712-14.368,33.696-14.368,53.056c0,36.352,18.72,68.576,46.624,87.232c-16.864-0.32-33.408-5.216-47.424-12.928c0,0.32,0,0.736,0,1.152c0,51.008,36.384,93.376,84.096,103.136c-8.544,2.336-17.856,3.456-27.52,3.456c-6.72,0-13.504-0.384-19.872-1.792c13.6,41.568,52.192,72.128,98.08,73.12c-35.712,27.936-81.056,44.768-130.144,44.768c-8.608,0-16.864-0.384-25.12-1.44C46.496,446.88,101.6,464,161.024,464c193.152,0,298.752-160,298.752-298.688c0-4.64-0.16-9.12-0.384-13.568C480.224,136.96,497.728,118.496,512,97.248z\"><\/path><\/svg>",
+          "help_text1": "Twitter support",
+          "help_link1": "https:\/\/www.size.co.uk\/customer-service\/contact\/",
+          "help_icon2": "<svg version=\"1.1\" id=\"Capa_1\" xmlns=\"http:\/\/www.w3.org\/2000\/svg\" x=\"0px\" y=\"0px\" width=\"550.795px\" height=\"550.795px\" viewbox=\"0 0 550.795 550.795\" style=\"enable-background:new 0 0 550.795 550.795;\" xmlns:xlink=\"http:\/\/www.w3.org\/1999\/xlink\" xml:space=\"preserve\"><path d=\"M501.613,491.782c12.381,0,23.109-4.088,32.229-12.16L377.793,323.567c-3.744,2.681-7.373,5.288-10.801,7.767c-11.678,8.604-21.156,15.318-28.434,20.129c-7.277,4.822-16.959,9.737-29.045,14.755c-12.094,5.024-23.361,7.528-33.813,7.528h-0.306h-0.306c-10.453,0-21.72-2.503-33.813-7.528c-12.093-5.018-21.775-9.933-29.045-14.755c-7.277-4.811-16.75-11.524-28.434-20.129c-3.256-2.387-6.867-5.006-10.771-7.809L16.946,479.622c9.119,8.072,19.854,12.16,32.234,12.16H501.613z\"><\/path><path d=\"M31.047,225.299C19.37,217.514,9.015,208.598,0,198.555V435.98l137.541-137.541C110.025,279.229,74.572,254.877,31.047,225.299z\"><\/path><path d=\"M520.059,225.299c-41.865,28.336-77.447,52.73-106.75,73.195l137.486,137.492V198.555C541.98,208.396,531.736,217.306,520.059,225.299z\"><\/path><path d=\"M501.613,59.013H49.181c-15.784,0-27.919,5.33-36.42,15.979C4.253,85.646,0.006,98.97,0.006,114.949c0,12.907,5.636,26.892,16.903,41.959c11.267,15.061,23.256,26.891,35.961,35.496c6.965,4.921,27.969,19.523,63.012,43.801c18.917,13.109,35.368,24.535,49.505,34.395c12.05,8.396,22.442,15.667,31.022,21.701c0.985,0.691,2.534,1.799,4.59,3.269c2.215,1.591,5.018,3.61,8.476,6.107c6.659,4.816,12.191,8.709,16.597,11.683c4.4,2.975,9.731,6.298,15.985,9.988c6.249,3.685,12.143,6.456,17.675,8.299c5.533,1.842,10.655,2.766,15.367,2.766h0.306h0.306c4.711,0,9.834-0.924,15.368-2.766c5.531-1.843,11.42-4.608,17.674-8.299c6.248-3.69,11.572-7.02,15.986-9.988c4.406-2.974,9.938-6.866,16.598-11.683c3.451-2.497,6.254-4.517,8.469-6.102c2.057-1.476,3.605-2.577,4.596-3.274c6.684-4.651,17.1-11.892,31.104-21.616c25.482-17.705,63.01-43.764,112.742-78.281c14.957-10.447,27.453-23.054,37.496-37.803c10.025-14.749,15.051-30.22,15.051-46.408c0-13.525-4.873-25.098-14.598-34.737C526.461,63.829,514.932,59.013,501.613,59.013z\"><\/path><\/svg>",
+          "help_text2": "Message",
+          "help_link2": "https:\/\/size.ca\/pages\/contact"
+        }
+      },
+      "cart-template": {
+        "type": "cart-template",
+        "blocks": {
+          "b91e3484-4442-4115-805a-809c0d327672": {
+            "type": "product",
+            "settings": {
+              "product": "size-toronto-t-shirt-orange"
+            }
+          },
+          "157cfc3c-a552-4175-b59d-3f1b590a433b": {
+            "type": "product",
+            "settings": {
+              "product": "size-toronto-t-shirt-black"
+            }
+          },
+          "6aef15d0-ae7e-417b-b50d-c94b265a0585": {
+            "type": "product",
+            "settings": {
+              "product": "size-toronto-t-shirt-white"
+            }
+          },
+          "9e522449-4a7f-4b5a-a8e5-808111ba7ecf": {
+            "type": "product",
+            "settings": {
+              "product": "size-nalgene-water-bottle-black-orange"
+            }
+          }
+        },
+        "block_order": [
+          "b91e3484-4442-4115-805a-809c0d327672",
+          "157cfc3c-a552-4175-b59d-3f1b590a433b",
+          "6aef15d0-ae7e-417b-b50d-c94b265a0585",
+          "9e522449-4a7f-4b5a-a8e5-808111ba7ecf"
+        ],
+        "settings": {
+          "title": "Don't Forget"
+        }
+      },
+      "release-hero": {
+        "type": "release-hero",
+        "settings": {
+          "article": "release-calendar\/jordan-5-retro-black-cool-grey-white",
+          "image": "shopify:\/\/shop_images\/2021_09_03_JORDAN_1UP-HOMEPAGE-BANNER_2x_13f11da1-4187-4435-89fb-3625957ee891.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_09_03_JORDAN_1UP-MOBILE-BANNER_2x_be04ee1d-da02-4e68-adff-8b16b56b5455.jpg",
+          "btn_text": "Notify Me",
+          "btn_link": "https:\/\/size.ca\/pages\/size-previews-release-sign-up",
+          "bg_color": "rgba(0,0,0,0)",
+          "show_timer": false,
+          "timer_title": "Dropping in:",
+          "date": "Sep 10, 2021",
+          "time": "07:00:00",
+          "shopnow_btn": "",
+          "notify_btn": "Sign Up For Notifications",
+          "raffle_btn": "",
+          "social_title": "Stay tuned to our social channels for more details"
+        }
+      },
+      "release-calendar-template": {
+        "type": "release-calendar-template",
+        "settings": {
+          "description": "Welcome to the size? release calendar — the be-all, end-all for everything that’s fresh, new, and upcoming from\nsize? Canada. Month to month, this is where you’ll find product previews, release schedules, and raffle\ndetails about the most-anticipated sneaker releases of the year.",
+          "upcomming_heading": "Upcoming",
+          "upsell_limit": 20,
+          "release_heading": "Released",
+          "release_btn_text": "SHOP ALL NEW IN",
+          "release_btn_link": "https:\/\/size.ca\/collections\/new-in",
+          "released_limit": 8,
+          "popup_bg": "#dfdfdf",
+          "shopnow_btn": "Shop Now",
+          "notify_btn": "Sign Up For Notifications",
+          "raffle_btn": "Enter Raffle",
+          "social_title": "Stay tuned to our social channels for more details"
+        }
+      },
+      "page--drawings": {
+        "type": "page--drawings",
+        "blocks": {
+          "0c5957f8-0110-4899-aeb0-c3d5e181476a": {
+            "type": "drawing",
+            "settings": {
+              "soldout": false,
+              "image": "shopify:\/\/shop_images\/img35.jpg",
+              "title": "Nike Air Max 90",
+              "handle": "nike-air-max-90",
+              "product_live": "2021-05-05 09:45AM",
+              "drawing_url": "seed-raffle-test",
+              "drawing_start": "2021-04-14 09:45AM",
+              "drawing_end": "2021-04-30 09:45AM"
+            }
+          }
+        },
+        "block_order": [
+          "0c5957f8-0110-4899-aeb0-c3d5e181476a"
+        ],
+        "settings": {}
+      },
+      "brands-list-template": {
+        "type": "brands-list-template",
+        "blocks": {
+          "b0039c25-760b-4a0b-a02b-7148287f1b13": {
+            "type": "brand",
+            "settings": {
+              "title": "adidas",
+              "brand_url": "https:\/\/size.ca\/collections\/adidas"
+            }
+          },
+          "3653b5c8-ad22-49ab-a089-7a87965eaf66": {
+            "type": "brand",
+            "settings": {
+              "title": "Alltimers",
+              "brand_url": "shopify:\/\/collections\/alltimers"
+            }
+          },
+          "60fc8363-6151-49e5-b605-3eae2b344fbc": {
+            "type": "brand",
+            "settings": {
+              "title": "ASICS",
+              "brand_url": "https:\/\/size.ca\/collections\/asics"
+            }
+          },
+          "f7677fc8-96be-4a24-a93a-39aeefb267f5": {
+            "type": "brand",
+            "settings": {
+              "title": "Carhartt WIP",
+              "brand_url": "shopify:\/\/collections\/carhartt-wip"
+            }
+          },
+          "1f988666-7e8e-495f-a8ee-d5dec025add1": {
+            "type": "brand",
+            "settings": {
+              "title": "Casio",
+              "brand_url": "shopify:\/\/collections\/casio"
+            }
+          },
+          "ca987067-3ae4-42ce-ad51-f183848b4fa6": {
+            "type": "brand",
+            "settings": {
+              "title": "Clarks Originals",
+              "brand_url": "https:\/\/size.ca\/collections\/clarks-originals"
+            }
+          },
+          "36622296-1e61-419f-95ad-ed4bd0572da9": {
+            "type": "brand",
+            "settings": {
+              "title": "Converse",
+              "brand_url": "https:\/\/size.ca\/collections\/converse"
+            }
+          },
+          "de32a604-326f-4a8f-9863-d0774a8c8288": {
+            "type": "brand",
+            "settings": {
+              "title": "Dickies",
+              "brand_url": "shopify:\/\/collections\/dickies"
+            }
+          },
+          "237c118e-ce77-4090-b3a3-d0fd3aaa43c2": {
+            "type": "brand",
+            "settings": {
+              "title": "Dr. Martens",
+              "brand_url": "shopify:\/\/collections\/dr-martens"
+            }
+          },
+          "8eb10d30-d20e-4f4e-9217-48795c7559c8": {
+            "type": "brand",
+            "settings": {
+              "title": "Fred Perry",
+              "brand_url": "https:\/\/size.ca\/collections\/fred-perry"
+            }
+          },
+          "ec37c6b5-aea6-48d8-9279-e054144aff13": {
+            "type": "brand",
+            "settings": {
+              "title": "G-SHOCK",
+              "brand_url": "shopify:\/\/collections\/g-shock"
+            }
+          },
+          "c507026f-730a-4c11-8a58-c398d23a2900": {
+            "type": "brand",
+            "settings": {
+              "title": "Higherlands",
+              "brand_url": "shopify:\/\/collections\/higherlands"
+            }
+          },
+          "e641bef0-a845-4003-8429-0d2d7a4361fb": {
+            "type": "brand",
+            "settings": {
+              "title": "HUF",
+              "brand_url": "https:\/\/size.ca\/collections\/huf"
+            }
+          },
+          "21cbeb4a-d290-46a8-ac83-8e9eca206fdd": {
+            "type": "brand",
+            "settings": {
+              "title": "Jason Markk",
+              "brand_url": "shopify:\/\/collections\/jason-markk"
+            }
+          },
+          "21398471-a2ae-4f76-888a-9c9d0a6c0bf5": {
+            "type": "brand",
+            "settings": {
+              "title": "Jordan",
+              "brand_url": "https:\/\/size.ca\/collections\/jordan"
+            }
+          },
+          "aae6e70e-cba6-45da-b2ac-f73a65024ace": {
+            "type": "brand",
+            "settings": {
+              "title": "Karhu",
+              "brand_url": "shopify:\/\/collections\/karhu"
+            }
+          },
+          "b949a5b3-4500-4a7e-a5f0-890be40d2592": {
+            "type": "brand",
+            "settings": {
+              "title": "Levi's",
+              "brand_url": "https:\/\/size.ca\/collections\/levis"
+            }
+          },
+          "78a9e4f3-9bc5-4c5e-a2d9-287d86294d91": {
+            "type": "brand",
+            "settings": {
+              "title": "New Balance",
+              "brand_url": "https:\/\/size.ca\/collections\/new-balance"
+            }
+          },
+          "3f98514d-7395-4223-9d56-b12cc1badbb1": {
+            "type": "brand",
+            "settings": {
+              "title": "New Era",
+              "brand_url": "https:\/\/size.ca\/collections\/new-era"
+            }
+          },
+          "bbff2bc9-3675-47b2-b4b5-a7cbd06cfa6a": {
+            "type": "brand",
+            "settings": {
+              "title": "Nike",
+              "brand_url": "https:\/\/size.ca\/collections\/nike"
+            }
+          },
+          "7604851f-6501-4f38-b833-3035af88dca7": {
+            "type": "brand",
+            "settings": {
+              "title": "OBEY",
+              "brand_url": "https:\/\/size.ca\/collections\/obey"
+            }
+          },
+          "2a74b361-709f-4918-a833-699817060089": {
+            "type": "brand",
+            "settings": {
+              "title": "On",
+              "brand_url": "https:\/\/size.ca\/collections\/on"
+            }
+          },
+          "bdead97b-e010-469d-9305-11b5a0e73b94": {
+            "type": "brand",
+            "settings": {
+              "title": "Pleasures",
+              "brand_url": "https:\/\/size.ca\/collections\/pleasures"
+            }
+          },
+          "4a2ba365-107b-434f-9753-ff23336afd90": {
+            "type": "brand",
+            "settings": {
+              "title": "Puma",
+              "brand_url": "https:\/\/size.ca\/collections\/puma"
+            }
+          },
+          "c0266e39-d240-4540-b2ec-95e20dbf5a12": {
+            "type": "brand",
+            "settings": {
+              "title": "Quiet Life",
+              "brand_url": "https:\/\/size.ca\/collections\/quiet-life"
+            }
+          },
+          "bd354d8c-46cd-4aaa-986e-b16f2c4bc910": {
+            "type": "brand",
+            "settings": {
+              "title": "Reebok",
+              "brand_url": "https:\/\/size.ca\/collections\/reebok"
+            }
+          },
+          "42e4d65b-6dbe-4796-a6c5-49062b75146a": {
+            "type": "brand",
+            "settings": {
+              "title": "Salomon",
+              "brand_url": "shopify:\/\/collections\/salomon"
+            }
+          },
+          "4ee5f885-c8f4-4332-b4fb-fab2efa81257": {
+            "type": "brand",
+            "settings": {
+              "title": "Saucony",
+              "brand_url": "https:\/\/size.ca\/collections\/saucony"
+            }
+          },
+          "1497af96-5162-4d21-81da-fb0a16bc4fd4": {
+            "type": "brand",
+            "settings": {
+              "title": "size?",
+              "brand_url": "shopify:\/\/collections\/size"
+            }
+          },
+          "655f613d-b613-4d31-b397-aeca291d4983": {
+            "type": "brand",
+            "settings": {
+              "title": "Stance",
+              "brand_url": "https:\/\/size.ca\/collections\/stance"
+            }
+          },
+          "caacb7c6-0943-4cce-847e-a161bf362603": {
+            "type": "brand",
+            "settings": {
+              "title": "Teva",
+              "brand_url": "https:\/\/size.ca\/collections\/teva"
+            }
+          },
+          "1ccbca6a-c74f-4f7a-8236-c82f4e19a6b5": {
+            "type": "brand",
+            "settings": {
+              "title": "The North Face",
+              "brand_url": "https:\/\/size.ca\/collections\/the-north-face"
+            }
+          },
+          "749654e9-6a65-417c-825a-be3bec529f8f": {
+            "type": "brand",
+            "settings": {
+              "title": "Vans",
+              "brand_url": "https:\/\/size.ca\/collections\/vans"
+            }
+          }
+        },
+        "block_order": [
+          "b0039c25-760b-4a0b-a02b-7148287f1b13",
+          "3653b5c8-ad22-49ab-a089-7a87965eaf66",
+          "60fc8363-6151-49e5-b605-3eae2b344fbc",
+          "f7677fc8-96be-4a24-a93a-39aeefb267f5",
+          "1f988666-7e8e-495f-a8ee-d5dec025add1",
+          "ca987067-3ae4-42ce-ad51-f183848b4fa6",
+          "36622296-1e61-419f-95ad-ed4bd0572da9",
+          "de32a604-326f-4a8f-9863-d0774a8c8288",
+          "237c118e-ce77-4090-b3a3-d0fd3aaa43c2",
+          "8eb10d30-d20e-4f4e-9217-48795c7559c8",
+          "ec37c6b5-aea6-48d8-9279-e054144aff13",
+          "c507026f-730a-4c11-8a58-c398d23a2900",
+          "e641bef0-a845-4003-8429-0d2d7a4361fb",
+          "21cbeb4a-d290-46a8-ac83-8e9eca206fdd",
+          "21398471-a2ae-4f76-888a-9c9d0a6c0bf5",
+          "aae6e70e-cba6-45da-b2ac-f73a65024ace",
+          "b949a5b3-4500-4a7e-a5f0-890be40d2592",
+          "78a9e4f3-9bc5-4c5e-a2d9-287d86294d91",
+          "3f98514d-7395-4223-9d56-b12cc1badbb1",
+          "bbff2bc9-3675-47b2-b4b5-a7cbd06cfa6a",
+          "7604851f-6501-4f38-b833-3035af88dca7",
+          "2a74b361-709f-4918-a833-699817060089",
+          "bdead97b-e010-469d-9305-11b5a0e73b94",
+          "4a2ba365-107b-434f-9753-ff23336afd90",
+          "c0266e39-d240-4540-b2ec-95e20dbf5a12",
+          "bd354d8c-46cd-4aaa-986e-b16f2c4bc910",
+          "42e4d65b-6dbe-4796-a6c5-49062b75146a",
+          "4ee5f885-c8f4-4332-b4fb-fab2efa81257",
+          "1497af96-5162-4d21-81da-fb0a16bc4fd4",
+          "655f613d-b613-4d31-b397-aeca291d4983",
+          "caacb7c6-0943-4cce-847e-a161bf362603",
+          "1ccbca6a-c74f-4f7a-8236-c82f4e19a6b5",
+          "749654e9-6a65-417c-825a-be3bec529f8f"
+        ],
+        "settings": {}
+      },
+      "checkout": {
+        "type": "checkout",
+        "settings": {}
+      },
+      "1619572970ec56f0d3": {
+        "type": "image-overlay-column",
+        "blocks": {
+          "3072b11f-361e-4227-acd3-109c47054225": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/djhedspin_hero.jpg",
+              "slide_title": "size?sessions x Hedspin",
+              "button_label": "read more",
+              "button_link": "https:\/\/size.ca\/blogs\/size-previews\/size-sessions-x-hedspin",
+              "button_style": "style2",
+              "btn_bg_color": "#ff600b",
+              "btn_text_color": "#ff600b",
+              "text_position": "top"
+            }
+          },
+          "df8e56a0-9bd3-4a39-9e5b-cdb9ef910439": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/TORONTO_SIZE-3UP-CONTENT-BLOCK-HP-BLOG-IMAGE.jpg",
+              "slide_title": "Tour our first size? location in North America! - Toronto",
+              "button_label": "read more",
+              "button_link": "https:\/\/size.ca\/blogs\/size-previews\/tour-our-first-size-location-in-north-america-toronto",
+              "button_style": "style2",
+              "btn_bg_color": "#ff600b",
+              "btn_text_color": "#ffffff",
+              "text_position": "top"
+            }
+          },
+          "c5d22686-a2ee-4e1e-81e9-547056458242": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/Untitled_design_45.png",
+              "slide_title": "size? X adidas Originals AS 240",
+              "button_label": "read more",
+              "button_link": "https:\/\/size.ca\/blogs\/size-previews\/our-exclusive-adidas-originals-as-240-lands-soon",
+              "button_style": "style2",
+              "btn_bg_color": "#ff600b",
+              "btn_text_color": "#ff600b",
+              "text_position": "top"
+            }
+          }
+        },
+        "block_order": [
+          "3072b11f-361e-4227-acd3-109c47054225",
+          "df8e56a0-9bd3-4a39-9e5b-cdb9ef910439",
+          "c5d22686-a2ee-4e1e-81e9-547056458242"
+        ],
+        "settings": {
+          "section_height": "150",
+          "show_overlay": true,
+          "enable_arrow": false,
+          "respective_section": "#shopify-section-footer"
+        }
+      },
+      "404-template": {
+        "type": "404-template",
+        "settings": {
+          "title": "404 Page Not Found",
+          "description": "<p><strong>We&#x27;re sorry, we cannot find the page you&#x27;re looking for.<\/strong><\/p><p>Please check the address you entered is correct.<\/p><p><a href=\"\/\" title=\"\/\">Back To Homepage<\/a><\/p><p><a href=\"\/pages\/faq\" title=\"FAQ\">Help<\/a><\/p>"
+        }
+      },
+      "search-filter": {
+        "type": "search-filter",
+        "blocks": {
+          "d304626f-f3e8-4b80-9d89-369e285f0e27": {
+            "type": "filter",
+            "settings": {
+              "enable": true,
+              "visible_title": "Brand",
+              "title": "Brand",
+              "filter_items": "adidas; Nike"
+            }
+          },
+          "ae0daeb3-2a45-4b67-a795-c7a065878c08": {
+            "type": "filter",
+            "settings": {
+              "enable": true,
+              "visible_title": "Category",
+              "title": "Category",
+              "filter_items": "SNEAKER; CLASSIC"
+            }
+          },
+          "74d5336a-51fd-45ec-9da5-077c5845bf99": {
+            "type": "filter",
+            "settings": {
+              "enable": true,
+              "visible_title": "Gender",
+              "title": "Gender Designation",
+              "filter_items": "Mens; Womens; Unisex"
+            }
+          }
+        },
+        "block_order": [
+          "d304626f-f3e8-4b80-9d89-369e285f0e27",
+          "ae0daeb3-2a45-4b67-a795-c7a065878c08",
+          "74d5336a-51fd-45ec-9da5-077c5845bf99"
+        ],
+        "settings": {
+          "enable": true
+        }
+      },
+      "162032865721e344f1": {
+        "type": "image-with-text-overlay",
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "",
+          "mobile_video": "",
+          "image": "shopify:\/\/shop_images\/2021_09_16_JORDAN_1UP-HOMEPAGE-BANNER_2x_f30b7ca1-324b-4f9a-8790-e041bde27500.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_09_16_JORDAN_1UP-MOBILE-BANNER_2x_deefb317-a574-4be8-9c2b-73217b3f648c.jpg",
+          "slide_title": "Jordan 13 Retro White \/ Obsidian",
+          "button_label": "SHOP NOW",
+          "button_link": "shopify:\/\/products\/jordan-13-retro-white-obsidian-dark-powder-blue",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#1B1C1E",
+          "enable_arrow": true,
+          "respective_section": ""
+        }
+      },
+      "1620865419323066a2": {
+        "type": "image-with-text-overlay",
+        "settings": {
+          "section_height": "650",
+          "show_overlay": false,
+          "desktop_video": "",
+          "mobile_video": "",
+          "image": "shopify:\/\/shop_images\/2021_09_15_LEVIS_1UP-HOMEPAGE-BANNER_2x_eaddfada-5848-4f20-b201-273923668076.jpg",
+          "mobile_image": "shopify:\/\/shop_images\/2021_09_15_LEVIS_1UP-MOBILE-BANNER_2x_a8e23035-e0ac-4a1d-9885-6f2fc6e8189f.jpg",
+          "slide_title": "Levi's",
+          "button_label": "Shop Now",
+          "button_link": "shopify:\/\/collections\/levis",
+          "button_style": "style1",
+          "btn_bg_color": "#ff600b",
+          "btn_text_color": "#ff600b",
+          "text_position": "right-top",
+          "text_alignment": "right",
+          "text_color": "#1B1C1E",
+          "enable_arrow": true,
+          "respective_section": ""
+        }
+      },
+      "162238781207ee800b": {
+        "type": "slideshow",
+        "blocks": {
+          "162238781207ee800b-0": {
+            "type": "image",
+            "settings": {
+              "desktop_video": "",
+              "mobile_video": "",
+              "image": "shopify:\/\/shop_images\/HP_DESKTOP_2880x1474_yeezy700-sh.jpg",
+              "mobile_image": "shopify:\/\/shop_images\/HP_MOBILE_894x1208_yeezy700-sh.jpg",
+              "slide_title": "",
+              "button_label": "",
+              "button_link": "shopify:\/\/products\/adidas-original-yeezy-700-mnvn-honey-flux",
+              "button_style": "style2",
+              "btn_bg_color": "#ff600b",
+              "btn_text_color": "#ff600b",
+              "text_color": "#fff",
+              "text_position": "right-top",
+              "text_alignment": "right"
+            }
+          }
+        },
+        "block_order": [
+          "162238781207ee800b-0"
+        ],
+        "settings": {
+          "slideshow_height": "650",
+          "show_overlay": false,
+          "autorotate": true,
+          "autorotate_speed": 5,
+          "enable_arrow": true,
+          "respective_section": "#shopify-section-16113257370fabad13"
+        }
+      },
+      "image-with-text-blog": {
+        "type": "image-with-text-blog",
+        "blocks": {
+          "ef9b0aac-6622-444d-a02a-3c115706e710": {
+            "type": "image",
+            "settings": {
+              "video": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/size_video.mp4",
+              "image": "shopify:\/\/shop_images\/Size_-Toronto07_1_1f1fb811-277e-42ab-99e0-69e5ec5a067d.jpg",
+              "image_crop": "center",
+              "title": "size? is coming to Canada.",
+              "title_color": "#000000",
+              "text": "<p>Canada’s sneaker and streetwear culture is about to get a really big break with size? Canada. Our blog is now live, so check it out and sign up for updates on store openings, the latest collabs, and new drops ahead of our launch, online and in-store this summer.<\/p>",
+              "richtext_color": "#1b1c1e",
+              "button_label": "READ MORE",
+              "link": "shopify:\/\/blogs\/size-previews\/crep-check-canada",
+              "btn_text_color": "#000000",
+              "btn_text_color_hover": "#ff600b",
+              "bg_color": "#ffffff"
+            }
+          }
+        },
+        "block_order": [
+          "ef9b0aac-6622-444d-a02a-3c115706e710"
+        ],
+        "settings": {
+          "frontpage_grid_style": true,
+          "enable_border": true,
+          "frontpage_text_align": "left",
+          "frontpage_image_position": "left"
+        }
+      },
+      "16232567954ceeaea6": {
+        "type": "image-overlay-half-column",
+        "blocks": {
+          "a5e458f3-70ae-42c2-8917-34513974f846": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2021_09_15_NEWERA_2UP-HOMEPAGE-CONTENT_2x-exclusive_1.jpg",
+              "slide_title": "",
+              "button_label": "",
+              "button_link": "shopify:\/\/collections\/new-era",
+              "button_style": "style1",
+              "btn_bg_color": "#ffffff",
+              "btn_text_color": "#1b1c1e",
+              "text_alignment": "right",
+              "text_position": "middle"
+            }
+          },
+          "14cda300-fa68-4aab-ab86-60169f03b613": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2021_09_15_OBEY_2UP-HOMEPAGE-CONTENT_2x-exclusive_1.jpg",
+              "slide_title": "",
+              "button_label": "",
+              "button_link": "shopify:\/\/collections\/obey",
+              "button_style": "style1",
+              "btn_bg_color": "#1b1c1e",
+              "btn_text_color": "#ffffff",
+              "text_alignment": "left",
+              "text_position": "middle"
+            }
+          }
+        },
+        "block_order": [
+          "a5e458f3-70ae-42c2-8917-34513974f846",
+          "14cda300-fa68-4aab-ab86-60169f03b613"
+        ],
+        "settings": {
+          "section_height": "100",
+          "show_overlay": false,
+          "enable_arrow": true,
+          "respective_section": ""
+        }
+      },
+      "162325696394baecbb": {
+        "type": "image-overlay-half-column",
+        "disabled": true,
+        "blocks": {
+          "b418dd16-ace2-49eb-9bf4-c0131f544eaf": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2UP_HOMEPAGE_CONTENT_BLOCK_Dickies_8c77bca0-8750-46bc-9d85-eb8c2d4a1a94.jpg",
+              "slide_title": "",
+              "button_label": "Shop Dickies",
+              "button_link": "shopify:\/\/collections\/dickies",
+              "button_style": "style1",
+              "btn_bg_color": "#ffffff",
+              "btn_text_color": "#2e2e2e",
+              "text_alignment": "right",
+              "text_position": "middle"
+            }
+          },
+          "8d022c1b-90e8-4718-928d-ac87027177c1": {
+            "type": "image",
+            "settings": {
+              "image": "shopify:\/\/shop_images\/2UP_HOMEPAGE_CONTENT_BLOCK_Quiet_Life_9899f4c2-eee2-45de-bd52-cea7864f0902.jpg",
+              "slide_title": "",
+              "button_label": "Shop Quiet Life",
+              "button_link": "shopify:\/\/collections\/quiet-life",
+              "button_style": "style1",
+              "btn_bg_color": "#2e2e2e",
+              "btn_text_color": "#ffffff",
+              "text_alignment": "left",
+              "text_position": "middle"
+            }
+          }
+        },
+        "block_order": [
+          "b418dd16-ace2-49eb-9bf4-c0131f544eaf",
+          "8d022c1b-90e8-4718-928d-ac87027177c1"
+        ],
+        "settings": {
+          "section_height": "100",
+          "show_overlay": false,
+          "enable_arrow": false,
+          "respective_section": ""
+        }
+      },
+      "store-header": {
+        "type": "store-header",
+        "settings": {
+          "announce_text": "Hey Canada, our new Queen St location in Toronto is now open!",
+          "logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0519\/9606\/5960\/files\/logo_b9f69d70-a728-4b7c-b835-be6637f1e656.svg?v=1625826064"
+        }
+      },
+      "store-detail": {
+        "type": "store-detail",
+        "settings": {
+          "contact_heading": "Contact",
+          "contact": "<p>1000 Queen St W, Toronto, ON, M6J 1H1<\/p><p><a href=\"tel:14165332400\" title=\"tel:14165332400\">+1 (416) 533-2400<\/a><\/p>",
+          "contact_btn_text": "Get Directions",
+          "contact_btn_link": "https:\/\/g.page\/r\/CcrSQBSymMnQEAE",
+          "hours_heading": "Hours",
+          "hours_content": "<ul class=\"hours_list\">\n\t<li>\n\t\t<span>Monday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Tuesday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Wednesday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Thursday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Friday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Saturday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\n\t<li>\n\t\t<span>Sunday<\/span>\n\t\t<span>11:00 AM - 8:00 PM<\/span>\n\t<\/li>\t\n<\/ul>",
+          "location_heading": "Location"
+        }
+      },
+      "about-store": {
+        "type": "about-store",
+        "settings": {
+          "heading": "About size? Toronto",
+          "about_content": "<p>Back in 2000, size? was born with the aim to make niche and sought-after footwear and apparel more easily accessible to key destinations in the UK. Two decades later and size? is now a global phenomenon with a growing innovative community who are proud to celebrate and support the culture that surrounds the product the brand stands for.<\/p><p><br\/>Today, the size? community has grown significantly, spreading to all corners of the UK and hitting various locations around Europe — and as of July 16th, 2021, we’ve opened our doors in Canada for the first time ever. Now found on the corner of Queen and Ossington in Toronto, size? is looking to build Canadian sneaker and streetwear culture up to its full potential, and Toronto is the perfect launchpad. <\/p>",
+          "about_img1": "shopify:\/\/shop_images\/Size_Toronto04_2e93485e-65db-4958-b78b-d81cafd40648.jpg",
+          "about_img2": "shopify:\/\/shop_images\/Size_Toronto22_d50ed5b2-c549-4c45-b0bb-c83d6449e620.jpg"
+        }
+      }
+    },
+    "content_for_index": [
+      "162238781207ee800b",
+      "1611055595bba5a832",
+      "16113257370fabad13",
+      "162032865721e344f1",
+      "1611071069ff04c2d5",
+      "16232567954ceeaea6",
+      "16110703502a19b00c",
+      "1611071443cb742d6c",
+      "1620865419323066a2",
+      "1611064113269ef0e6",
+      "162325696394baecbb",
+      "1619572970ec56f0d3"
+    ]
+  },
+  "presets": {
+    "Default": {
+      "ajax_cart_method": "drawer",
+      "cart_notes_enable": true,
+      "color_body_bg": "#fff",
+      "color_body_text": "#333333",
+      "color_borders": "#e5e5e5",
+      "color_footer_bg": "#f2f2f2",
+      "color_footer_social_link": "#bbbbbb",
+      "color_footer_text": "#636363",
+      "color_primary": "#747474",
+      "color_secondary": "#bbb",
+      "favicon_enable": false,
+      "footer_newsletter_enable": true,
+      "footer_social_enable": true,
+      "logo_use_image": false,
+      "social_facebook_link": "",
+      "social_twitter_link": ""
+    }
+  }
+}

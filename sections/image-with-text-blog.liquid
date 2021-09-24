@@ -1,0 +1,298 @@
+{% comment %}
+** Image with text (half and half view) - homepage partial **
+- Draggable section
+- Uses blocks
+{% endcomment %}
+{% if section.settings.frontpage_grid_style == false %}
+  <div class="wrapper">
+    <div class="sixteen columns">
+{% endif %}
+
+    <div class="image-with-text
+                featured_collections
+                clearfix across-{{section.settings.featured_links_per_row}} image-align--{{ section.settings.frontpage_image_position }}
+                full-width--{{ section.settings.frontpage_grid_style }}
+                ">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <section class="featured-link--section featured-link--image section-{{ forloop.index }}" {{ block.shopify_attributes }}>
+            <div class="featured-link--half featured-link--image featured-link--margin image-crop--{{ block.settings.image_crop }}">
+              <div class="featured-link--wrap">
+                <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">
+                  {% if block.settings.video != blank %}
+                    <div class="video_wrap">
+                      <video src="{{ block.settings.video }}" autoplay playsinline muted loop></video>
+                    </div>
+                  {% elsif block.settings.image %}
+                  	<img src="{{ block.settings.image | img_url:'master' }}" alt="{{ block.settings.image.alt }}">
+                  {% else %}
+                    {% capture i %}{% cycle "1", "2", "3", "4", "5", "6" %}{% endcapture %}
+                    {{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg placeholder-svg--promotions' }}
+                  {% endif %}
+                </a>
+              </div>
+            </div>
+            <div class="featured-link--half block--{{ block.id }}">
+              <div class="info text-align--{{section.settings.frontpage_text_align}}">
+                <h2 class="collection_title">
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} title="{{ block.settings.title }}">{{ block.settings.title }}</a>
+                </h2>
+                {% if block.settings.text != blank %}
+                  <div class="description">{{ block.settings.text }}</div>
+                {% endif %}
+                {% if block.settings.button_label != blank %}
+                  <a {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %} class="button btn">
+                    {{ block.settings.button_label }}
+                    <svg width="100" height="6" viewBox="0 0 100 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M99.6067 2.62501C99.4457 2.4534 99.2456 2.31241 99.0188 2.21085C98.792 2.10928 98.5435 2.04936 98.2888 2.03476C96.288 1.96049 94.2881 1.8802 92.289 1.79394L80.2359 1.37871L74.2346 1.25142L58.3042 1.0293C55.5882 1.00923 52.8811 0.991919 50.1748 1.00092C46.6545 0.991919 43.131 1.02304 39.6091 1.05764L26.0974 1.28115L14.0715 1.61954C10.2373 1.73926 6.30007 1.89635 2.0265 2.09149L1.73173 2.12887C1.25311 2.22984 0.825466 2.46305 0.513449 2.79328C0.201432 3.1235 0.0220276 3.53275 0.00235344 3.95916C-0.0242806 4.46198 0.175983 4.95405 0.56079 5.33119C0.945597 5.70833 1.48474 5.94097 2.06404 5.97981L2.22381 5.99847L2.38753 5.98462C6.2593 5.65731 10.0744 5.41791 14.3008 5.1598C15.9463 5.06084 17.5934 4.97709 19.2414 4.89405L32.2282 4.34046L40.1547 4.13287C43.5024 4.06021 46.8494 3.98686 50.2003 3.95988L51.9641 3.9391C53.3684 3.9218 54.7759 3.90453 56.1865 3.91076L62.1775 3.91418C64.0315 3.92663 65.8831 3.95225 67.7371 3.97854L74.1579 4.09828C81.5428 4.26021 89.3606 4.61589 97.986 5.17779L98.1058 5.19232H98.2288C98.6666 5.17968 99.0847 5.03146 99.4071 4.77461C99.7295 4.51775 99.9351 4.16928 99.9862 3.79241C100.016 3.58574 99.9975 3.37602 99.9324 3.17556C99.8672 2.97509 99.7565 2.78791 99.6067 2.62501Z" fill="#1B1C1E"/></svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </section>
+        {% endfor %}
+      {% endif %}
+    </div>
+{% if section.settings.frontpage_grid_style == false %}
+    </div>
+  </div>
+{% endif %}
+
+<style>
+
+  {% for block in section.blocks %}
+    .block--{{ block.id }} {
+      background-color: {{ block.settings.bg_color }};
+    }
+	
+    .block--{{ block.id }} .collection_title a{
+      color: {{ block.settings.title_color }};
+    }
+  
+    .block--{{ block.id }} .description * {
+      color: {{ block.settings.richtext_color }};
+    }
+
+    .block--{{ block.id }} a.button {
+      color: {{ block.settings.btn_text_color }};
+    }
+  	.block--{{ block.id }} a.button svg path{
+      fill: {{ block.settings.btn_text_color }};
+    }
+    .block--{{ block.id }} a.button:hover {
+      color: {{ block.settings.btn_text_color_hover }};
+    }
+    .block--{{ block.id }} a.button:hover svg path{
+      fill: {{ block.settings.btn_text_color_hover }};
+    }
+  {% endfor %}
+
+  {% if section.settings.enable_border %}
+  #shopify-section-{{ section.id }}{
+    border-bottom: 1px solid rgba(119, 119, 119, 0.25);
+  }
+  {% endif %}
+  
+  {% if section.settings.frontpage_grid_style == false and section.settings.featured_links_per_row == '1' %}
+      #shopify-section-{{ section.id }} .featured-link--section {
+        margin-bottom: 3%;
+      }
+      @media only screen and (max-width: 480px) {
+        #shopify-section-{{ section.id }} .featured-link--section {
+          margin-bottom: 10%;
+        }
+      }
+
+      #shopify-section-{{ section.id }} .featured-link--half {
+        width: 45%;
+      }
+      #shopify-section-{{ section.id }} .featured-link--margin {
+        {% if section.settings.frontpage_image_position == 'right' %}
+          margin-left: 3%;
+        {% else %}
+          margin-left: 0;
+          margin-right: 3%;
+        {% endif %}
+      }
+      #shopify-section-{{ section.id }} .featured-link--section:nth-child(even) .featured-link--margin {
+        {% if section.settings.frontpage_image_position == 'right' %}
+          margin-left: 0;
+          margin-right: 3%;
+        {% else %}
+          margin-left: 3%;
+          margin-right: 0;
+        {% endif %}
+      }
+
+    {% elsif section.settings.frontpage_grid_style == false and section.settings.featured_links_per_row == '2' %}
+
+        @media only screen and (max-width: 480px) {
+          #shopify-section-{{ section.id }} .featured-link--section {
+            margin-bottom: 10%;
+          }
+        }
+
+        #shopify-section-{{ section.id }} .featured-link--margin {
+          margin-right: 0;
+          margin-left: 0;
+        }
+
+        #shopify-section-{{ section.id }} .featured-link--section:nth-child(even) .featured-link--margin {
+          margin-left: 0;
+          margin-right: 0;
+        }
+
+      {% endif %}
+</style>
+
+{% schema %}
+{
+  "name": "Image with text",
+  "class": "image-with-text-section",
+  "max_blocks": 1,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "frontpage_grid_style",
+      "label": "Wide display"
+    },
+	{
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "Enable Border"
+    },
+    {
+      "type": "select",
+      "id": "frontpage_text_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "frontpage_image_position",
+      "label": "First image position",
+      "info": "Subsequent images will appear staggered",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image with text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "video",
+          "label": "Video URL",
+          "info": "Square format video recommended"
+        },
+		{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "1024 x 1024px recommended"
+        },
+        {
+          "type": "select",
+          "id": "image_crop",
+          "label": "Image cropping",
+          "default": "none",
+          "info": "Only applied when text area is taller than image.",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Your headline"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "Heading Text Color",
+          "default": "#000"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Promotion description appears here.</p>"
+        },
+        {
+          "type": "color",
+          "id": "richtext_color",
+          "label": "Text Color",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label",
+          "default": "View all"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color",
+          "label": "Button Text Color",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "btn_text_color_hover",
+          "label": "Button Text Color Hover",
+          "default": "#000"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color",
+          "default": "#000"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

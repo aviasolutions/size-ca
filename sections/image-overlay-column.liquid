@@ -1,0 +1,293 @@
+<div data-section-id="{{ section.id }}">
+  <div class="grid no--gutter">
+    {%- for block in section.blocks -%}
+    <div class="grid__item large--one-third">
+      <a class="hidden_link" href="{{ block.settings.button_link }}">
+      <div class="background-media-column" id="Slideshow-{{ section.id }}" style="padding-bottom:{{ section.settings.section_height }}%;">
+        
+          {%- assign section_image = block.settings.image -%}
+          <div class="background-media-column--image-wrap background-media__text-content--alignment-{{ block.settings.text_position }}">
+            
+            {% if section_image == blank %}
+              <div class="background-media__image">
+                <div class="placeholder-background">
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+                {% if section.settings.show_overlay %}<div class="background-media__overlay"></div>{% endif %}
+              </div>
+            {% else %}
+              <div
+                  {% unless section_image.alt == blank %}
+                  role="img"
+                  {% endunless %}
+                  class="background-media__image box ratio-container lazyload"
+                  style="background-image:url({{ section_image | img_url: 'master' }});">
+                {% if section.settings.show_overlay %}<div class="slideshow__overlay"></div>{% endif %}
+              </div>
+            {% endif %}
+
+            <noscript>
+              <div class="background-media__image"{% if section_image %}{% unless section_image.alt == blank %} role="img" aria-label="{{ section_image.alt | escape }}"{% endunless %} style="background-image: url('{{ section_image | img_url: '2048x' }}'); background-position: {{ section.settings.alignment }};"{% endif %}>
+                {% if section_image == blank %}
+                  <div class="placeholder-background">
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% endif %}
+              </div>
+            </noscript>
+            
+            <div class="background-media__text-wrap">
+              <div class="background-media__text-content">
+                <div class="wrapper">
+                  <div class="background-media__text-content_cv">
+                  {% unless block.settings.slide_title == blank %}
+                    <ul class="background-media__text-content-list">                      
+                      {%- unless block.settings.slide_title == blank -%}
+                        <li>
+                          <h2 class="h1 mega-title background-media__title">
+                            {{ block.settings.slide_title }}
+                          </h2>
+                        </li>
+                      {%- endunless -%}
+                    </ul>
+                  {% endunless %}
+
+                  {%- assign show_link_button = false -%}
+                  {%- if block.settings.button_label != blank and block.settings.button_link != blank -%}
+                    {%- assign show_link_button = true -%}
+                  {%- endif -%}
+                  {%- if show_link_button -%}
+                    
+                    {% if block.settings.button_style == 'default' %}
+                      <div class="background-media__btn-wrapper block--{{ block.id }}">
+                        <span class="btn background-media__btn button__style-default">
+                          {{ block.settings.button_label | escape }}
+                        </span>
+                      </div>
+                    {% elsif block.settings.button_style == 'style1' %}
+                      <div class="background-media__btn-wrapper block--{{ block.id }}">
+                        <span class="btn background-media__btn button__style-style1">
+                          <span>{{ block.settings.button_label | escape }}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="136.911" height="41.461" viewBox="0 0 136.911 41.461"><path d="M.932,18.565C6.384,17.5,11.817,16.477,17.27,15.505l8.176-1.447,8.184-1.392,8.193-1.334,8.2-1.307C55.491,9.194,60.96,8.35,66.442,7.6c5.477-.787,10.965-1.487,16.447-2.229l8.236-1.02,4.117-.512,4.124-.463,8.244-.952,8.257-.839,4.128-.431,4.133-.378Q128.261.4,132.394,0a.549.549,0,0,1,.107,1.092h-.027c-11.03.71-22.053,1.629-33.039,2.89l-4.121.458L91.2,4.958C88.456,5.3,85.712,5.639,82.972,6L74.758,7.15c-2.74.371-5.468.817-8.2,1.233-5.467.824-10.919,1.743-16.372,2.648l-8.17,1.421-8.151,1.521-8.139,1.58c-2.709.543-5.42,1.082-8.123,1.653C12.2,18.36,6.789,19.521,1.434,20.814l-.01,0a1.153,1.153,0,0,1-.541-2.241Z" transform="translate(4.073 1.141) rotate(8)" fill="#1b1c1e" stroke="#1b1c1e" stroke-width="2"/></svg>
+                        </span>
+                      </div>                    
+                    {% elsif block.settings.button_style == 'style2' %}
+                      <div class="background-media__btn-wrapper block--{{ block.id }}">
+                        <span class="btn background-media__btn button__style-style2">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"/></svg>
+                        </span>
+                      </div>
+                    {% endif %}
+                    
+                  {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+      </div>
+      </a>
+    </div>
+    {%- endfor -%}
+  </div>
+  
+  {% if section.settings.enable_arrow %}
+  <a href="{{ section.settings.respective_section }}" class="down_arrow">
+    <svg xmlns="http://www.w3.org/2000/svg" width="37.477" height="37.477" viewBox="0 0 37.477 37.477"><defs><style>.a{fill:none;stroke:#fff;stroke-width:5px;}</style></defs><path class="a" d="M0,0H24V24" transform="translate(35.709 16.971) rotate(135)"/></svg>
+  </a>
+  {% endif %}
+
+</div>
+
+<style type="text/css">
+  {%- for block in section.blocks -%}
+  {% if block.settings.button_style == 'default' %}
+  #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-default{
+      background-color:{{ block.settings.btn_bg_color }};
+      color:{{ block.settings.btn_text_color }};
+    }
+  {% elsif block.settings.button_style == 'style1' %}
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style1{
+      background-color:transparent;
+      color:{{ block.settings.btn_text_color }};
+      padding:0;
+    }
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style1 svg {
+      width: 78px;
+      height: 21px;
+      margin-top: -5px;
+    }
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style1 svg path{
+      stroke: {{ block.settings.btn_bg_color }};
+      fill: {{ block.settings.btn_bg_color }};
+    }
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style1 span {
+      display: block;
+      line-height: normal;
+    }
+  {% elsif block.settings.button_style == 'style2' %}
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style2{
+      background-color:transparent;
+      color:{{ block.settings.btn_text_color }};
+      padding:0;
+    }
+    #shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style2 svg {
+      width: 50px;
+      height: 20px;
+    }
+  	#shopify-section-{{ section.id }} .background-media__btn-wrapper.block--{{ block.id }} .button__style-style2 svg path{
+      fill:{{ block.settings.btn_bg_color }};
+    }
+  {% endif %}
+  {%- endfor -%}
+</style>
+
+{% schema %}
+  {
+    "name": "Image Overlay Column",
+	"class": "index-section index-section--image-overlay-column",
+	"max_blocks": 3,
+    "settings": [
+		{
+          "type": "select",
+          "id": "section_height",
+          "label": "Section Height",
+          "default": "100",
+          "options": [
+            {
+              "label": "Extra Small",
+              "value": "50"
+            },
+            {
+              "label": "Small",
+              "value": "75"
+            },
+            {
+              "label": "Medium",
+              "value": "100"
+            },
+            {
+              "label": "Large",
+              "value": "150"
+            },
+            {
+              "label": "Extra Large",
+              "value": "200"
+            }
+          ]
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "Show overlay",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_arrow",
+          "label": "Show slide Down Arrow",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "respective_section",
+          "label": "Section ID"
+        }
+	],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "slide_title",
+            "label": "Heading",
+            "default": "Image slide"
+          },
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "Button label"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          },
+          {
+            "type": "select",
+            "id": "button_style",
+            "label": "Button Style",
+            "default": "default",
+            "options": [
+                {
+                  "label": "Default Button",
+                  "value": "default"
+                },
+                {
+                  "label": "Button Style 1",
+                  "value": "style1"
+                },
+                {
+                  "label": "Button Style 2",
+                  "value": "style2"
+                }
+              ]
+          },
+          {
+            "type": "color",
+            "id": "btn_bg_color",
+            "label": "Button background color or vector color",
+            "default": "#1B1C1E"
+          },
+          {
+            "type": "color",
+            "id": "btn_text_color",
+            "label": "Button text color",
+            "default": "#fff"
+          },
+          {
+            "type": "select",
+            "id": "text_position",
+            "label": "Text position",
+            "default": "top",
+            "options": [
+              {
+                "label": "Top",
+                "value": "top"
+              },
+              {
+                "label": "Middle",
+                "value": "middle"
+              },
+              {
+                "label": "Bottom",
+                "value": "bottom"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image Overlay Column",
+        "category": "Image"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

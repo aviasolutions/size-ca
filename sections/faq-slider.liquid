@@ -1,0 +1,118 @@
+<div data-section-id="{{ section.id }}">
+  
+  <div class="faq_header__section text-center">
+    
+    {% if section.settings.subtitle != blank %}
+    <h4 class="miniheadersubtitle">{{ section.settings.subtitle }}</h4>
+    {% endif %}
+    
+    {% if section.settings.title != blank %}
+    <h2 class="miniheadertitle">{{ section.settings.title }}</h2>
+    {% endif %}
+    
+    <section id="searchfaq">
+      <div class="search__input_group">
+        <input id="faqInput" placeholder="Search for answers">
+        <label class="seach__icon" for="search-input"><svg class="header_icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <g id="Layer_1-2" data-name="Layer 1-2"> <path id="Path_190" data-name="Path 190" d="M16.095,14.545A9.014,9.014,0,0,0,3.495,1.906,8.64,8.64,0,0,0,1.9,3.5,9.032,9.032,0,0,0,9,18.081a8.874,8.874,0,0,0,5.52-1.911l7.89,7.93L24,22.475Zm-1.612-1.618A6.718,6.718,0,1,1,15.75,9.053,6.685,6.685,0,0,1,14.482,12.928Z" transform="translate(0 -0.1)" fill="#fff"></path> </g></svg></label>
+      </div>
+      <ul id="suggestions"></ul>
+    </section>
+    
+    {% if section.settings.promise_text != blank %}
+    <div class="customerPromise">{{ section.settings.promise_text }}</div>
+    {% endif %}
+    
+  </div>  
+  
+  {% if section.blocks.size > 0 %}
+    <div class="faq__slider">
+      {%- for block in section.blocks -%}    
+      <div class="slide__item">
+        <div class="cc-box">
+          <div class="cc-hoverbox">
+
+            {% if block.settings.icon %}
+            <span class="faqIcon">
+              <img alt="faqIcon" src="{{ block.settings.icon | img_url:'master' }}">
+            </span>
+            {% endif %}
+
+            {% if block.settings.heading != blank %}
+            <h3>{{ block.settings.heading }}</h3>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+            <div class="rte">
+              {{ block.settings.description }}
+            </div>
+            {% endif %}
+
+            {% if block.settings.btn_title != blank %}
+            <a class="viewBtn" href="{{ block.settings.btn_link }}">{{ block.settings.btn_title }}</a>
+            {% endif %}
+
+          </div>
+
+        </div>      
+      </div>    
+      {%- endfor -%}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "FAQ's Slider",
+  "class": "index-section faqs-slider",
+  "settings": [
+		{
+          "type": "text",
+          "id": "subtitle",
+          "label": "Sub Heading"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "promise_text",
+          "label": "Short description"
+        }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+		{
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+		{
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "btn_title",
+          "label": "Button Title"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,27 @@
+<div 
+   data-algolia-index="[[ index ]]" 
+   data-algolia-position="[[ productPosition ]]" 
+   data-algolia-queryid="[[ queryID ]]" 
+   data-algolia-objectid="[[ objectID ]]" 
+   class="ais-hit ais-product" 
+   data-handle="[[ handle ]]" 
+   data-product-id="[[ id ]]"
+   data-variant-id="[[ objectID ]]" 
+   data-distinct="[[ _distinct ]]"
+   >
+  <a href="/products/[[handle]]" class="grid__image">
+   	<img src="[[# helpers.sizedImage]]400x400[[/ helpers.sizedImage]]" alt="[[title]]">
+  </a>
+  <div class="quick-view-button">
+    <button class="quick-view" data-handle="[[handle]]">
+      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 200 200"><defs><style>.cls-1 { fill-rule: evenodd;}</style></defs><path id="BASKET" class="cls-1" d="M128.167,87H150l-14,55H64L50,87H71L99.583,58.417ZM70.8,134h58.4L139,95H61Zm46.367-47L99.583,69.417,82,87h35.167Z"></path></svg>
+      <span>Quick Buy</span>
+    </button>
+  </div>
+  <h2 class="h6">
+    <a href="/products/[[handle]]">[[title]]</a>
+  </h2>
+  <div class="price-wrapper">
+    [[# helpers.instantsearchPrice]][[/ helpers.instantsearchPrice]]
+  </div>
+</div>

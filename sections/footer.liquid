@@ -1,0 +1,293 @@
+<!-- begin site-footer -->
+    <footer class="site-footer small--text-center" role="contentinfo">
+      <div class="wrapper">
+        
+        <div class="footer__top">
+          {% if section.settings.app_title != blank %}
+          <h4>{{ section.settings.app_title }}</h4>
+          {% endif %}
+          <ul class="app__links no-bullets inline-list">
+            {% if section.settings.app_icon1 != blank %}
+            <li>
+              <a href="{{ section.settings.app_link1 }}"><img src="{{ section.settings.app_icon1 | img_url:'160x160' }}"></a>
+            </li>
+            {% endif %}
+            {% if section.settings.app_icon2 != blank %}
+            <li>
+              <a href="{{ section.settings.app_link2 }}"><img src="{{ section.settings.app_icon2 | img_url:'160x160' }}"></a>
+            </li>
+            {% endif %}
+          </ul>
+          
+          {% if section.settings.footer_newsletter_enable %}
+            <div class="footer__newsletter">
+              {% comment %}
+                MailChimp is the go-to newsletter service for Shopify.
+                Use the link below to find your MailChimp form action
+                and insert it in your site settings.
+
+                If the form action URL is not set in the theme settings,
+                it will fallback to a customer form so you can still capture the email.
+
+                MailChimp newsletter integration and requirement:
+                 - http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+              {% endcomment %}
+              {% comment %}
+              <h3>{{ 'layout.footer.newsletter_title' | t }}</h3>
+              {% endcomment %}
+              <form id="email_signup" class="klaviyo_styling klaviyo_gdpr_embed_LIST_ID input-group" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+                <input type="hidden" name="g" value="VH49PN">
+                <input type="hidden" name="$fields" value="$consent">
+                <input type="hidden" name="$list_fields" value="footer">
+
+                <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" 
+                       name="email" id="k_id_email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+
+                <div class="klaviyo_messages">
+                  <div class="success_message" style="display:none;"></div>
+                  <div class="error_message" style="display:none;"></div>
+                </div>
+                <span class="input-group-btn">
+                  <button type="submit" class="btn" id="subscribe"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.005 512.005" style="enable-background:new 0 0 512.005 512.005;" xml:space="preserve"><g><path d="M388.418,240.923L153.751,6.256c-8.341-8.341-21.824-8.341-30.165,0s-8.341,21.824,0,30.165L343.17,256.005L123.586,475.589c-8.341,8.341-8.341,21.824,0,30.165c4.16,4.16,9.621,6.251,15.083,6.251c5.461,0,10.923-2.091,15.083-6.251l234.667-234.667C396.759,262.747,396.759,249.264,388.418,240.923z"/></g></svg></button>
+                </span>
+              </form>
+
+              <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+              <script type="text/javascript">
+                KlaviyoSubscribe.attachToForms('#email_signup', {
+                  hide_form_on_success: true,
+                  extra_properties: {
+                    $source: 'footer',
+                    $method_type: "Klaviyo Form",
+                    $method_id: 'embed',
+                    $consent_version: 'Embed default text'
+                  }
+                });
+              </script>
+              
+              {% comment %}
+              {% if section.settings.newsletter_form_action != blank %}
+                <form action="{{ section.settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+                  <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                  <span class="input-group-btn">
+                    <button type="submit" class="btn" id="subscribe"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.005 512.005" style="enable-background:new 0 0 512.005 512.005;" xml:space="preserve"><g><path d="M388.418,240.923L153.751,6.256c-8.341-8.341-21.824-8.341-30.165,0s-8.341,21.824,0,30.165L343.17,256.005L123.586,475.589c-8.341,8.341-8.341,21.824,0,30.165c4.16,4.16,9.621,6.251,15.083,6.251c5.461,0,10.923-2.091,15.083-6.251l234.667-234.667C396.759,262.747,396.759,249.264,388.418,240.923z"/></g></svg></button>
+                  </span>
+                </form>              
+              {% else %}
+                {% form 'customer' %}
+                  {{ form.errors | default_errors }}
+                  {% if form.posted_successfully? %}
+                    <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                  {% else %}
+                    <div class="input-group">
+                      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                      <input type="hidden" name="contact[tags]" value="newsletter">
+                      <span class="input-group-btn">                        
+                        <button type="submit" class="btn" id="subscribe"><svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.005 512.005" style="enable-background:new 0 0 512.005 512.005;" xml:space="preserve"><g><path d="M388.418,240.923L153.751,6.256c-8.341-8.341-21.824-8.341-30.165,0s-8.341,21.824,0,30.165L343.17,256.005L123.586,475.589c-8.341,8.341-8.341,21.824,0,30.165c4.16,4.16,9.621,6.251,15.083,6.251c5.461,0,10.923-2.091,15.083-6.251l234.667-234.667C396.759,262.747,396.759,249.264,388.418,240.923z"/></g></svg></button>
+                      </span>
+                    </div>
+                  {% endif %}
+                {% endform %}
+              {% endif %}
+              {% endcomment %}
+              
+            </div>
+          {% endif %}
+          
+          {% if section.settings.footer_social_enable %}
+            <div class="footer__social-icons">
+              {% comment %}
+              <h3>{{ 'layout.footer.social_title' | t }}</h3>
+              {% endcomment %}
+              {% include 'social-links' %}              	
+            </div>
+          {% endif %}
+          
+          {% if section.settings.store_btn_title != blank %}
+          <div class="store_button">
+            <a class="button btn" href="{{ section.settings.store_btn_link }}">{{ section.settings.store_btn_title }}</a>
+          </div>
+          {% endif %}
+          
+        </div>
+        
+        <div class="footer__middle">
+          {% if section.settings.footer_menu1 != blank %}
+          <ul class="no-bullets footer__linklist inline-list text-center">
+            {% for link in linklists[section.settings.footer_menu1].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          
+          {% if section.settings.footer_menu2 != blank %}
+          <ul class="no-bullets footer__linklist inline-list text-center">
+            {% for link in linklists[section.settings.footer_menu2].links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        
+        <div class="footer__bottom">
+          <div class="grid">
+            <div class="grid__item large--one-half medium--one-half small--hide">
+              <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}. All right reserved.</small>            
+              {% unless shop.enabled_payment_types == empty %}
+              {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+              <ul class="inline-list payment-icons">
+                {% for type in shop.enabled_payment_types %}
+                {% if payment_icons_available contains type %}
+                <li>
+                  <span class="icon-fallback-text">
+                    <span class="icon icon-{{type}}" aria-hidden="true"></span>
+                    <span class="fallback-text">{{ type | replace: '_',' '}}</span>
+                  </span>
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              {% endunless %}
+            </div>
+
+            <div class="grid__item large--one-half medium--one-whole text-right">
+              {% if section.settings.footer_bottom-menu != blank %}
+              <ul class="no-bullets footer__linklist-bottom inline-list text-right">
+                {% for link in linklists[section.settings.footer_bottom-menu].links %}
+                <li>
+                  <a href="{{ link.url }}">{{ link.title }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </div>
+          <div class="grid">
+            <div class="grid__item large--one-whole medium--one-whole">
+              {% if section.settings.footer_text %}
+              <div class="footer_text rte">
+                {{ section.settings.footer_text }}
+              </div>
+              {% endif %}
+            </div>
+            <div class="grid__item large--hide text-center">
+              <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: routes.root_url }}. All right reserved.</small>            
+              {% unless shop.enabled_payment_types == empty %}
+              {% assign payment_icons_available = 'amazon_payments,american_express,bitcoin,cirrus,dankort,diners_club,discover,dogecoin,dwolla,forbrugsforeningen,interac,jcb,litecoin,maestro,master,paypal,visa' | split: ',' %}
+              <ul class="inline-list payment-icons">
+                {% for type in shop.enabled_payment_types %}
+                {% if payment_icons_available contains type %}
+                <li>
+                  <span class="icon-fallback-text">
+                    <span class="icon icon-{{type}}" aria-hidden="true"></span>
+                    <span class="fallback-text">{{ type | replace: '_',' '}}</span>
+                  </span>
+                </li>
+                {% endif %}
+                {% endfor %}
+              </ul>
+              {% endunless %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- //site-footer -->
+<button class="dummy_trigger hide">test</button>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+		{
+          "type": "header",
+          "content": "Footer App Icon"
+      	},
+		{
+          "type": "text",
+          "id": "app_title",
+          "label": "App icon title"
+        },
+		{
+          "type": "image_picker",
+          "id": "app_icon1",
+          "label": "App icon1"
+        },
+		{
+          "type": "url",
+          "id": "app_link1",
+          "label": "App link1"
+        },
+		{
+          "type": "image_picker",
+          "id": "app_icon2",
+          "label": "App icon2"
+        },
+		{
+          "type": "url",
+          "id": "app_link2",
+          "label": "App link2"
+        },
+		{
+          "type": "header",
+          "content": "Footer Newsletter"
+      	},
+        {
+          "type": "checkbox",
+          "id": "footer_newsletter_enable",
+          "label": "Show newsletter field"
+        },
+        {
+          "type": "text",
+          "id": "newsletter_form_action",
+          "label": "MailChimp form action URL",
+          "info": "[Where do I find my MailChimp form action URL?](http:\/\/docs.shopify.com\/support\/configuration\/store-customization\/where-do-i-get-my-mailchimp-form-action)"
+        },
+		{
+          "type": "checkbox",
+          "id": "footer_social_enable",
+          "label": "Show social media icons"
+        },
+		{
+          "type": "text",
+          "id": "store_btn_title",
+          "label": "Store button title"
+        },
+		{
+          "type": "url",
+          "id": "store_btn_link",
+          "label": "Store button link"
+        },
+		{
+          "type": "link_list",
+          "id": "footer_menu1",
+          "label": "Footer Menu"
+        },
+		{
+          "type": "link_list",
+          "id": "footer_menu2",
+          "label": "Footer Menu"
+        },
+		{
+          "type": "link_list",
+          "id": "footer_bottom-menu",
+          "label": "Footer Bottom Menu"
+        },
+		{
+          "type": "textarea",
+          "id": "footer_text",
+          "label": "Footer Text"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

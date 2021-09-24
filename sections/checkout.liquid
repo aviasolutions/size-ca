@@ -1,0 +1,98 @@
+{% for item in cart.items %}
+	{{item.title}}
+{% endfor %}
+
+{% comment %}
+<div class="addon-wrapper">
+  <div class="addon-title">{{section.settings.addon_title}}</div>
+  <div class="addon-products">
+  </div>
+</div>
+{% endcomment %}
+
+{% for block in section.blocks %}
+  
+  <script>
+    $(document).ready(function(){
+        jQuery.getJSON('/products/{{block.settings.product}}.js', function(product) {
+          if(product.available){
+          var productPrice = product.price;
+          var str = productPrice.toString();
+          var chars = str.split("");
+          chars.splice(-2, 0, '.');
+          var finalProductPrice = chars.join('');
+//           console.log(finalProductPrice);
+            var htmlContent = "";
+//             console.log('product', product);
+            htmlContent+= '<div class="product-wrapper">';
+            htmlContent+= '  <div class="image-wrapper">';
+            htmlContent+= '    <img src="'+product.featured_image+'" width="68px"/>';
+            htmlContent+= '  </div>';
+            htmlContent+= '  <div class="product-info">';
+            htmlContent+= '    <div class="title">';
+            htmlContent+=        product.title;
+            htmlContent+= '    </div>';
+            htmlContent+= '    <div class="description">';
+            htmlContent+=        '$'+finalProductPrice+' CAD';
+            htmlContent+= '    </div>';
+            htmlContent+= '  </div>';
+            htmlContent+= '  <div class="btn-wrapper">';
+            htmlContent+= '    <a href="#" class="custom-add" data-id="'+product.variants[0].id+'">Add</a>';
+            htmlContent+= '  </div>';
+            htmlContent+= '</div>';
+            $('.addon-products').append(htmlContent);
+          }
+       });
+    })
+
+  </script>
+
+{% endfor %}
+
+<div class="desktop_checkout-text">
+  {% if settings.text != blank %}
+  <div class="title title-cus">{{settings.text}}</div>
+  {% endif %}
+
+  {% if settings.text != blank %}
+  <div class="customer_service_hours_title">{{settings.customer_service_hours_title}}</div>
+  <div class="customer_service_hours">{{settings.customer_service_hours}}</div>
+  {% endif %}
+</div>
+
+{% comment %}
+
+{% schema %}
+  {
+    "name": "Checkout",
+    "settings": [
+	  {
+        "type": "text",
+        "id": "addon_title",
+        "label": "Add On Title",
+		"default": "COMPLETE YOUR KIT"
+      }
+	],
+    "blocks": [
+      {
+        "type": "feature",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Select add-on product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+{% endcomment %}

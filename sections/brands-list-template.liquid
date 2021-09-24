@@ -1,0 +1,311 @@
+<div style="clear:both; height:0; width:100%"></div>
+<div class="header-padding">
+  <div class="brand-cover">
+    <div class="brand-left-bar">
+      <h3 class="brand_list_title">{{ page.title }}</h3>  
+      <div class="brand_horizontal_listing"></div>
+    </div>
+    <div class="brand_page brand_group_cover">
+      <div class="brand_group brand_group_main">
+        <div class="brand_main_title">A</div>
+        <ul>
+          {% for block in section.blocks %}
+          {% if block.settings.title != blank %}
+          <li data-title="{{block.settings.title | downcase}}" dd="{{forloop.index}}">
+            <a href="{{block.settings.brand_url}}">
+              <div class="brand-page-list">
+                {% if block.settings.title != blank %} 
+                {{block.settings.title}}
+                {% endif %}
+              </div>
+            </a>
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="clear:both; height:0; width:100%"></div>
+
+<style>
+  .brand-cover{ float:left;  width:100%; }
+  .brand_list_title{ font-size:21px;  text-transform:capitalize; }
+  .brand_group_cover .brand_group_main{ display:none !important; }
+  .page-brand .wrapper{ padding:0; }
+  .brand_horizontal_listing .brand_main_title{ cursor: pointer; color: #2e2e2e; width: 38px; padding: 0; text-align: center; height: 38px; line-height: 38px; margin: 0 4px 4px 0; text-transform: uppercase; display: inline-block; background-color: #fff; border: 1px solid #e5e5e5; transition: color .3s,background-color .3s,border-color .3s,opacity .3s; font-size: 12px;}
+  .brand_horizontal_listing .brand_main_title:hover{ background-color: #2e2e2e; color: #fff; border-color: #2e2e2e; }
+  .brand-left-bar{ width:100%;  float:left; margin-bottom:30px;}
+  .brand_horizontal_listing{ display:flex; flex-wrap: wrap;}
+  .brand_group_cover{ width:100%;  float:left; box-sizing:border-box; border-top:1px solid #dfdfdf;}
+  .brand_group_cover .brand_group .brand_main_title{ width:60px;  float:left;  font-size:20px;  font-weight:700;  line-height:normal; font-style:normal; text-transform:uppercase; padding:15px 0; border-right:1px solid #dfdfdf;}
+  .brand_group_cover .brand_group{ width: 100%; float: left; margin: 0; border-bottom: 1px solid #dfdfdf; display:flex;}
+  .brand_group_cover .brand_group .list_cover{ float:left;  width:calc(100% - 60px);  margin:0; list-style-type:none; padding:15px 0 15px 15px;}
+  .brand_group_cover .brand_group .list_cover ul{ float:left;  width:50%;  padding:0 15px;  list-style:none;  margin:0; }
+  .brand_group_cover .brand_group ul li a{ font-size:14px; font-weight:400;  list-style-type:none;  margin:0px; text-transform:inherit;}
+  .brand_group_cover .brand_group ul li a:hover{ text-decoration:underline; color:#000;}
+  .brand_group_cover .brand_group:last-child{ border-bottom:0; }
+  .brand_horizontal_listing .brand_main_title.ctm_disabled { pointer-events: none; cursor: default!important; background-color: #ccc; color: #e5e5e5; border: 1px solid #ccc; transition: color .3s,background-color .3s,border-color .3s,opacity .3s;}
+  
+  @media(max-width:767px){
+    .brand_group_cover .brand_group .list_cover ul { width: 100%;}
+    
+  }
+</style>
+
+
+<script>
+  
+  function asc_sort(a, b){
+    return ($(b).attr("data-title")) < ($(a).attr("data-title")) ? 1 : -1;    
+  }
+  $(".brand_group_cover .brand_group").each(function(){
+    $(this).find("ul li").sort(asc_sort).appendTo($(this).find("ul"));
+  });
+  
+  var alphaArr = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "#"];
+  setTimeout(function(){ 
+  $(alphaArr).each(function(index, item){
+    var newHTML = "";
+    var isImageFound = false;
+    var new_item;
+    var count = 0;
+    $(".brand_group_main ul li").each(function(){
+     
+      if($(this).attr("data-title").toLowerCase().charAt(0) == item){
+      	  count = count + 1;
+      }else if(($(this).attr("data-title").charAt(0) == '4' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '3' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '2' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '1' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '5' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '6' && item == '#') || 
+               ($(this).attr("data-title").charAt(0) == '7' && item == '#') ||
+               ($(this).attr("data-title").charAt(0) == '8' && item == '#') ||
+               ($(this).attr("data-title").charAt(0) == '9' && item == '#') ||
+               ($(this).attr("data-title").charAt(0) == '0' && item == '#')
+              ){
+      		count = count + 1;
+      }
+    }); 
+    
+  
+   
+    if(count >= 25)
+    {
+      
+      var ans = Math.round(count/4);
+      console.log(ans);
+      var cnt = 0;
+      newHTML += '<div class="brand_group">';
+      newHTML += '<div class="brand_main_title" id="'+item.toLowerCase()+'">'+item+'</div><div class="list_cover">';
+       var count = 0;
+      $(".brand_group_main ul li").each(function(){
+        if($(this).attr("data-title").toLowerCase().charAt(0) == item){
+          if(cnt == 0) {
+          	newHTML += '<ul>';
+          }  
+          console.log(item.toLowerCase(),132546)
+          newHTML += '<li data-title="'+$(this).attr("data-title")+'">'+$(this).html()+'</li>';
+          isImageFound = true;
+          new_item ='<div class="brand_main_title" data-id="'+item.toLowerCase()+'">'+item+'</div>';
+          cnt = cnt + 1;
+          var divid = cnt/2;
+          if(cnt == Math.round(divid)) {
+            newHTML += '</ul>';
+            cnt = 0;
+          }
+        }else{
+          if(count == 0){
+            new_item ='<div class="brand_main_title ctm_disabled" data-id="'+item.toLowerCase()+'">'+item+'</div>';
+            count++;
+          }
+        }  
+      }); 
+      if(cnt != ans){
+        newHTML += '</ul>';
+      } 
+      
+      newHTML += '</div></div>';
+      newHTML += '</div>';
+      if(isImageFound) $(".brand_group_cover").append(newHTML);
+      $('.brand_horizontal_listing').append(new_item);
+      
+    } else {
+      
+      
+      var cnt = 0;
+      newHTML += '<div class="brand_group">';
+      
+      if(item == '#'){
+      newHTML += '<div class="brand_main_title specialChar" id="'+item+'">'+item+'</div><div class="list_cover">';
+      }else{
+      newHTML += '<div class="brand_main_title" id="'+item.toLowerCase()+'">'+item+'</div><div class="list_cover">';
+      }
+      var count = 0;
+      var extra_count = 0;
+      
+      if(item == '#'){
+      $(".brand_group_main ul li").each(function(){
+         	  if(($(this).attr("data-title").charAt(0) == '4' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '3' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '2' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '1' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '5' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '6' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '7' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '8' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '9' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '0' && item == '#')){
+           extra_count++;
+         }
+       })
+      }
+      else{
+       $(".brand_group_main ul li").each(function(){
+         if($(this).attr("data-title").toLowerCase().charAt(0) == item){
+           extra_count++;
+         }
+       })
+      }
+     
+      $(".brand_group_main ul li").each(function(){
+        if($(this).attr("data-title").toLowerCase().charAt(0) == item ){
+          
+        
+          if(cnt == 0) {
+          	newHTML += '<ul>';
+          }  
+          newHTML += '<li data-title="'+$(this).attr("data-title")+'">'+$(this).html()+'</li>';
+          isImageFound = true;
+          new_item ='<div class="brand_main_title" data-id="'+item.toLowerCase()+'">'+item+'</div>';
+          cnt = cnt + 1;
+          var divid = extra_count/2;
+          console.log(extra_count,Math.round(divid))
+          if(cnt == Math.round(divid)) {
+            newHTML += '</ul>';
+            cnt = 0;
+          }
+        }else if(($(this).attr("data-title").charAt(0) == '4' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '3' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '2' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '1' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '5' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '6' && item == '#') || 
+                 ($(this).attr("data-title").charAt(0) == '7' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '8' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '9' && item == '#') ||
+                 ($(this).attr("data-title").charAt(0) == '0' && item == '#')
+              ){
+        
+        	  if(cnt == 0) {
+          	newHTML += '<ul>';
+          }  
+          newHTML += '<li data-title="'+$(this).attr("data-title")+'">'+$(this).html()+'</li>';
+          isImageFound = true;
+          new_item ='<div class="brand_main_title" data-id="specialChar">'+item+'</div>';
+          cnt = cnt + 1;
+          var divid = extra_count/2;
+          console.log(extra_count,Math.round(divid))
+          if(cnt == Math.round(divid)) {
+            newHTML += '</ul>';
+            cnt = 0;
+          }
+          
+        }
+        else{
+         
+          if(count == 0){
+            new_item ='<div class="brand_main_title ctm_disabled" data-id="'+item.toLowerCase()+'">'+item+'</div>';
+            count++;
+          }
+        } 
+      }); 
+      if(cnt != 6){
+        newHTML += '</ul>';
+      } 
+      
+      newHTML += '</div></div>';
+      newHTML += '</div>';
+      if(isImageFound) $(".brand_group_cover").append(newHTML);
+      $('.brand_horizontal_listing').append(new_item);
+      
+    }
+  });
+    $('.brand_page .brand_group:not(.brand_group_main)').each(function(e){
+      var id = $(this).find('.brand_main_title').attr('id');
+      $('.brand_horizontal_listing .brand_main_title[data-id="'+id+'"]').removeClass('ctm_disabled');
+    })
+  }, 1000);
+  
+  $(window).on('load',function(e){
+    $(document).on('click','.brand_horizontal_listing .brand_main_title',function(e){
+      e.preventDefault();
+      var id = $(this).data('id');
+      if(id == '#'){
+      var height = 80;
+      if($('.header-new').hasClass('fixed-header-new')){
+        height = $('.header-main').height() + 0;
+      }else{
+        height = $('.header-new').height() + 0;
+      }
+      $('html, body').animate({
+        scrollTop: $('.specialChar').offset().top - height
+      }, 1000);
+      
+      }
+      else{
+        
+      var height = 80;
+      if($('.header-new').hasClass('fixed-header-new')){
+        height = $('.header-main').height() + 0;
+      }else{
+        height = $('.header-new').height() + 0;
+      }
+      $('html, body').animate({
+        scrollTop: $("#"+id).offset().top - height
+      }, 1000);
+      
+      }
+      
+    });
+  })
+  
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Brands List",
+    "settings": [
+		
+	],
+    "blocks": [
+        {
+          "type": "brand",
+          "name": "Brand",
+          "settings": [
+              {
+                "id": "title",
+                "type": "text",
+                "label": "Title"
+              },
+              {
+                "id": "brand_url",
+                "type": "url",
+                "label": "Brand Link"
+              }
+          ]
+        }
+      ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

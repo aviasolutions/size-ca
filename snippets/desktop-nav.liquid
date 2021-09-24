@@ -1,0 +1,552 @@
+<!-- begin site-nav -->
+<ul class="site-nav" id="AccessibleNav" style="display:none;">
+  {% for link in linklists[section.settings.main_linklist].links %}
+  
+  {%- assign is_megamenu = false -%}
+  {% for block in section.blocks %}
+      {% if block.type == 'menu' or block.type == 'article' %}
+          {% if block.settings.menu_item contains link.title %}  			
+              {%- assign is_megamenu = true -%}
+          {% endif %}
+      {% endif %}
+  {% endfor %}
+  
+  {% comment %}
+  Create a dropdown menu by naming a linklist the same as a link in the parent nav
+
+  More info on dropdowns:
+  - http://docs.shopify.com/manual/your-website/navigation/create-drop-down-menu
+  {% endcomment %}
+  {% assign child_list_handle = link.title | handleize %}
+  
+  
+  {% if linklists[child_list_handle].links != blank %}
+  <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}" aria-haspopup="true">
+    <a href="{{ link.url }}" class="site-nav__link">
+      {{ link.title }}
+      <span class="icon icon-arrow-down" aria-hidden="true"></span>
+    </a>
+    <ul class="site-nav__dropdown">
+      {% for childlink in linklists[child_list_handle].links %}
+      <li{% if childlink.active %} class="site-nav--active"{% endif %}>
+        <a href="{{ childlink.url }}" class="site-nav__link">{{ childlink.title | escape }}</a>
+      </li>
+      {% endfor %}
+    </ul>    
+  </li>
+  {% elsif is_megamenu %}
+  <li class="{% if link.active %}site-nav--active {% endif %}{% if is_megamenu %}site-nav--is-megamenu{% endif %}">
+    <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+    {% for block in section.blocks %}
+    	{% if block.type == 'menu' %}
+    		{% if block.settings.menu_item contains link.title %}
+            <div class="mega-menu--wrapper">
+              <div class="wrapper">
+                <div class="menu__title">{{ link.title }}</div>
+                <div class="grid">
+                  
+                  <!--Start column 1-->
+				  {% if block.settings.column1_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column1_show_border == true and block.settings.column1_menu1 != blank or block.settings.column1_menu2 != blank %} is-border{% endif %}{% if block.settings.column1_layout == true %} is-column-half{% endif %}{% if block.settings.column1_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column1_image %}
+                    <a class="column__img" href="{{ block.settings.column1_image_link }}">
+                      <img src="{{ block.settings.column1_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column1_menu1 %}
+                      <div class="menu_column">	
+                        <h4 class="mega-link__title">{{ block.settings.column1_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column1_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column1_menu2 %}
+                      <div class="menu_column">	
+                        <h4 class="mega-link__title">{{ block.settings.column1_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column1_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column1_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column1_btn_link }}">{{ block.settings.column1_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 1-->
+                  
+                  <!--Start column 2-->
+				  {% if block.settings.column2_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column2_show_border == true and block.settings.column2_menu1 != blank or block.settings.column2_menu2 != blank %} is-border{% endif %}{% if block.settings.column2_layout == true %} is-column-half{% endif %}{% if block.settings.column2_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column2_image %}
+                    <a class="column__img" href="{{ block.settings.column2_image_link }}">
+                      <img src="{{ block.settings.column2_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column2_menu1 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column2_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column2_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column2_menu2 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column2_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column2_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column2_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column2_btn_link }}">{{ block.settings.column2_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 2-->
+                  
+                  <!--Start column 3-->
+				  {% if block.settings.column3_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column3_show_border == true and block.settings.column3_menu1 != blank or block.settings.column3_menu2 != blank %} is-border{% endif %}{% if block.settings.column3_layout == true %} is-column-half{% endif %}{% if block.settings.column3_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column3_image %}
+                    <a class="column__img" href="{{ block.settings.column3_image_link }}">
+                      <img src="{{ block.settings.column3_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column3_menu1 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column3_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column3_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column3_menu2 %}
+                      <div class="menu_column">	
+                        <h4 class="mega-link__title">{{ block.settings.column3_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column3_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column3_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column3_btn_link }}">{{ block.settings.column3_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 3-->
+                  
+                  <!--Start column 4-->
+				  {% if block.settings.column4_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column4_show_border == true and block.settings.column4_menu1 != blank or block.settings.column4_menu2 != blank %} is-border{% endif %}{% if block.settings.column4_layout == true %} is-column-half{% endif %}{% if block.settings.column4_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column4_image %}
+                    <a class="column__img" href="{{ block.settings.column4_image_link }}">
+                      <img src="{{ block.settings.column4_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column4_menu1 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column4_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column4_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column4_menu2 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column4_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column4_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column4_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column4_btn_link }}">{{ block.settings.column4_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 4-->
+                  
+                  <!--Start column 5-->
+				  {% if block.settings.column5_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column5_show_border == true and block.settings.column5_menu1 != blank or block.settings.column5_menu2 != blank %} is-border{% endif %}{% if block.settings.column5_layout == true %} is-column-half{% endif %}{% if block.settings.column5_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column5_image %}
+                    <a class="column__img" href="{{ block.settings.column5_image_link }}">
+                      <img src="{{ block.settings.column5_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column5_menu1 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column5_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column5_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column5_menu2 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column5_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column5_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column5_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column5_btn_link }}">{{ block.settings.column5_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 5-->
+                  
+                  <!--Start column 6-->
+				  {% if block.settings.column6_enable %}
+                  <div class="grid__item large--one-sixth medium--one-sixth{% if block.settings.column6_show_border == true and block.settings.column6_menu1 != blank or block.settings.column6_menu2 != blank %} is-border{% endif %}{% if block.settings.column6_layout == true %} is-column-half{% endif %}{% if block.settings.column6_add_space == true %} is-menu-space{% endif %}">
+					{% if block.settings.column6_image %}
+                    <a class="column__img" href="{{ block.settings.column6_image_link }}">
+                      <img src="{{ block.settings.column6_image | img_url:'master' }}">
+                    </a>
+                    {% else %}
+                      {% if block.settings.column6_menu1 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column6_menu1_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column6_menu1].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column6_menu2 %}
+                      <div class="menu_column">
+                        <h4 class="mega-link__title">{{ block.settings.column6_menu2_title }}</h4>
+                        <ul class="mega-menu__links">
+                          {% for link in linklists[block.settings.column6_menu2].links %}
+                          <li>
+                            <a href="{{ link.url }}">{{ link.title }}</a>
+                          </li>
+                          {% endfor %}
+                        </ul>
+                      </div>
+                      {% endif %}
+                      {% if block.settings.column6_btn_text != blank %}
+                      	<a class="view_all_btn" href="{{ block.settings.column6_btn_link }}">{{ block.settings.column6_btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                      {% endif %}
+                    {% endif %}
+                  </div>
+				  {% endif %}
+                  <!--End column 6-->
+                  
+                </div>
+              </div>
+              <div class="mega__newsletter">
+                <div class="mega__newsletter-container">
+                  {% comment %}
+                    MailChimp is the go-to newsletter service for Shopify.
+                    Use the link below to find your MailChimp form action
+                    and insert it in your site settings.
+
+                    If the form action URL is not set in the theme settings,
+                    it will fallback to a customer form so you can still capture the email.
+
+                    MailChimp newsletter integration and requirement:
+                     - http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+                  {% endcomment %}
+                  
+                  <h3>{{ 'layout.footer.newsletter_title' | t }}</h3>
+                  
+                  <form id="email_signup_header_3{{ forloop.index }}" class="klaviyo_styling klaviyo_gdpr_embed_LIST_ID input-group" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+                    <input type="hidden" name="g" value="VH49PN">
+                    <input type="hidden" name="$fields" value="$consent">
+                    <input type="hidden" name="$list_fields" value="nav">
+
+                    <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" 
+                           name="email" id="k_id_email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+
+                    <div class="klaviyo_messages">
+                      <div class="success_message" style="display:none;"></div>
+                      <div class="error_message" style="display:none;"></div>
+                    </div>
+                     <span class="input-group-btn">
+                      <button type="submit" class="btn" id="subscribe"><svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></button>                      
+                    </span>
+                  </form>
+                  <script type="text/javascript">
+                    KlaviyoSubscribe.attachToForms('#email_signup_header_3{{ forloop.index }}', {
+                      hide_form_on_success: true,
+                      extra_properties: {
+                        $source: 'nav',
+                        $method_type: "Klaviyo Form",
+                        $method_id: 'embed',
+                        $consent_version: 'Embed default text'
+                      }
+                    });
+                  </script>
+                  
+                  {% comment %}
+                  {% if section.settings.newsletter_form_action != blank %}
+                    <form action="{{ section.settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+                      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocomplete="false" autocapitalize="off">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn" id="subscribe">CTA</button>
+                      </span>
+                    </form>
+                  
+                  {% else %}
+                  <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8" class="contact-form" autocomplete="off">
+                    <input type="hidden" name="form_type" value="customer"><input type="hidden" name="utf8" value="✓">
+                      {{ form.errors | default_errors }}
+                      {% if form.posted_successfully? %}
+                        <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                      {% else %}
+                        <div class="input-group">
+                          <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" autocomplete="false" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                          <input type="hidden" name="contact[tags]" value="newsletter">
+                          <span class="input-group-btn">                        
+                            <button type="submit" class="btn" id="subscribe"><svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></button>
+                          </span>
+                        </div>
+                      {% endif %}
+                  </form>                  
+                  {% endif %}
+                  {% endcomment %}
+                  
+                </div>
+              </div>
+            </div>            
+    		{% endif %}
+    	{% elsif block.type == 'article' %}
+    		{% if block.settings.menu_item contains link.title %}
+            <div class="mega-menu--wrapper">
+              <div class="wrapper">
+                <div class="menu__title">{{ link.title }}</div>
+                <div class="grid">
+                  <div class="grid__item large--one-sixth">
+                  </div>
+                  {% if block.settings.article1 != blank %}
+                  <div class="grid__item large--one-sixth medium--one-half small--one-half">
+                    {% assign c_pro1 = articles[block.settings.article1] %}
+
+                    <a href="{{ block.settings.article1_link }}" class="grid__image">                      
+                      {{ c_pro1 | img_url: '300x300' | img_tag: article.title }}
+                    </a>
+
+                    <div class="product__meta">
+                      <p class="h6">
+                        <a href="{{ block.settings.article1_link }}">{{ c_pro1.title }}</a>
+                      </p>
+                      {% if block.settings.c_pro1_launch_date != blank %}
+                      <span class="launch_date">{{ block.settings.c_pro1_launch_date }}</span>
+                      {% endif %}                      
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  {% if block.settings.article2 != blank %}
+                  <div class="grid__item large--one-sixth medium--one-half small--one-half">
+                    {% assign c_pro2 = articles[block.settings.article2] %}
+
+                    <a href="{{ block.settings.article2_link }}" class="grid__image">
+                      {{ c_pro2 | img_url: '300x300' | img_tag: article.title }}
+                    </a>
+
+                    <div class="product__meta">
+                      <p class="h6">
+                        <a href="{{ block.settings.article2_link }}">{{ c_pro2.title }}</a>
+                      </p>
+                      {% if block.settings.c_pro2_launch_date != blank %}
+                      <span class="launch_date">{{ block.settings.c_pro2_launch_date }}</span>
+                      {% endif %}
+                      
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  {% if block.settings.article3 != blank %}
+                  <div class="grid__item large--one-sixth medium--one-half small--one-half">
+                    {% assign c_pro3 = articles[block.settings.article3] %}
+
+                    <a href="{{ block.settings.article3_link }}" class="grid__image">
+                      {{ c_pro3 | img_url: '300x300' | img_tag: article.title }}
+                    </a>
+
+                    <div class="product__meta">
+                      <p class="h6">
+                        <a href="{{ block.settings.article3_link }}">{{ c_pro3.title }}</a>
+                      </p>
+                      {% if block.settings.c_pro3_launch_date != blank %}
+                      <span class="launch_date">{{ block.settings.c_pro3_launch_date }}</span>
+                      {% endif %}
+                      
+                    </div>
+                  </div>
+                  {% endif %}
+
+                  {% if block.settings.article4 != blank %}
+                  <div class="grid__item large--one-sixth medium--one-half small--one-half">
+                    {% assign c_pro4 = articles[block.settings.article4] %}
+
+                    <a href="{{ block.settings.article4_link }}" class="grid__image">
+                      {{ c_pro4 | img_url: '300x300' | img_tag: article.title }}
+                    </a>
+
+                    <div class="product__meta">
+                      <p class="h6">
+                        <a href="{{ block.settings.article4_link }}">{{ c_pro4.title }}</a>
+                      </p>
+                      {% if block.settings.c_pro4_launch_date != blank %}
+                      <span class="launch_date">{{ block.settings.c_pro4_launch_date }}</span>
+                      {% endif %}
+                      
+                    </div>
+                  </div>
+                  {% endif %}
+                  <div class="grid__item large--one-sixth">
+                  </div>                  
+                </div>
+                {% if block.settings.btn_text != blank %}
+                <div class="grid">
+                  <div class="grid__item large--one-sixth">
+                  </div>
+                  <div class="grid__item large--four-sixths">
+                    <a class="view_all_btn" href="{{ block.settings.btn_link }}">{{ block.settings.btn_text }} <svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></a>
+                  </div>
+                  <div class="grid__item large--one-sixth">
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              <div class="mega__newsletter">
+                <div class="mega__newsletter-container">
+                  {% comment %}
+                    MailChimp is the go-to newsletter service for Shopify.
+                    Use the link below to find your MailChimp form action
+                    and insert it in your site settings.
+
+                    If the form action URL is not set in the theme settings,
+                    it will fallback to a customer form so you can still capture the email.
+
+                    MailChimp newsletter integration and requirement:
+                     - http://docs.shopify.com/support/configuration/store-customization/where-do-i-get-my-mailchimp-form-action
+                  {% endcomment %}
+                  
+                  <h3>{{ 'layout.footer.newsletter_title' | t }}</h3>
+                  
+                  <form id="email_signup_header_4{{ forloop.index }}" class="klaviyo_styling klaviyo_gdpr_embed_LIST_ID input-group" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" target="_blank" novalidate="novalidate">
+                    <input type="hidden" name="g" value="VH49PN">
+                    <input type="hidden" name="$fields" value="$consent">
+                    <input type="hidden" name="$list_fields" value="nav">
+
+                    <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" 
+                           name="email" id="k_id_email" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+
+                    <div class="klaviyo_messages">
+                      <div class="success_message" style="display:none;"></div>
+                      <div class="error_message" style="display:none;"></div>
+                    </div>
+                    <span class="input-group-btn">
+                      <button type="submit" class="btn" id="subscribe"><svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></button>
+                    </span>
+                  </form>
+                  <script type="text/javascript" src="//www.klaviyo.com/media/js/public/klaviyo_subscribe.js"></script>
+                  <script type="text/javascript">
+                    KlaviyoSubscribe.attachToForms('#email_signup_header_4{{ forloop.index }}', {
+                      hide_form_on_success: true,
+                      extra_properties: {
+                        $source: 'nav',
+                        $method_type: "Klaviyo Form",
+                        $method_id: 'embed',
+                        $consent_version: 'Embed default text'
+                      }
+                    });
+                  </script>                  
+                  
+                  {% comment %}
+                  {% if section.settings.newsletter_form_action != blank %}
+                    <form action="{{ section.settings.newsletter_form_action }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank" class="input-group">
+                      <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="EMAIL" id="mail" autocomplete="false" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn" id="subscribe">CTA</button>
+                      </span>
+                    </form>                  
+                  {% else %}
+                    <form method="post" action="/contact#contact_form" id="contact_form" accept-charset="UTF-8" class="contact-form" autocomplete="off">
+                      {{ form.errors | default_errors }}
+                      {% if form.posted_successfully? %}
+                        <p class="note form-success">{{ 'general.newsletter_form.confirmation' | t }}</p>
+                      {% else %}
+                        <div class="input-group">
+                          <input type="email" value="{% if customer %}{{ customer.email }}{% endif %}" placeholder="{{ 'general.newsletter_form.newsletter_email' | t }}" name="contact[email]" id="Email" autocomplete="false" class="input-group-field" aria-label="{{ 'general.newsletter_form.newsletter_email' | t }}" autocorrect="off" autocapitalize="off">
+                          <input type="hidden" name="contact[tags]" value="newsletter">
+                          <span class="input-group-btn">                        
+                            <button type="submit" class="btn" id="subscribe"><svg xmlns="http://www.w3.org/2000/svg" width="127.638" height="52.285" viewBox="0 0 127.638 52.285"><path d="M101.31-50.591H98.235c-2.937,8.509-1.741,10.483,6.72,11.938,7.889,1.356,15.732,2.976,24.57,4.666-1.564,1.45-1.881,2.007-2.221,2.022-27.053,1.164-54.114,2.2-81.156,3.577-2.178.111-4.237,2.571-6.35,3.94v1.538c3.568,1.373,7.16,3.957,10.7,3.886,9.434-.191,18.831-1.819,28.271-2.342,18.9-1.047,37.815-1.755,56.727-2.516.749-.029,1.535.843,3.469,1.979-8.842,4.656-16.63,8.959-24.6,12.887-5.595,2.757-6.288,6.122-2.287,10.711h1.538c4.258-2.654,8.338-5.668,12.81-7.894,13.59-6.759,27.331-13.214,41.013-19.787v-3.076c-4.727-2.673-9.17-6.29-14.243-7.817-9.994-3.009-20.388-4.667-30.522-7.254C115.471-45.97,108.424-48.417,101.31-50.591Z" transform="translate(-39.798 50.591)" fill="#fff"></path></svg></button>
+                          </span>
+                        </div>
+                      {% endif %}
+                  </form>                  
+                  {% endif %}
+                  {% endcomment %}
+                  
+                </div>
+              </div>
+            </div>            
+    		{% endif %}
+    	{% endif %}
+    {% endfor %}
+  </li>  
+  {% else %}
+  <li {% if link.active %}class="site-nav--active"{% endif %}>
+    <a href="{{ link.url }}" class="site-nav__link">{{ link.title }}</a>
+  </li>
+  {% endif %}
+  {% endfor %}
+</ul>
+<!-- //site-nav -->

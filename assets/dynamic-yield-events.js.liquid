@@ -1,0 +1,239 @@
+(function() {
+  'use strict';
+  
+  const DY = window.DY || {};
+
+  function debounce(func, timeout = 300){
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { func.apply(this, args); }, timeout);
+    };
+  }
+
+  $('body').on('afterAddItem.ajaxCart', async function(e, line_item, form) {
+    const eventData = {
+      name: "Add to Cart",
+      properties: {
+        dyType: "add-to-cart-v1",
+        value: line_item.final_price / 100,
+        currency: "CAD",
+        productId: line_item.sku,
+        quantity: 1,
+      }
+    };
+    
+    for(const option of line_item.options_with_values) {
+      eventData.properties[option.name.toLowerCase()] = option.value;
+    }
+    
+    const response = await fetch('/cart.js');
+    const cart = await response.json();
+    eventData.properties.cart = cart.items.map(item => {
+      const cartData = {
+        quantity: item.quantity,
+        productId: item.sku,
+        itemPrice: item.final_price / 100,
+      };
+        
+      for(const option of item.options_with_values) {
+        cartData[option.name.toLowerCase()] = option.value;
+      }
+      
+      return cartData;
+    });
+
+    DY.API("event", eventData);
+  });
+
+  const optionRadios = document.querySelectorAll('.swatch-elements input[type="radio"]');
+  optionRadios.forEach(radio => {
+    radio.addEventListener('click', (e) => {
+      DY.API("event", {
+        name: "Change Attribute",
+        properties: {
+          dyType: "change-attr-v1",
+          attributeType: radio.getAttribute('name'),
+          attributeValue: radio.value,
+        }
+      });
+    });
+  });
+
+  document.body.addEventListener('click', (e) => {
+    if(e.target.classList.contains('ctm_radios ')) {
+      DY.API("event", {
+        name: "Change Attribute",
+        properties: {
+          dyType: "change-attr-v1",
+          attributeType: 'Size',
+          attributeValue: e.target.dataset.value,
+        }
+      });
+    } else if(e.target.classList.contains('ais-facet--checkbox')) {
+      let elm = e.target;      
+      const facet = e.target.closest('.listing-filters__group');
+      const type = facet.querySelector('.filter-group__title').innerText.trim();
+      DY.API("event", {
+        name: "Filter Items",
+        properties: {
+          dyType: "filter-items-v1",
+          filterType: type,
+          filterStringValue: elm.nextElementSibling.innerText
+        }
+      });
+    } else if(e.target.classList.contains('ajaxcart__qty--remove')) {
+      const elm = e.target;
+      const id = elm.dataset.id.split(':')[0];
+      DY.API("event", {
+        name: "Filter Items",
+        properties: {
+          dyType: "filter-items-v1",
+          filterType: type,
+          filterStringValue: elm.innerText
+        }
+      });
+    } else if (e.target.classList.contains('sizeguide_btn') || e.target.closest('.sizeguide_btn')) {
+      DY.API('event', {
+        name: 'Size Guide Clicked',
+        properties: {
+          product: document.querySelector('.product-single-title').innerText
+        }
+      })
+    } else if (e.target.closest('#recently-viewed-products')) {
+      DY.API('event', {
+        name: 'Recently Viewed Clicked',
+        properties: {
+          product: document.querySelector('.product-single-title').innerText,
+          clickedProduct: e.target.closest('.grid-product__content').querySelector('.product_meta_wrap .h6 a').innerText,
+        }
+      });
+    }
+  });
+
+  const search = document.querySelector('.site-header__search input');
+  if(search) {
+    search.addEventListener('keyup', debounce((evt) => {
+      const keywords = evt.target.value;
+      DY.API("event", {
+        name: "Keyword Search",
+        properties: {
+          dyType: "keyword-search-v1",
+          keywords,
+        }
+      });
+    }));
+  }
+
+  if(typeof customer !== 'undefined') {
+    const CUSTOMER_REGISTER_SEEN = 'customer_register_seen';
+    const CUSTOMER_LOGIN_SEEN = 'customer_login_seen';
+
+    if(document.getElementById("create_customer")) {
+      window.sessionStorage.removeItem(CUSTOMER_LOGIN_SEEN);
+      window.sessionStorage.setItem(CUSTOMER_REGISTER_SEEN, true);
+    }
+
+    if(window.sessionStorage.getItem(CUSTOMER_REGISTER_SEEN) && customer && customer.email) {
+      DY.API("event", {
+        name: "Login",
+        properties: {
+          dyType: "signup-v1",
+          hashedEmail: DYO.dyhash.sha256(`${customer.email}.toLowerCase()`), // SHA256 encoding of the lowercase email, if known (optional)
+        }
+      });
+      window.sessionStorage.removeItem(CUSTOMER_REGISTER_SEEN);
+    }
+
+    if(document.getElementById("customer_login")) {
+      // remove register here as they will
+      window.sessionStorage.removeItem(CUSTOMER_REGISTER_SEEN);
+      window.sessionStorage.setItem(CUSTOMER_LOGIN_SEEN, true);
+    }
+
+    if(window.sessionStorage.getItem(CUSTOMER_LOGIN_SEEN) && customer && customer.email) {
+      DY.API("event", {
+        name: "Login",
+        properties: {
+          dyType: "login-v1",
+          hashedEmail: DYO.dyhash.sha256(`${customer.email}.toLowerCase()`), // SHA256 encoding of the lowercase email, if known (optional)
+        }
+      });
+      window.sessionStorage.removeItem(CUSTOMER_LOGIN_SEEN);
+    }
+  }
+
+  var newsletter = document.querySelectorAll('.newsletter, .footer__newsletter, .klaviyo-form');
+  newsletter.forEach(block => {
+    block.querySelector('form').addEventListener('submit', function() {
+      DY.API("event", {
+        name: "Newsletter Subscription",
+        properties: {
+          dyType: "newsletter-subscription-v1",
+          hashedEmail: DYO.dyhash.sha256(block.querySelector('.newsletter__input').value.toLowerCase()) // SHA256 encoding of the lowercase email,
+          // in textual hexadecimal representation
+        }
+      });
+    });
+  });
+
+  document.body.addEventListener('change', (e) => {
+    if(e.target.classList.contains('ais-SortBy-select')) {
+      DY.API("event", {
+        name: "Sort Items",
+        properties: {
+          dyType: "sort-items-v1",
+          sortBy: e.target.value,
+          sortOrder: "ASC"
+        }
+      });
+    }
+  });
+
+  if(document.body.classList.contains('template-index')) {
+    const sections = document.querySelectorAll('.main-content .shopify-section a');
+    sections.forEach((sectionLink) => {
+      sectionLink.addEventListener('click', (e) => {
+        try {
+          let elm = e.currentTarget;
+          let innerIndex = 1;
+          const section = e.target.closest('.shopify-section');
+          if(!elm.getAttribute('href')) {
+            return;
+          }
+
+          if(elm.closest('.brand__flex')) {
+            elm = elm.closest('li');
+            innerIndex = [...elm.parentElement.childNodes].indexOf(elm) + 1;
+          } else if (elm.closest('.grid__item')) {
+            elm = elm.closest('.grid__item');
+            innerIndex = [...elm.parentElement.childNodes].indexOf(elm) + 1;
+          }
+
+          DY.API('event', {
+            name: 'Homepage Click',
+            properties: {
+              position: [...section.parentElement.childNodes].indexOf(section),
+              innerPosition: innerIndex,
+              url: e.currentTarget.href,
+            }
+          });
+        } catch(err) {
+          console.error(err);
+        }
+      });
+    })
+  }
+
+  const footerSocial = document.querySelectorAll('.footer__social-icons a');
+  footerSocial.forEach(link => {
+    link.addEventListener('click', e => {
+      DY.API('event', {
+        name: 'Footer Social Media Clicked',
+        properties: {
+          url: link.href
+        }
+      });
+    });
+  });
+})();

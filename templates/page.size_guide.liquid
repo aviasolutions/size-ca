@@ -1,0 +1,137 @@
+<!-- /templates/page.liquid -->
+<div class="cms_pages_wrapper">
+  <div class="grid">
+
+    <div class="grid__item large--one-whole">
+
+      {% include 'breadcrumb' %}
+      <div class="page-header">
+          <h1>{{ page.title }}</h1>
+      </div>
+
+    </div> 
+
+  </div>
+
+  <div class="grid">
+
+    <div class="grid__item large--one-quarter">
+      {% section 'page-sidebar' %}
+    </div>
+    <div class="grid__item large--three-quarters">
+
+      <div class="rte">
+        {{ page.content }}
+      </div>
+      
+      <div class="rte-meta_data">
+        <div class="acc">
+        
+          <!--Men's Footwear-->
+          <div class="acc__card">            
+            <div class="acc__title">Men's Footwear</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.men_brand.men_brand_name %}
+                  {% if page.metafields.men_brand.men_brand_name != blank or page.metafields.men_table.men_sizeguide_table != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.men_brand.men_brand_name[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.men_table.men_sizeguide_table[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}
+            </div>
+          </div>          
+          <!--Men's Footwear-->
+          
+          <!--Women's Footwear-->
+          <div class="acc__card">            
+            <div class="acc__title">Women's Footwear</div>
+            <div class="acc__panel">
+                {% assign count = 0 %}
+                {% for brand in page.metafields.women_brand.women_brand_name %}
+                  {% if page.metafields.women_brand.women_brand_name != blank or page.metafields.women_table.women_sizeguide_table != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.women_brand.women_brand_name[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.women_table.women_sizeguide_table[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>          
+          <!--Women's Footwear-->
+          
+          <!--Men's Clothing-->
+          <div class="acc__card">            
+            <div class="acc__title">Men's Clothing</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.men_cloth_brand.men_cloth_brand_name %}
+                  {% if page.metafields.men_cloth_brand.men_cloth_brand_name != blank or page.metafields.men_cloth_table.men_cloth_sizeguide_table != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.men_cloth_brand.men_cloth_brand_name[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.men_cloth_table.men_cloth_sizeguide_table[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>          
+          <!--Men's Clothing-->
+          
+          <!--Women's Clothing-->
+          <div class="acc__card">            
+            <div class="acc__title">Women's Clothing</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.women_cloth_brand.women_cloth_brand_name %}
+                  {% if page.metafields.women_cloth_brand.women_cloth_brand_name != blank or page.metafields.women_cloth_table.women_cloth_sizeguide_table != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.women_cloth_brand.women_cloth_brand_name[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.women_cloth_table.women_cloth_sizeguide_table[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>          
+          <!--Women's Clothing-->
+          
+          <!--Accessories-->
+          <div class="acc__card">            
+            <div class="acc__title">Accessories</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.accessories_brand.accessories_brand_name %}
+                  {% if page.metafields.accessories_brand.accessories_brand_name != blank or page.metafields.accessories_table.accessories_sizeguide_table != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.accessories_brand.accessories_brand_name[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.accessories_table.accessories_sizeguide_table[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>          
+          <!--Accessories-->
+          
+        </div>
+        
+      </div>
+
+    </div>
+
+  </div>
+</div>

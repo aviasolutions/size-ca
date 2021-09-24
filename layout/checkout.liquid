@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NWSBBZT');</script>
+    <!-- End Google Tag Manager -->
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+    
+    {{ content_for_header }}
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{ 'checkout.css' | asset_url | stylesheet_tag }}
+    {{ 'checkout_script.js' | asset_url | script_tag }}
+    
+    <script>
+      $(document).ready(function(){
+        if(Shopify.Checkout.step == "contact_information"){
+          $('.custom-page-title').text("{{settings.title_checkout}}"); 
+        }
+        if(Shopify.Checkout.step == "shipping_method"){
+            $('.custom-page-title').text("{{settings.title_shipping}}"); 
+        }
+        if(Shopify.Checkout.step == "payment_method"){
+            $('.custom-page-title').text("{{settings.title_payment}}"); 
+        }
+      })
+    </script>
+    
+  <!-- Algolia head -->
+    {{ 'algolia_config.js' | asset_url | script_tag }}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.5.1/dist/algoliasearch-lite.umd.js" integrity="sha256-EXPXz4W6pQgfYY3yTpnDa3OH8/EPn16ciVsPQ/ypsjk=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.8.3/dist/instantsearch.production.min.js" integrity="sha256-LAGhRRdtVoD6RLo2qDQsU2mp+XVSciKRC8XPOBWmofM=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hogan.js@3.0.2/dist/hogan-3.0.2.min.js" integrity="sha256-jIAAmB65ff5CEFvV6DRfRWjHFwqq+AHeV4le8f8PYp4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/autocomplete.js@0.37.1/dist/autocomplete.min.js" integrity="sha256-YVWQosorZnr6fALvOW9VALYuInld27RkSPkElGBdCaU=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/search-insights@1.6.3/dist/search-insights.min.js" integrity="sha256-8r3eU2ketKjC+f59eAY6ejwSsgPjNY5Ca1yt67nz2TM=" crossorigin="anonymous"></script>
+  {{ 'algolia_dependency_font-awesome-4-4-0.min.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'algolia_externals.js' | asset_url }}"></script>
+  {{ 'algolia_init.js' | asset_url | script_tag }}
+  <script src="{{ 'algolia_analytics.js' | asset_url }}" defer></script>
+  <!-- /Algolia head -->
+  <link rel="preconnect" href="//cdn.dynamicyield.com">
+  <link rel="preconnect" href="//st.dynamicyield.com">
+  <link rel="preconnect" href="//rcom.dynamicyield.com">
+  <link rel="dns-prefetch" href="//cdn.dynamicyield.com">
+  <link rel="dns-prefetch" href="//st.dynamicyield.com">
+  <link rel="dns-prefetch" href="//rcom.dynamicyield.com">
+  <script>
+  window.DY = window.DY || {};
+  DY.recommendationContext = {type: 'OTHER'};
+  </script>
+  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_dynamic.js"></script>
+  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_static.js"></script>
+  </head>
+  <body>
+    
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NWSBBZT"
+
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
+    {{skip_to_content_link}}
+    
+    <div class="medium-up--hide mobile--breadcrumb wrap">
+       {{ breadcrumb }}
+    </div>
+    
+    <div class="banner" data-header>
+      <div class="wrap mobile_header">
+        {% comment %}
+        {{ content_for_logo }}
+        {% endcomment %}
+        <a class="logo logo--left" href="https://size.ca/">
+          <svg xmlns="http://www.w3.org/2000/svg" width="224" height="81.934" viewBox="0 0 224 81.934"> <g id="Group_48" data-name="Group 48" transform="translate(-78.898 -228.662)"> <path id="Path_66" data-name="Path 66" d="M78.9,280.153c.223,13.2,10.706,19.464,24.77,19.464,11.575,0,24.978-4.858,24.978-18.163,0-11.035-9.08-14.278-18.061-16.336-9.08-2.054-18.163-2.916-18.163-8.97,0-4.871,6.588-5.734,10.166-5.734,5.4,0,10.274,1.617,11.35,7.454h12.873c-1.516-12.432-11.9-17.188-23.361-17.188-10.161,0-23.361,3.784-23.361,16.008,0,11.357,8.866,14.6,17.956,16.543,8.97,2.06,17.951,2.819,18.278,9.3.329,6.389-7.79,7.355-12.442,7.355-6.6,0-12-2.594-12.645-9.735Z" transform="translate(0 10.979)" fill="#ff600b"/> <rect id="Rectangle_92" data-name="Rectangle 92" width="12.328" height="11.684" transform="translate(131.94 235.695)" fill="#ff600b"/> <rect id="Rectangle_93" data-name="Rectangle 93" width="12.328" height="55.912" transform="translate(131.94 253.034)" fill="#ff600b"/> <path id="Path_67" data-name="Path 67" d="M115.719,251.165h30.928l-30.928,37.524v8.654h47.747v-9.734H131.29l32.021-37.53V241.43H115.719Z" transform="translate(31.607 11.602)" fill="#ff600b"/> <path id="Path_68" data-name="Path 68" d="M187.945,257.254V255.07c.338-6.088,3.521-9.878,9.753-9.878,4.081,0,7.364,2.644,7.364,7.008,0,5.745-4.412,8.155-9.058,11.367-4.2,3.1-9.186,7.006-9.186,15.962v5.739h17.907c.113-6.886,1.591-8.607,7.485-12.514,8.621-5.513,13.949-9.53,13.949-20.663,0-15.849-14.17-23.429-28.348-23.429-17.684,0-29.473,10.45-29.709,28.592Zm-1.052,51.716h17.759V291.013H186.894Z" transform="translate(76.739 0)" fill="#ff600b"/> <path id="Path_69" data-name="Path 69" d="M181.818,263.2H153.379c1.006-7.479,6.614-13.1,14.56-13.1,7.708,0,12.815,6.032,13.879,13.1m-13.879-22.826c-16.663,0-27.042,13.621-27.042,29.52,0,17.192,9.844,29.418,27.369,29.418,12.218,0,22.6-6.813,25.306-19.026H181.893c-2.167,6.164-6.492,9.292-13.627,9.292-10.274,0-15.041-7.786-15.041-16.544h41.1c2.058-16.766-8.763-32.659-26.387-32.659" transform="translate(53.284 10.725)" fill="#ff600b"/> </g></svg>
+        </a>
+        
+        <!--div class="text-nice custom-page-title medium-up--hide">Nice choice! Enter your details below to get started.</div-->
+        
+      </div>
+    </div>    
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      <div class="wrap">
+       
+        <div class="main" role="main">
+          <div class="main__header">
+            
+            <div class="small--hide">
+              {{ breadcrumb }}
+            </div>
+            
+            {% comment %} {{ content_for_logo }} {% endcomment %}
+            
+            <a class="logo logo--left" href="https://size.ca/">
+              <svg xmlns="http://www.w3.org/2000/svg" width="224" height="81.934" viewBox="0 0 224 81.934"> <g id="Group_48" data-name="Group 48" transform="translate(-78.898 -228.662)"> <path id="Path_66" data-name="Path 66" d="M78.9,280.153c.223,13.2,10.706,19.464,24.77,19.464,11.575,0,24.978-4.858,24.978-18.163,0-11.035-9.08-14.278-18.061-16.336-9.08-2.054-18.163-2.916-18.163-8.97,0-4.871,6.588-5.734,10.166-5.734,5.4,0,10.274,1.617,11.35,7.454h12.873c-1.516-12.432-11.9-17.188-23.361-17.188-10.161,0-23.361,3.784-23.361,16.008,0,11.357,8.866,14.6,17.956,16.543,8.97,2.06,17.951,2.819,18.278,9.3.329,6.389-7.79,7.355-12.442,7.355-6.6,0-12-2.594-12.645-9.735Z" transform="translate(0 10.979)" fill="#ff600b"/> <rect id="Rectangle_92" data-name="Rectangle 92" width="12.328" height="11.684" transform="translate(131.94 235.695)" fill="#ff600b"/> <rect id="Rectangle_93" data-name="Rectangle 93" width="12.328" height="55.912" transform="translate(131.94 253.034)" fill="#ff600b"/> <path id="Path_67" data-name="Path 67" d="M115.719,251.165h30.928l-30.928,37.524v8.654h47.747v-9.734H131.29l32.021-37.53V241.43H115.719Z" transform="translate(31.607 11.602)" fill="#ff600b"/> <path id="Path_68" data-name="Path 68" d="M187.945,257.254V255.07c.338-6.088,3.521-9.878,9.753-9.878,4.081,0,7.364,2.644,7.364,7.008,0,5.745-4.412,8.155-9.058,11.367-4.2,3.1-9.186,7.006-9.186,15.962v5.739h17.907c.113-6.886,1.591-8.607,7.485-12.514,8.621-5.513,13.949-9.53,13.949-20.663,0-15.849-14.17-23.429-28.348-23.429-17.684,0-29.473,10.45-29.709,28.592Zm-1.052,51.716h17.759V291.013H186.894Z" transform="translate(76.739 0)" fill="#ff600b"/> <path id="Path_69" data-name="Path 69" d="M181.818,263.2H153.379c1.006-7.479,6.614-13.1,14.56-13.1,7.708,0,12.815,6.032,13.879,13.1m-13.879-22.826c-16.663,0-27.042,13.621-27.042,29.52,0,17.192,9.844,29.418,27.369,29.418,12.218,0,22.6-6.813,25.306-19.026H181.893c-2.167,6.164-6.492,9.292-13.627,9.292-10.274,0-15.041-7.786-15.041-16.544h41.1c2.058-16.766-8.763-32.659-26.387-32.659" transform="translate(53.284 10.725)" fill="#ff600b"/> </g></svg>
+            </a>
+            
+            <!--div class="text-nice custom-page-title mobile-hide small--hide">Nice choice! Enter your details below to get started.</div-->
+            
+            {{ alternative_payment_methods }}
+          </div>
+          <div class="main__content">
+            {{ content_for_layout }}
+            
+          </div>
+          
+          
+          <div class="mobile_checkout-text">
+            {% if settings.text != blank %}
+            <div class="title title-cus">{{settings.text}}</div>
+            {% endif %}
+
+            {% if settings.text != blank %}
+            <div class="customer_service_hours_title">{{settings.customer_service_hours_title}}</div>
+            <div class="customer_service_hours">{{settings.customer_service_hours}}</div>
+            {% endif %}
+          </div>
+
+          
+          <div class="main__footer">
+            {{ content_for_footer }}
+          </div>
+        </div>
+        
+         <div class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+            
+            {% section 'checkout' %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+      <!-- DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING -->
+    <script type="text/javascript">
+    // Reorder the IN STORE PICKUP option during the shipping options step
+    if (Shopify && Shopify.Checkout && Shopify.Checkout.step && Shopify.Checkout.step.includes('shipping_method')) {
+      document.querySelectorAll('.section--shipping-method .content-box__row label .radio__label__primary').forEach(
+        element => {
+          const shippingOptionsContainer = document.querySelector('.section--shipping-method .content-box');
+          const labelText = element.innerHTML.trim().toLowerCase();
+          let matchingElement;
+
+          if (labelText.includes('in store pick up')) {
+            matchingElement = element.closest('.content-box__row');
+
+            if (matchingElement && shippingOptionsContainer) {
+              shippingOptionsContainer.append(matchingElement);
+            }
+          }
+        }
+      );
+    }
+    </script>
+   <script type="text/javascript">
+     // Insert in bottom of checkout.liquid
+     // Checkout GTM events
+
+     if (window.dataLayer === undefined) window.dataLayer = window.dataLayer || []
+
+     const fetchProductsInCart = () => {
+       $.getJSON('/cart.js', function(cart) {}).done((data)=>{
+         // now have access to Shopify cart object
+         if (data.items && data.items.length>0) formatData(data.items);
+       });
+     }
+
+     const pushStepTwoToDataLayer = (cartProductData) => {
+       dataLayer.push({
+         event: 'checkout_2',
+         uaCategory: 'ecommerce',
+         uaAction: 'checkout 2',
+         uaLabel: 'contact information',
+         ecommerce: {
+           currencyCode: 'CAD', 
+           checkout: {
+             actionField: {
+               step: 2, 
+               option: 'regular checkout'
+             },
+             products: cartProductData
+           }
+         }
+       })
+     }
+
+     const pushStepThreeToDataLayer = (cartProductData) => {
+       // console.log('pushStepThreeToDataLayer: ', cartProductData);
+       dataLayer.push({
+         event: 'checkout_3',
+         uaCategory: 'ecommerce',
+         uaAction: 'checkout 3',
+         uaLabel: 'shipping information',
+         ecommerce: {
+           currencyCode: 'CAD', 
+           checkout: {
+             actionField: {
+               step: 3, 
+               option: 'regular checkout'
+             },
+             products: cartProductData
+           }
+         }
+       })
+     }
+
+     const pushStepThreeOptionToDataLayer = (cartProductData) => {
+       // console.log('pushStepThreeOptionToDataLayer: ', cartProductData);
+       const shippingMethod = $('[data-review-section="shipping-cost"]').text().trim().replace(new RegExp('\n       ', 'g'), '');
+       dataLayer.push({
+         event: 'checkout_3_option',
+         uaCategory: 'ecommerce',
+         uaAction: 'checkout 3 option',
+         uaLabel: 'shipping method',
+         ecommerce: {
+           checkout_option: {
+             actionField: {
+               step: 3, 
+               option: shippingMethod
+             },
+             products: cartProductData
+           }
+         }
+       })
+     }
+
+     const pushStepFourToDataLayer = (cartProductData) => {
+       // console.log('pushStepFourToDataLayer: ', cartProductData);
+       dataLayer.push({
+         event: 'checkout_4',
+         uaCategory: 'ecommerce',
+         uaAction: 'checkout 4',
+         uaLabel: 'payment information',
+         ecommerce: {
+           currencyCode: 'CAD', 
+           checkout: {
+             actionField: {
+               step: 4
+             },
+             products: cartProductData
+           }
+         }
+       })
+     }
+
+     const pushStepFourOptionToDataLayer = (cartProductData) => {
+       // console.log('pushStepFourOptionToDataLayer: ', cartProductData);
+       dataLayer.push({
+         event: 'checkout_4_option',
+         uaAction: 'checkout 4 option',
+         uaLabel: 'payment method',
+         ecommerce: {
+           currencyCode: 'CAD', 
+           checkout: {
+             actionField: {
+               step: 4
+             },
+             products: cartProductData
+           }
+         }
+       })
+     }
+
+     const formatData = (cartItems) => {
+       let cartProductData = [];
+       let index;
+       cartItems.forEach((e,i,arr)=>{
+         const fetchPath = '/products/' + e.handle;
+         // console.log('fetchPath: ', fetchPath);
+         $.getJSON(fetchPath + '.js', (product) => {
+
+         })
+         .done(( data ) => {
+           const productData = data;
+           let tagProductType;
+           let tagProductCategory;
+           let tagProductSubCategory;
+           let itemCategory = '';
+           let itemTagCategory;
+           let itemTagSubCategory;
+           let itemTagProductType;
+           const itemPrice = productData.price ? (productData.price/100).toFixed(2) : '';
+           const firstAvailableVariant = productData.variants.filter(obj => {
+             return obj.available === true
+           })
+
+           if (typeof productData.tags !== 'string') {
+             tagProductType = productData.tags.filter(item => {
+               return item.includes('Product Type_');
+             });
+             if (typeof tagProductType != 'undefined' && tagProductType.length>0 && tagProductType[0].includes('Product Type_')) itemTagProductType = tagProductType[0].replace('Product Type_','');
+             tagProductCategory = productData.tags.filter(item => {
+               return item.includes('Category_');
+             });
+             if (typeof tagProductCategory != 'undefined' && tagProductCategory.length>0 && tagProductCategory[0].includes('Category_')) itemTagCategory = tagProductCategory[0].replace('Category_','');
+             tagProductSubCategory = productData.tags.filter(item => {
+               return item.includes('Sub Category_');
+             });
+             if (typeof tagProductSubCategory != 'undefined' && tagProductSubCategory.length>0 && tagProductSubCategory[0].includes('Sub Category_','')) itemTagSubCategory = tagProductSubCategory[0].replace('Sub Category_','');
+             if (typeof itemTagProductType != 'undefined' && itemTagProductType.length>0) {
+               itemCategory += itemTagProductType + ' / ';
+             }
+             if (typeof itemTagCategory != 'undefined' && itemTagCategory.length>0) {
+               itemCategory += itemTagCategory + ' / ';
+             }
+             if (typeof itemTagSubCategory != 'undefined' && itemTagSubCategory.length>0) {
+               itemCategory += itemTagSubCategory;
+             }
+           }
+           itemName = productData.title.toLowerCase();
+           itemSku = firstAvailableVariant[0].sku.toLowerCase();
+           itemBrand = productData.vendor.toLowerCase();
+           itemSize = firstAvailableVariant[0].option2.toLowerCase();
+           itemColor = firstAvailableVariant[0].option1.toLowerCase();
+
+           thisItemData = {
+             'name': itemName,
+             'id': itemSku,
+             'price': itemPrice,
+             'brand': itemBrand,
+             'category': itemCategory,
+             'variant': itemSize,
+             'quantity': 1,
+             'position': 1,
+             'dimension2': itemColor
+           }
+
+           cartProductData.push(thisItemData);
+           i++;
+           if (i === arr.length){
+             setTimeout(function(){
+               if (Shopify && Shopify.Checkout !== undefined) {
+                 if (Shopify.Checkout.step === 'contact_information') {
+                   pushStepTwoToDataLayer(cartProductData);
+                 }
+                 if (Shopify.Checkout.step === 'shipping_method') {
+                   pushStepThreeToDataLayer(cartProductData);
+                 }
+                 if (Shopify.Checkout.step === 'payment_method') {
+                   if ($('.notice--error:not(.hidden)')) {
+                     dataLayer.push({
+                       event: 'refundDeclined',
+                       uaCategory: 'refund page',
+                       uaAction: 'refund full',
+                       uaLabel: 'decline'
+                     })
+                   } else {
+                     pushStepThreeOptionToDataLayer(cartProductData);
+                     pushStepFourToDataLayer(cartProductData);
+                   }
+
+                 }
+               }
+             }, 100);
+           }
+         }
+              )});
+     }
+
+     if ((Shopify && Shopify.Checkout !== undefined)) {
+       fetchProductsInCart();
+     }
+
+    const paymentMethods = document.querySelectorAll('.section--payment-method .radio-wrapper.content-box__row:not(.content-box__row--secondary)');
+    paymentMethods.forEach((method) => {
+      console.log(method);
+      method.addEventListener('click', (e) => {
+        console.log('method click');
+        DY.API('event', {
+          name: 'Payment Method Clicked',
+          properties: {
+            gateway: method.dataset.gatewayName,
+            label: method.querySelector('.radio__label__primary').innerText,
+          }
+        });
+      })
+    });
+
+     if(document.querySelector(".page--thank-you")) {
+      DY.API("event", {
+        name: "Purchase", // Human-readable name, not used to identify an event type
+        properties: {
+          uniqueTransactionId: "{{checkout.order_number}}", // Will remove redundant events. Must be a string. Max 64 characters.
+          dyType: "purchase-v1", // Identifies this event as a purchase
+          value: {{checkout.line_items_subtotal_price | money_without_currency}}, // Total cart value in actual payment currency, as float (dollars dot cents)
+          currency: "{{checkout.currency}}", // Optional non-default currency used
+          cart: [
+            {%- for item in checkout.line_items %}
+            {
+              productId: '{{item.sku}}',
+              itemPrice: {{item.final_price | money_without_currency}},
+              quantity: {{item.quantity}},
+              {%- for option in item.options_with_values %}
+              {{option.name}}: '{{option.value}}',
+              {%- endfor %}
+            },
+            {%- endfor %}
+          ]
+        }
+      });
+    }
+</script>
+  </body>
+</html>

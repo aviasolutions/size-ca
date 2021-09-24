@@ -1,0 +1,81 @@
+<!-- /templates/page.liquid -->
+<div class="cms_pages_wrapper">
+  <div class="grid">
+
+    <div class="grid__item large--one-whole">
+
+      {% include 'breadcrumb' %}
+      <div class="page-header">
+          <h1>{{ page.title }}</h1>
+      </div>
+
+    </div> 
+
+  </div>
+
+  <div class="grid">
+
+    <div class="grid__item large--one-quarter">
+      {% section 'page-sidebar' %}
+    </div>
+    <div class="grid__item large--three-quarters">
+
+      <div class="rte">
+        {{ page.content }}
+      </div>
+      
+      <div class="rte-meta_data">
+        <div class="acc">
+        	
+          <!--UK Delivery-->
+          {% if page.metafields.page.show_accordion contains 'ON' %}
+          <div class="acc__card">            
+            <div class="acc__title">{{page.metafields.page.acc_group_name}}</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.page.acc_title %}
+                  {% if page.metafields.page.acc_title != blank or page.metafields.page.description != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.page.acc_title[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.page.description[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>
+          {% endif %}
+          <!--UK Delivery-->
+          
+          {% comment %}
+          <!--International-->
+          <div class="acc__card">            
+            <div class="acc__title">International</div>
+            <div class="acc__panel">              
+                {% assign count = 0 %}
+                {% for brand in page.metafields.page.international_acc_title %}
+                  {% if page.metafields.page.international_acc_title != blank or page.metafields.page.international_description != blank %}                
+                	<div class="acc__card_inner">
+                      <div class="acc__title_inner">{{ page.metafields.page.international_acc_title[count] }}</div>
+                      <div class="acc__panel_inner">
+                        <div class="table_wrap">{{ page.metafields.page.international_description[count] }}</div>
+                      </div>
+                    </div>                
+                  {% endif %}
+                {% assign count = count | plus: 1 %}
+                {% endfor %}              
+            </div>
+          </div>          
+          <!--International-->
+          {% endcomment %}
+          
+        </div>
+        
+      </div>
+
+    </div>
+
+  </div>
+</div>

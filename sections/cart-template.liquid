@@ -1,0 +1,460 @@
+{% if cart.item_count > 0 %}
+
+  <h1 class="cart__title">{{ 'cart.general.title' | t }}</h1>
+	
+  <div class="grid">
+    <div class="grid__item large--two-thirds medium--one-half">
+      <a class="btn button continue__shopping" href="/">Continue Shopping</a>         
+    </div>
+    <div class="grid__item large--one-third medium--one-half">
+      <button type="button" name="checkout" class="btn checkout__btn ctm_checkout_trigger">{{ 'cart.general.checkout' | t }} <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="792.033px" height="792.033px" viewBox="0 0 792.033 792.033" style="enable-background:new 0 0 792.033 792.033;" xml:space="preserve"><g><g id="_x38_"><g><path d="M617.858,370.896L221.513,9.705c-13.006-12.94-34.099-12.94-47.105,0c-13.006,12.939-13.006,33.934,0,46.874l372.447,339.438L174.441,735.454c-13.006,12.94-13.006,33.935,0,46.874s34.099,12.939,47.104,0l396.346-361.191c6.932-6.898,9.904-16.043,9.441-25.087C627.763,386.972,624.792,377.828,617.858,370.896z"/></g></g></g></svg></button>
+    </div>
+  </div>
+  <form action="/cart" method="post" novalidate class="cart table-wrap">
+    <table class="cart-table full">
+      <thead class="cart__row cart__header-labels">
+        <th colspan="2" class="text-center">{{ 'cart.label.product' | t }}</th>
+        <th class="text-center mobile-hide">{{ 'cart.label.quantity' | t }}</th>
+        <th class="text-center mobile-hide">{{ 'cart.label.price' | t }}</th>
+        <th class="text-right mobile-hide">{{ 'cart.label.total' | t }}</th>
+      </thead>
+      <tbody>
+        {% for item in cart.items %}
+          <tr class="cart__row table__section" data-index="{{ forloop.index }}" data-id="{{ item.id }}">
+            <td colspan="2" data-label="{{ 'customer.order.product' | t }}">
+              <div class="item_img">
+                <a href="{{ item.url | within: collections.all }}" class="cart__image">
+                  {% comment %}
+                    More image size options at:
+                      - http://docs.shopify.com/themes/filters/product-img-url
+                  {% endcomment %}
+                  <img src="{{ item | img_url: 'medium' }}" alt="{{ item.title | escape }}">
+                </a>
+              </div>
+              <div class="item_data">
+                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove desktop-hide">
+                  <svg height="384pt" viewBox="-32 0 384 384" width="384pt" xmlns="http://www.w3.org/2000/svg"><path d="m72 384h176c17.648438 0 32-14.351562 32-32v-192h24c8.832031 0 16-7.167969 16-16v-48c0-17.648438-14.351562-32-32-32h-64v-32c0-17.648438-14.351562-32-32-32h-64c-17.648438 0-32 14.351562-32 32v32h-64c-17.648438 0-32 14.351562-32 32v48c0 8.832031 7.167969 16 16 16h24v192c0 17.648438 14.351562 32 32 32zm176-32h-176v-192h176zm-120-320h64v32h-64zm-96.015625 64h256.015625v32h-256.007812zm0 0"/><path d="m200 320c8.832031 0 16-7.167969 16-16v-96c0-8.832031-7.167969-16-16-16s-16 7.167969-16 16v96c0 8.832031 7.167969 16 16 16zm0 0"/><path d="m120 320c8.832031 0 16-7.167969 16-16v-96c0-8.832031-7.167969-16-16-16s-16 7.167969-16 16v96c0 8.832031 7.167969 16 16 16zm0 0"/></svg>
+                </a>
+                <a href="{{ item.url }}" class="h4">
+                  {{ item.product.title }}
+                </a>
+                {% unless item.variant.title contains 'Default' %}
+                  <small>Size: {{ item.variant.title }}</small>
+                {% endunless %}
+                
+                <small>SKU: {{ item.variant.sku }}</small>
+                
+
+                {% if settings.cart_vendor_enable %}
+                  <p>{{ item.vendor }}</p>
+                {% endif %}
+
+                {% comment %}
+                  Optional, loop through custom product line items if available
+
+                  For more info on line item properties, visit:
+                    - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                {% endcomment %}
+                {% assign property_size = item.properties | size %}
+                {% if property_size > 0 %}
+                  {% for p in item.properties %}
+                    {% unless p.last == blank %}
+                      {{ p.first }}:
+
+                      {% comment %}
+                        Check if there was an uploaded file associated
+                      {% endcomment %}
+                      {% if p.last contains '/uploads/' %}
+                        <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                      {% else %}
+                        {{ p.last }}
+                      {% endif %}
+
+                      <br>
+                    {% endunless %}
+                  {% endfor %}
+                {% endif %}                
+              </div>
+              <div class="item_data_mobile desktop-hide">
+                <input type="number" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}" min="0">
+                <span class="h6">
+                  Price: {{ item.price | money }}
+                </span>
+                {% if item.original_line_price != item.line_price %}
+                <span class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></span>
+                {% endif %}
+                <span class="h6">
+                  Total: {{ item.line_price | money }}
+                </span>
+                {% for discount in item.discounts %}
+                <span class="cart-item__discount">{{ discount.title }}</span>
+                {% endfor %}
+              </div>
+            </td>            
+            <td data-label="{{ 'cart.label.quantity' | t }}" class="mobile-hide">
+              <input type="number" name="updates[]" id="updates_{{ item.key }}" data-id="{{ item.key }}" value="{{ item.quantity }}" min="0">
+              <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove">
+                <small>{{ 'cart.general.remove' | t }}</small>
+              </a>
+            </td>
+            <td data-label="{{ 'cart.label.price' | t }}" class="mobile-hide">
+              <span class="h3">
+                {{ item.price | money }}
+              </span>
+            </td>
+            <td data-label="{{ 'cart.label.total' | t }}" class="text-right mobile-hide">
+              {% if item.original_line_price != item.line_price %}
+                <span class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></span>
+              {% endif %}
+              <span class="h3">
+                {{ item.line_price | money }}
+              </span>
+              {% for discount in item.discounts %}
+                <span class="cart-item__discount">{{ discount.title }}</span>
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+        <tr class="cart__row table__section">
+          <td colspan="5">
+            <div id="noReserve">
+              <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28.621px" height="28.621px" viewBox="0 0 28.621 28.621" style="enable-background:new 0 0 28.621 28.621;" xml:space="preserve"><g><path d="M14.311,0c-6.904,0-12.5,5.596-12.5,12.5c0,4.723,2.618,8.828,6.48,10.955l-0.147,5.166l5.898-3.635C14.131,24.988,14.22,25,14.311,25c6.904,0,12.5-5.596,12.5-12.5C26.811,5.596,21.215,0,14.311,0z M13.75,20.018c-1.116,0-1.876-0.822-1.876-1.918c0-1.119,0.779-1.92,1.876-1.92c1.14,0,1.878,0.801,1.898,1.92C15.649,19.193,14.891,20.018,13.75,20.018z M16.301,12.173c-0.779,0.865-1.096,1.686-1.074,2.638v0.377h-2.805L12.4,14.641c-0.063-1.074,0.295-2.173,1.246-3.31c0.673-0.803,1.223-1.477,1.223-2.194c0-0.737-0.487-1.222-1.542-1.263c-0.693,0-1.539,0.251-2.084,0.632l-0.718-2.301c0.759-0.442,2.022-0.861,3.52-0.861c2.785,0,4.048,1.538,4.048,3.289C18.094,10.233,17.104,11.287,16.301,12.173z"></path></g></svg> <span>Items placed in this basket are not reserved.</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="grid cart__row">
+      
+      <div class="grid__item two-thirds small--one-whole">
+        
+        <div class="cart_upsell_section">
+          {% if section.settings.title != blank %}
+          <h3 class="heading">{{ section.settings.title }}</h3>
+          {% endif %}
+          <div class="grid">
+            {%- for block in section.blocks -%}
+              {% if block.settings.product != blank %}
+                {% assign ctm_product = all_products[block.settings.product] %}
+                {%- render 'product-grid-item', product: ctm_product -%}	
+              {% endif %}
+            {%- endfor -%}
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="grid__item text-right one-third small--one-whole">
+        {% if settings.cart_notes_enable %}
+        <div class="cart_note_block">
+          <label class="text-left" for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+          <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>
+        </div>
+        {% endif %}
+        <p class="sub_total">
+          <span class="cart__subtotal-title">{{ 'cart.general.subtotal' | t }}</span>
+          <span class="h3 cart__subtotal">{{ cart.total_price | money }}</span>
+        </p>
+        {% if cart.total_discounts > 0 %}
+          {% assign savings = cart.total_discounts | money %}
+          <p class="cart_discount">
+            <span class="cart-subtotal__savings"><em>{{ 'cart.general.savings_html' | t: price: savings }}</em></span>
+          </p>
+        {% endif %}
+        <p class="cart__shipping"><em>{{ 'cart.general.shipping_at_checkout' | t }}</em></p>
+        <button type="submit" name="update" class="btn--full btn--secondary update-cart">{{ 'cart.general.update' | t }}</button>
+        <button type="submit" name="checkout" class="btn--full btn checkout__btn ctm_trigger">{{ 'cart.general.checkout' | t }}  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="792.033px" height="792.033px" viewBox="0 0 792.033 792.033" style="enable-background:new 0 0 792.033 792.033;" xml:space="preserve"><g><g id="_x38_"><g><path d="M617.858,370.896L221.513,9.705c-13.006-12.94-34.099-12.94-47.105,0c-13.006,12.939-13.006,33.934,0,46.874l372.447,339.438L174.441,735.454c-13.006,12.94-13.006,33.935,0,46.874s34.099,12.939,47.104,0l396.346-361.191c6.932-6.898,9.904-16.043,9.441-25.087C627.763,386.972,624.792,377.828,617.858,370.896z"/></g></g></g></svg></button>
+        
+        {% comment %}
+        <div class="cart_btm">
+          <span>This site is secure and your personal details are protected.</span>
+          <p><img src="{{ 'payment.png' | asset_url }}"></p>
+        </div>
+        {% endcomment %}
+        
+      </div>
+    </div>
+  </form>
+{% else %}
+  {% comment %}
+    The cart is empty
+  {% endcomment %}
+  <h2>{{ 'cart.general.title' | t }}</h2>
+  <p>{{ 'cart.general.empty' | t }}</p>
+  <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+{% endif %}
+
+
+<script type="text/javascript">
+// This fires 'Dont Forget' products data from the cart page
+const pushCartPageRecoToGTM = (cartPageProductData) => {
+    dataLayer.push({
+        event: 'productImpression',
+        uaCategory: 'cart sidebar', //  event location
+        uaAction: 'product impression',
+        uaLabel: 'cart sidebar-reco', //list name
+        'ecommerce': {
+            'currencyCode': 'CAD',
+            'impressions': cartPageProductData
+        }
+    });
+}
+
+const getCartPageItemData = () => {
+    const $cartPageProduct = $('.cart_upsell_section .grid__item');
+    let cartPageProductData = [];
+    $cartPageProduct.each(function( index ) {
+        let productData;
+        let itemName;
+        let itemSku;
+        let itemBrand;
+        let itemCategory = '';
+        let itemSize;
+        let itemColor;
+        let thisItemData;
+        const itemPosition = index + 1;
+        let itemProductType;
+        let itemPath = $(this).find('.grid__image').attr('href');
+        if (itemPath.length>0) {
+            if (itemPath.includes('?variant=')) itemPath = itemPath.split("?variant=")[0];
+            const requestString = itemPath + '.js';
+            // console.log('requestString: ', requestString);
+            $.getJSON(requestString, (product) => {
+                // console.log('product: ', product);
+                productData = product;
+            }).done(function( data ) {
+                let tagProductType;
+                let tagProductCategory;
+                let tagProductSubCategory;
+                let itemTagCategory;
+                let itemTagSubCategory;
+                let itemTagProductType;
+                const firstAvailableVariant = productData.variants.filter(obj => {
+                    return obj.available === true
+                })
+    
+                if (typeof productData.tags !== 'string') {
+                    tagProductType = productData.tags.filter(item => {
+                        return item.includes('Product Type_');
+                    });
+                    if (typeof tagProductType != 'undefined' && tagProductType.length>0 && tagProductType[0].includes('Product Type_')) itemTagProductType = tagProductType[0].replace('Product Type_','');
+                    tagProductCategory = productData.tags.filter(item => {
+                        return item.includes('Category_');
+                    });
+                    if (typeof tagProductCategory != 'undefined' && tagProductCategory.length>0 && tagProductCategory[0].includes('Category_')) itemTagCategory = tagProductCategory[0].replace('Category_','');
+                    tagProductSubCategory = productData.tags.filter(item => {
+                        return item.includes('Sub Category_');
+                    });
+                    if (typeof tagProductSubCategory != 'undefined' && tagProductSubCategory.length>0 && tagProductSubCategory[0].includes('Sub Category_','')) itemTagSubCategory = tagProductSubCategory[0].replace('Sub Category_','');
+                    if (typeof itemTagProductType != 'undefined' && itemTagProductType.length>0) {
+                        itemCategory += itemTagProductType + ' / ';
+                    }
+                    if (typeof itemTagCategory != 'undefined' && itemTagCategory.length>0) {
+                        itemCategory += itemTagCategory + ' / ';
+                    }
+                    if (typeof itemTagSubCategory != 'undefined' && itemTagSubCategory.length>0) {
+                        itemCategory += itemTagSubCategory;
+                    }
+                }
+                itemName = productData.title;
+                itemSku = firstAvailableVariant[0].sku;
+                itemBrand = productData.vendor;
+                itemSize = firstAvailableVariant[0].option2;
+                itemColor = firstAvailableVariant[0].option1;
+                thisItemData = {
+                    'name': itemName,
+                    'id': itemSku,
+                    'brand': itemBrand,
+                    'category': itemCategory,
+                    'variant': itemSize,
+                    'list': 'pdp-recp',
+                    'position': itemPosition,
+                    'dimension2': itemColor
+                }
+                // console.log('thisItemData:');
+                // console.log(thisItemData);
+                cartPageProductData.push(thisItemData);
+            });
+
+            // When each item in Recently Viewed List is clicked, push data to GTM
+            $(this).find('.grid__image').click((e) => {
+                // prevent page from changing
+                e.preventDefault();
+                const thisLink = $(e.currentTarget.href)
+                // push data to GTM
+                // console.log('thisItemData: ', thisItemData);
+                dataLayer.push({
+                    event: 'productClick',
+                    uaCategory: 'cart page', //  event location
+                    uaAction: 'product click',
+                    uaLabel: 'cart-reco',//list name
+                    ecommerce: {
+                        click: {
+                            actionField: {
+                                    list: 'cart-reco'
+                            },
+                            products: [thisItemData]
+                        }
+                    }
+                });
+                // proceed to product page
+                // window.location = thisLink;
+            });
+        }
+    });
+    // console.log('cartPageProductData:');
+    // console.log(cartPageProductData);
+
+    setTimeout(()=>{ if (cartPageProductData.length>0) pushCartPageRecoToGTM(cartPageProductData)}, 100);
+}
+
+if (document.querySelector('body.template-cart')) {
+    getCartPageItemData();
+}
+  
+const checkoutStepOne = () => {
+    if (window.dataLayer === undefined) window.dataLayer = window.dataLayer || []
+
+    const fetchProductsInCart = () => {
+        $.getJSON('/cart.js', function(cart) {}).done((data)=>{
+            // now have access to Shopify cart object
+            if (data.items && data.items.length>0) formatData(data.items);
+        });
+    }
+
+    const pushStepOneToDataLayer = (cartProductData) => {
+        const stepOneData = {
+            event: 'checkout_1',
+            uaCategory: 'ecommerce',
+            uaAction: 'checkout 1',
+            uaLabel: 'view cart',
+            ecommerce: {
+                currencyCode: 'CAD', 
+                checkout: {
+                    actionField: { step: 1 },
+                    products: [cartProductData]
+                }
+            }
+        }
+        dataLayer.push(stepOneData);
+    }
+
+    const formatData = (cartItems) => {
+      	console.log('formatData: ', cartItems);
+        let cartProductData = [];
+      	let index = 0;
+        cartItems.forEach((e,i,arr)=>{
+            const fetchPath = '/products/' + e.handle;
+            console.log('fetchPath: ', fetchPath);
+            $.getJSON(fetchPath + '.js', (product) => {
+            })
+            .done(( data ) => {
+                const productData = data;
+                let tagProductType;
+                let tagProductCategory;
+                let tagProductSubCategory;
+                let itemCategory = '';
+                let itemTagCategory;
+                let itemTagSubCategory;
+                let itemTagProductType;
+              	console.log('productData: ');
+                console.log(productData);
+                const itemPrice = productData.price ? (productData.price/100).toFixed(2) : '';
+                const firstAvailableVariant = productData.variants.filter(obj => {
+                    return obj.available === true
+                })
+        
+                if (typeof productData.tags !== 'string') {
+                    tagProductType = productData.tags.filter(item => {
+                        return item.includes('Product Type_');
+                    });
+                    if (typeof tagProductType != 'undefined' && tagProductType.length>0 && tagProductType[0].includes('Product Type_')) itemTagProductType = tagProductType[0].replace('Product Type_','');
+                    tagProductCategory = productData.tags.filter(item => {
+                        return item.includes('Category_');
+                    });
+                    if (typeof tagProductCategory != 'undefined' && tagProductCategory.length>0 && tagProductCategory[0].includes('Category_')) itemTagCategory = tagProductCategory[0].replace('Category_','');
+                    tagProductSubCategory = productData.tags.filter(item => {
+                        return item.includes('Sub Category_');
+                    });
+                    if (typeof tagProductSubCategory != 'undefined' && tagProductSubCategory.length>0 && tagProductSubCategory[0].includes('Sub Category_','')) itemTagSubCategory = tagProductSubCategory[0].replace('Sub Category_','');
+                    if (typeof itemTagProductType != 'undefined' && itemTagProductType.length>0) {
+                        itemCategory += itemTagProductType + ' / ';
+                    }
+                    if (typeof itemTagCategory != 'undefined' && itemTagCategory.length>0) {
+                        itemCategory += itemTagCategory + ' / ';
+                    }
+                    if (typeof itemTagSubCategory != 'undefined' && itemTagSubCategory.length>0) {
+                        itemCategory += itemTagSubCategory;
+                    }
+                }
+                itemName = productData.title.toLowerCase();
+                itemSku = firstAvailableVariant[0].sku.toLowerCase();
+                itemBrand = productData.vendor.toLowerCase();
+                itemSize = firstAvailableVariant[0].option2.toLowerCase();
+                itemColor = firstAvailableVariant[0].option1.toLowerCase();
+                
+                thisItemData = {
+                    'name': itemName,
+                    'id': itemSku,
+                    'price': itemPrice,
+                    'brand': itemBrand,
+                    'category': itemCategory,
+                    'variant': itemSize,
+                    'quantity': 1,
+                    'position': 1,
+                    'dimension2': itemColor
+                }
+                cartProductData.push(thisItemData);
+              	index++;
+                if (index === arr.length){
+                    setTimeout(function(){
+                        pushStepOneToDataLayer(cartProductData)
+                    }, 100);
+                }
+            }
+        )});
+    }
+
+    
+  	fetchProductsInCart();
+}
+if (document.querySelector('.template-cart')) {
+	checkoutStepOne();        
+}  
+
+</script>
+
+
+{% schema %}
+  {
+    "name": "Cart",
+	"max_blocks": 4,
+    "settings": [
+		{
+          "type": "text",
+          "id": "title",
+          "label": "Upsell Heading",
+          "default": "Cart Upsell"
+        }
+	],
+    "blocks": [
+      {
+        "type": "product",
+        "name": "Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product",
+            "label": "Select Upsell Product"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

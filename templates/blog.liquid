@@ -1,0 +1,224 @@
+<!-- /templates/blog.liquid -->
+{% comment %}
+
+  Loop through a defined number of articles with the 'paginate' tag.
+  Don't forget to close the tag after your loop.
+
+{% include 'breadcrumb' %}
+{% endcomment %}
+
+{% section 'image-with-text-blog' %}
+
+
+{% paginate blog.articles by 6 %}
+
+{% comment %}
+  This template is also used for listing out articles of a specific tag.
+  You can change layouts or styles by checking if current_tags is true.
+{% endcomment %}
+
+<div class="wrapper">
+
+<div class="grid--rev">
+
+  <div class="grid__item large--one-whole">
+	
+    {% comment %}
+    {% if current_tags %}
+      <h1>{{ blog.title | link_to: blog.url }} &mdash; {{ current_tags.first }}</h1>
+    {% else %}
+      <h1>{{ blog.title }}</h1>
+    {% endif %}
+    {% endcomment %}
+    
+
+    {% comment %}
+      Loop through each article in your blog. This is limited to what you set for pagination above.
+
+      For more info on article liquid tags:
+        - http://docs.shopify.com/themes/liquid-variables/article
+    {% endcomment %}
+    
+    <div class="section_header text-center">
+      <h2>Recent stories</h2>
+    </div>
+    {% assign count = 0 %}
+    {% for tag in blog.all_tags %}
+      {% if current_tags contains tag %}
+    	{% assign count = 999 %}
+      {% endif %}
+    {% endfor %}
+    <div class="portfolio-menu mobile_hide">
+      <ul>
+        <li class="mixitup-control-active {% if count == 0 %}ctm_active{% endif %}">
+          <a href="{{ blog.url }}">Everything</a>
+        </li>
+        {% if blog.all_tags.size > 0 %}
+        {% for tag in blog.all_tags %}
+        {% if tag contains 'related:' %}
+        {% else %}
+        <li class="{% if current_tags contains tag %}ctm_active{% endif %}">
+          <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+      </ul>      
+    </div>
+    
+    
+    <div class="portfolio-dropdown desktop_hide">
+      <select>
+        <option data-filter="*" data-url="{{ blog.url }}">All</option>
+        {% for tag in blog.all_tags %}
+        {% if tag contains 'related:' %}
+        {% else %}
+        {% include 'filter-out-custom-tags' %}
+        <option data-filter=".{{ tag | handle }}" data-url="{{ blog.url }}/tagged/{{ tag | handle }}" {% if current_tags contains tag %}selected{% endif %}>{{ tag }}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div class="grid portfolio-list masonry">
+        {%- assign is_even_post = false -%}
+        {% for article in blog.articles %}
+          {% assign featured_image_src = '' %}
+
+          {% if article.image %}
+            {% assign featured_image_src = article | img_url: '1024x1024' %}
+          {% endif %}
+			
+        
+          <article class="article item mix single-portfolio-item {% for tag in article.tags %}{% if tag contains 'related:' %}{% else %}{{ tag | handle }}{% endif %} {% endfor %}">
+            <div class="article__grids">
+              {% unless article.image == blank %}
+              <a href="{{ article.url }}">
+                <div class="image-wrap">
+                  <img src="{{ article.image | img_url: 'master' }}">
+                </div>
+              </a>
+              {% endunless %}
+
+              <div class="article__content">
+                <div class="article__content-meta">
+                  <div class="article__date">
+                    {% capture date %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+                    <p>{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</p>
+                  </div>
+
+                  <h2 class="h3 article__h3">
+                    <a href="{{ article.url }}">{{ article.title }}</a>
+                  </h2>
+
+                  {% if section.settings.blog_show_author %}
+                    <div class="article__author">by {{ article.author }}</div>
+                  {% endif %}
+                </div>
+
+                <div class="rte rte--block">
+                  {% if article.excerpt.size > 0 %}
+                    {{ article.excerpt }}
+                  {% else %}
+                    {{ article.content | strip_html | truncatewords: 25 }}
+                  {% endif %}
+                </div>
+                
+              </div>
+            </div>
+          </article>
+        
+
+          {% comment %}Set the next post as an even one{% endcomment %}
+          {% if is_even_post %}
+            {%- assign is_even_post = false -%}
+          {% else %}
+            {%- assign is_even_post = true -%}
+          {% endif %}
+        {% endfor %}
+          
+		{% comment %}
+        {% if paginate.pages > 1 %}
+          {% include 'pagination' %}
+        {% endif %}
+        {% endcomment %}
+
+      </div>
+    
+    
+    
+    
+    
+    
+    {% comment %}
+    
+    {% for article in blog.articles %}
+
+      <div class="article">
+
+        <h2 class="h3"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+        {% capture date %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+        <p>{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</p>
+
+        {% if article.image %}
+          <a class="article__featured-image" href="{{ article.url }}">
+            {{ article | img_url: '1024x1024' | img_tag: article.title }}
+          </a>
+        {% endif %}
+
+        {% comment %}
+          Add a surrounding div with class 'rte' to anything that will come from the rich text editor.
+          Since this is just a listing page, you can either use the excerpt or truncate the full article.
+        {% endcomment %}
+        <div class="rte">
+          {% if article.excerpt.size > 0 %}
+            {{ article.excerpt }}
+          {% else %}
+            <p>{{ article.content | strip_html | truncatewords: 100 }}</p>
+          {% endif %}
+        </div>
+
+        {% comment %}
+          Show off meta information like number of comments and tags.
+        {% endcomment %}
+        <ul class="inline-list">
+          {% if blog.comments_enabled? %}
+          <li>
+            <a href="{{ article.url }}#comments">
+              {{ 'blogs.comments.with_count' | t: count: article.comments_count }}
+            </a>
+          </li>
+          {% endif %}
+
+          {% include 'tags-article' %}
+        </ul>
+
+        <p><a href="{{ article.url }}">{{ 'blogs.article.read_more' | t }} &rarr;</a></p>
+
+      </div>
+
+      {% unless forloop.last %}<hr>{% endunless %}
+
+    {% endfor %}
+    
+    {% endcomment %}
+
+    {% if paginate.pages > 1 %}
+      <div class="pagination">
+        {{ paginate | default_pagination }}
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% comment %}
+  <div class="grid__item large--one-quarter">
+    {% include 'blog-sidebar' %}
+  </div>
+  {% endcomment %}
+  
+</div>
+
+</div>
+{% endpaginate %}

@@ -1,0 +1,934 @@
+{% include 'mobile-menu' %}
+
+{% if section.settings.announce_text != blank %}
+<div class="announce_bar">
+  <p>
+    <sapn class="default_text ctm_location_based_span">{{ section.settings.announce_text }} </sapn>
+    {% if section.settings.inside_ca_prod_less_text != blank %}
+    <span class="inside_ca_prod_less ctm_location_based_span" style="display:none;">{{ section.settings.inside_ca_prod_less_text }} </span>
+    {% endif %}
+    {% if section.settings.inside_usa_prod_less_text != blank %}
+    <span class="inside_usa_prod_less ctm_location_based_span" style="display:none;">{{ section.settings.inside_usa_prod_less_text }} </span>
+    {% endif %}
+    {% if section.settings.inside_ca_prod_over_text != blank %}
+    <span class="inside_ca_prod_over ctm_location_based_span" style="display:none;">{{ section.settings.inside_ca_prod_over_text }} </span>
+    {% endif %}
+    {% if section.settings.inside_usa_prod_over_text != blank %}
+     <span class="inside_usa_prod_over ctm_location_based_span" style="display:none;">{{ section.settings.inside_usa_prod_over_text }} </span>
+    {% endif %}
+    {% if section.settings.global_prod_text != blank %}
+     <span class="global_msg ctm_location_based_span" style="display:none;">{{ section.settings.global_prod_text }} </span>
+    {% endif %}
+    {% if section.settings.announce_linkable_text != blank %} 
+    <a href="{{ section.settings.announce_link }}">
+      {{ section.settings.announce_linkable_text }}
+    </a>
+    {% endif %}
+  </p>
+</div>
+{% endif %}
+<header class="site-header" role="banner">
+  <div class="desktop__header small--hide">
+      <div class="wrapper">
+        <div class="grid--full grid--table">
+          <div class="grid__items">
+            <div class="header__logo-left">
+              {% if section.settings.side_linklist != blank %}
+              <div class="side_navigation">
+                <span class="side_menu--toggle">
+                  <svg class="toggle__icon" xmlns="http://www.w3.org/2000/svg" width="6" height="24" viewBox="0 0 6 24"> <g id="Layer_2" data-name="Layer 2" transform="translate(-20 -8)"> <g id="Layer_1" data-name="Layer 1" transform="translate(20 8)"> <circle id="Ellipse_3" data-name="Ellipse 3" cx="3" cy="3" r="3" transform="translate(0 18)" fill="#fff"/> <circle id="Ellipse_4" data-name="Ellipse 4" cx="3" cy="3" r="3" transform="translate(0 9)" fill="#fff"/> <circle id="Ellipse_5" data-name="Ellipse 5" cx="3" cy="3" r="3" fill="#fff"/> </g> </g> </svg>
+                  <svg class="close__icon" height="329pt" viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"/></svg>
+                </span>
+                <div class="side-menu--drawer">
+                  <ul>
+                    {% for link in linklists[section.settings.side_linklist].links %}
+                    <li>
+                      <a class="site-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                  {% endfor %}
+                  </ul>
+                </div>              
+              </div>
+              {% endif %}
+
+              {% comment %}
+                Use the uploaded logo from theme settings if enabled.
+                Site name gets precedence with H1 tag on homepage, div on other pages.
+              {% endcomment %}
+              {% if template == 'index' %}
+                <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+              {% else %}
+                <div class="h1 site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+              {% endif %}
+                {% if section.settings.use_svg_logo %}
+                  <a href="/" itemprop="url" class="site-header__logo-link">
+                    <img src="{{ section.settings.logo_url }}" alt="{{ shop.name }}" itemprop="logo" style="max-width:80px;">
+                  </a>
+                {% elsif section.settings.logo_use_image %}
+                  <a href="/" itemprop="url" class="site-header__logo-link">
+                    <img src="{{ section.settings.logo | img_url:'master' }}" alt="{{ shop.name }}" itemprop="logo">
+                  </a>
+                {% else %}
+                  <a href="/" itemprop="url">{{ shop.name }}</a>
+                {% endif %}
+              {% if template == 'index' %}
+                </h1>
+              {% else %}
+                </div>
+              {% endif %}
+            </div>
+            
+            <div class="header-nav-search">
+              <nav class="nav-bar" role="navigation">
+                <div class="wrapper">
+                  <div class="medium-down--hide">
+                    {% comment %}
+                      List out your main-menu linklist (default)
+
+                      More info on linklists:
+                        - http://docs.shopify.com/themes/liquid-variables/linklists
+                    {% endcomment %}
+                    
+                    {% include 'desktop-nav' %}                    
+                    
+                  </div>                  
+                </div>
+              </nav>
+
+              <div class="site-header__search">
+                {% include 'search-bar' %}
+              </div>
+            </div>
+            
+            <div class="header__right-icon">
+              {% if section.settings.service_linklist != blank %}
+              <div class="header__services">
+                <a class="service__toggle site-nav__link">
+                  <svg class="header_icon" xmlns="http://www.w3.org/2000/svg" width="24.5" height="24.5" viewBox="0 0 24.5 24.5"><defs><style>.acon{fill:#fff;stroke:#fff;stroke-width:0.5px;}</style></defs><g transform="translate(0.25 0.25)"><path class="acon" d="M13.12,24H10.88a1.5,1.5,0,0,1-1.486-1.32L9.155,20.8a9.45,9.45,0,0,1-1.374-.569L6.287,21.4A1.492,1.492,0,0,1,4.3,21.27L2.727,19.695A1.488,1.488,0,0,1,2.6,17.716l1.161-1.5A9.232,9.232,0,0,1,3.2,14.847l-1.88-.239A1.5,1.5,0,0,1,0,13.12V10.88A1.5,1.5,0,0,1,1.32,9.394L3.2,9.155a9.45,9.45,0,0,1,.569-1.374L2.6,6.287A1.491,1.491,0,0,1,2.732,4.3L4.307,2.726A1.489,1.489,0,0,1,6.286,2.6L7.78,3.766A9.416,9.416,0,0,1,9.155,3.2l.239-1.88A1.5,1.5,0,0,1,10.88,0h2.24a1.5,1.5,0,0,1,1.486,1.32L14.845,3.2a9.416,9.416,0,0,1,1.375.569L17.714,2.6a1.491,1.491,0,0,1,1.985.127l1.575,1.575A1.488,1.488,0,0,1,21.4,6.285L20.235,7.78A9.232,9.232,0,0,1,20.8,9.154l1.88.239A1.5,1.5,0,0,1,24,10.88v2.24a1.5,1.5,0,0,1-1.32,1.486l-1.876.239a9.45,9.45,0,0,1-.569,1.374L21.4,17.713a1.49,1.49,0,0,1-.127,1.985l-1.575,1.575a1.487,1.487,0,0,1-1.979.122l-1.5-1.161a9.232,9.232,0,0,1-1.374.569l-.239,1.88A1.5,1.5,0,0,1,13.12,24ZM7.73,19.14a.507.507,0,0,1,.244.063,8.393,8.393,0,0,0,1.774.736.5.5,0,0,1,.358.417l.28,2.2A.505.505,0,0,0,10.88,23h2.24a.5.5,0,0,0,.493-.439l.281-2.2a.5.5,0,0,1,.358-.417,8.393,8.393,0,0,0,1.774-.736.5.5,0,0,1,.55.042l1.75,1.36a.492.492,0,0,0,.655-.034l1.585-1.585a.5.5,0,0,0,.039-.66l-1.36-1.75a.5.5,0,0,1-.042-.55,8.393,8.393,0,0,0,.736-1.774.5.5,0,0,1,.417-.358l2.2-.28A.507.507,0,0,0,23,13.12V10.88a.5.5,0,0,0-.439-.493l-2.2-.281a.5.5,0,0,1-.417-.358A8.393,8.393,0,0,0,19.2,7.974a.5.5,0,0,1,.042-.55l1.36-1.75a.49.49,0,0,0-.033-.654L18.988,3.435a.492.492,0,0,0-.66-.039l-1.75,1.36a.5.5,0,0,1-.551.042,8.359,8.359,0,0,0-1.774-.736.5.5,0,0,1-.358-.417l-.28-2.2A.507.507,0,0,0,13.12,1H10.88a.5.5,0,0,0-.493.439l-.281,2.2a.5.5,0,0,1-.358.418A8.356,8.356,0,0,0,7.974,4.8a.5.5,0,0,1-.551-.041L5.673,3.4a.49.49,0,0,0-.654.033L3.434,5.014a.5.5,0,0,0-.039.66l1.36,1.75a.5.5,0,0,1,.042.55,8.341,8.341,0,0,0-.736,1.774.5.5,0,0,1-.417.358l-2.2.28A.505.505,0,0,0,1,10.88v2.24a.5.5,0,0,0,.439.493l2.2.281a.5.5,0,0,1,.417.358A8.393,8.393,0,0,0,4.8,16.026a.5.5,0,0,1-.042.55l-1.36,1.75a.49.49,0,0,0,.033.654l1.585,1.585a.494.494,0,0,0,.66.039l1.75-1.36a.515.515,0,0,1,.308-.1Z"/><path class="acon" d="M12,17a5,5,0,1,1,5-5A5.006,5.006,0,0,1,12,17Zm0-9a4,4,0,1,0,4,4A4,4,0,0,0,12,8Z"/></g></svg>
+                  <svg class="close__icon" height="329pt" viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"/></svg>
+                  <span class="icon__fallback-text">Services</span>
+                </a>
+                <div class="dropdown">
+                  <ul>
+                    {% for link in linklists[section.settings.service_linklist].links %}
+                    <li>
+                      <a class="site-nav__link" href="{{ link.url }}">{{ link.title }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+              {% endif %}
+
+              {% if shop.customer_accounts_enabled %}
+                <div class="header__user">                  
+                  {% if customer %}
+                  <a href="/account/logout" id="customer_logout_link" class="site-nav__link">
+                    <svg class="header_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><image width="24" height="24" xlink:href="data:image/png;base64,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"/></svg>
+                    <span class="icon__fallback-text">Log out</span>
+                  </a>
+                  {% else %}
+                  <a href="/account/login" id="customer_login_link" class="site-nav__link">
+                    <svg class="header_icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24"><image width="24" height="24" xlink:href="data:image/png;base64,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"/></svg>
+                    <span class="icon__fallback-text">Log in</span>
+                  </a>
+                  {% endif %}                  
+                </div>
+              {% endif %}
+
+              <div class="header__cart">
+                <a href="/cart" class="site-header__cart-toggle js-drawer-open-right site-nav__link cart_mobile_trigger" aria-controls="CartDrawer" aria-expanded="false">
+                  <svg class="header_icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <g id="Layer_1" data-name="Layer 1"> <path id="Path_203" data-name="Path 203" d="M21.45,8.25l-1.687,13.5H4.238L2.55,8.25h18.9M13.125,0h-2.25V.022H10.5V6H0L2.25,24h19.5L24,6H13.5V.022h-.375Z" fill="#fff"/> </g></svg>
+                  <p><span class="icon__fallback-text">Basket (</span><span id="CartCount">{{ cart.item_count }}</span><span class="icon__fallback-text">)</span></p>
+                </a>
+              </div>
+            </div>
+            
+          </div>          
+      </div>
+
+      </div>
+  </div>
+  <div class="mobile__header large--hide medium-down--show">
+    <div class="wrapper">      
+        <div class="grid">
+          <div class="grid__item one-half">
+            {% if template == 'index' %}
+            <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+              {% else %}
+              <div class="h1 site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+                {% endif %}
+                {% if section.settings.use_svg_logo %}
+                  <a href="/" itemprop="url" class="site-header__logo-link">
+                    <img src="{{ section.settings.logo_url }}" alt="{{ shop.name }}" itemprop="logo" style="max-width:80px;">
+                  </a>
+                {% elsif section.settings.logo_use_image %}
+                  <a href="/" itemprop="url" class="site-header__logo-link">
+                    <img src="{{ section.settings.logo | img_url:'master' }}" alt="{{ shop.name }}" itemprop="logo">
+                  </a>
+                {% else %}
+                <a href="/" itemprop="url">{{ shop.name }}</a>
+                {% endif %}
+                {% if template == 'index' %}
+                </h1>
+              {% else %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="grid__item one-half text-right">            
+            <div class="site-nav--mobile">
+              <a href="/cart" class="js-drawer-open-right site-nav__link" aria-controls="CartDrawer" aria-expanded="false">
+                <span class="icon-fallback-text">
+                  <svg class="header_icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <g id="Layer_1" data-name="Layer 1"> <path id="Path_203" data-name="Path 203" d="M21.45,8.25l-1.687,13.5H4.238L2.55,8.25h18.9M13.125,0h-2.25V.022H10.5V6H0L2.25,24h19.5L24,6H13.5V.022h-.375Z" fill="#fff"/> </g></svg>
+                  <span id="CartCount2">{{ cart.item_count }}</span>
+                  <span class="fallback-text">{{ 'layout.cart.title' | t }}</span>
+                </span>
+              </a>
+            </div>
+            <div class="site-nav--mobile">
+              <button type="button" class="icon-fallback-text site-nav__link js-drawer-open-left" aria-controls="NavDrawer" aria-expanded="false">
+                <span class="menu--icon"></span>
+                <span class="fallback-text">{{ 'layout.navigation.menu' | t }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="site-header__search mobile__search">
+          {% include 'search-bar' %}
+        </div>
+    </div>
+  </div>
+</header>
+	
+
+
+<style type="text/css">
+  .site-header__logo{
+    max-width:{{ section.settings.logo_max_widths }}px;
+  }
+</style>
+
+{% if template contains 'product' %}
+<script>
+  var ca_amount = parseInt("{{ section.settings.ca_amount }}") * 100;
+  var usa_amount = parseInt("{{ section.settings.ca_amount }}") * 100;
+  var prod_amount = parseInt("{{ product.selected_or_first_available_variant.price }}");                            
+  jQuery.get("http://ipinfo.io", function(response) {
+    console.log(response,ca_amount,prod_amount);
+    var count = 0;
+    if(response.country == 'CA'){
+      console.log(prod_amount,ca_amount)
+      if(ca_amount > prod_amount){
+        count++;
+//       	$('.inside_ca_prod_less').show();v
+        var text = $('.inside_ca_prod_less').text();
+        $('.product-single-shipping a span:not(.icon)').html('');
+        $('.product-single-shipping a span:not(.icon)').html(text+'<br> Learn more');
+      }else{
+        count++;
+//         $('.inside_ca_prod_over').show();	
+        var text = $('.inside_ca_prod_over').text();
+        $('.product-single-shipping a span:not(.icon)').html('');
+        $('.product-single-shipping a span:not(.icon)').html(text+'<br> Learn more');
+        console.log(text,'above')
+      }
+    }
+    else if(response.country == 'US' || response.country == 'USA'){
+      if(usa_amount > prod_amount){
+        count++;
+//         $('.inside_usa_prod_less').show();
+        var text = $('.inside_usa_prod_less').text();
+        $('.product-single-shipping a span:not(.icon)').html('');
+        $('.product-single-shipping a span:not(.icon)').html(text+'<br> Learn more');
+      }else{
+        count++;
+//         $('.inside_usa_prod_over').show();
+        var text = $('.inside_usa_prod_over').text();
+        $('.product-single-shipping a span:not(.icon)').html('');
+        $('.product-single-shipping a span:not(.icon)').html(text+'<br> Learn more');
+      }
+    }else{
+      count++;
+//       $('.global_msg').show();
+      var text = $('.global_msg').text();
+      $('.product-single-shipping a span:not(.icon)').html('');
+      $('.product-single-shipping a span:not(.icon)').html(text+'<br> Learn more');
+    }
+//     if(count == 0){
+//      $('.default_text').show();
+//     }
+  }, "jsonp");
+</script>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+		{
+          "type": "header",
+          "content": "Logo"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_svg_logo",
+          "label": "Use SVG logo"
+        },
+        {
+          "type": "url",
+          "id": "logo_url",
+          "label": "SVG Logo URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "logo_use_image",
+          "label": "Use custom logo"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo",
+          "label": "Custom logo"
+        },
+        {
+          "type": "range",
+          "id": "logo_max_widths",
+          "label": "Max logo width",
+          "max": 250,
+          "min": 50,
+          "step": 10,
+          "unit": "px",
+          "default": 50
+        },
+        {
+          "type": "link_list",
+          "id": "main_linklist",
+          "label": "Main Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "side_linklist",
+          "label": "Sidebar Menu"
+        },
+        {
+          "type": "link_list",
+          "id": "service_linklist",
+          "label": "Services Menu"
+        },
+        {
+          "type": "header",
+          "content": "Announcement Bar"
+        },
+        {
+          "type": "text",
+          "id": "announce_text",
+          "label": "Announcement Text"
+        },
+        {
+          "type": "text",
+          "id": "announce_linkable_text",
+          "label": "Announcement Linkable Text"
+        },
+        {
+          "type": "url",
+          "id": "announce_link",
+          "label": "Announcement Link"
+        },
+		{
+		  "type": "header",
+		  "content": "Different Country wise messages"
+		},
+		{
+		  "type": "text",
+		  "id": "ca_amount",
+		  "label": "Amount for CA"
+		},
+		{
+		  "type": "text",
+		  "id": "usa_amount",
+		  "label": "Amount for USA"
+		},
+  		{
+          "type": "text",
+          "id": "inside_ca_prod_less_text",
+          "label": " Inside of Canada, Product is amount less message"
+        },
+		{
+          "type": "text",
+          "id": "inside_usa_prod_less_text",
+          "label": " Inside of USA, Product is less message"
+        },
+		{
+          "type": "text",
+          "id": "inside_ca_prod_over_text",
+          "label": " Inside of CA, Product is amount over message"
+        },
+		{
+          "type": "text",
+          "id": "inside_usa_prod_over_text",
+          "label": " Inside of USA, Product is amount over message"
+        },
+		{
+          "type": "text",
+          "id": "global_prod_text",
+          "label": " Global message"
+        },
+        {
+          "type": "header",
+          "content": "Search Bar"
+        },
+        {
+          "type": "link_list",
+          "id": "trending_search_linklist",
+          "label": "Trending Search Menu"
+        },
+        {
+          "type": "header",
+          "content": "Search Products"
+        },
+		{
+          "type": "text",
+          "id": "search_pro_title",
+          "label": "Title"
+        },
+		{
+          "type": "product",
+          "id": "product1",
+          "label": "Product 1"
+        },
+		{
+          "type": "product",
+          "id": "product2",
+          "label": "Product 2"
+        },
+		{
+          "type": "product",
+          "id": "product3",
+          "label": "Product 3"
+        },
+		{
+          "type": "product",
+          "id": "product4",
+          "label": "Product 4"
+        }
+	],
+ 	"blocks": [
+      {
+        "type": "menu",
+        "name": "Mega menu",
+        "settings": [
+          {
+            "type":"text",
+            "id":"menu_item",
+            "label":"Menu item",
+            "info":"Enter menu item to apply a megamenu same as main nav"
+          },
+		  {
+            "type": "header",
+            "content": "Column 1"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column1_enable",
+            "label":"Column1 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column1_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column1_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column1_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column1_image",
+            "label":"Column1 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column1_image_link",
+            "label":"Column1 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column1_menu1",
+            "label":"Column1 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column1_menu1_title",
+            "label":"Column1 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column1_menu2",
+            "label":"Column1 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column1_menu2_title",
+            "label":"Column1 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column1_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column1_btn_link",
+            "label":"Button Link"
+          },
+		  {
+            "type": "header",
+            "content": "Column 2"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column2_enable",
+            "label":"Column2 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column2_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column2_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column2_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column2_image",
+            "label":"Column2 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column2_image_link",
+            "label":"Column2 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column2_menu1",
+            "label":"Column2 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column2_menu1_title",
+            "label":"Column2 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column2_menu2",
+            "label":"Column2 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column2_menu2_title",
+            "label":"Column2 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column2_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column2_btn_link",
+            "label":"Button Link"
+          },
+		  {
+            "type": "header",
+            "content": "Column 3"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column3_enable",
+            "label":"Column3 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column3_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column3_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column3_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column3_image",
+            "label":"Column3 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column3_image_link",
+            "label":"Column3 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column3_menu1",
+            "label":"Column3 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column3_menu1_title",
+            "label":"Column3 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column3_menu2",
+            "label":"Column3 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column3_menu2_title",
+            "label":"Column3 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column3_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column3_btn_link",
+            "label":"Button Link"
+          },
+		  {
+            "type": "header",
+            "content": "Column 4"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column4_enable",
+            "label":"Column4 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column4_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column4_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column4_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column4_image",
+            "label":"Column4 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column4_image_link",
+            "label":"Column4 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column4_menu1",
+            "label":"Column4 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column4_menu1_title",
+            "label":"Column4 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column4_menu2",
+            "label":"Column4 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column4_menu2_title",
+            "label":"Column4 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column4_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column4_btn_link",
+            "label":"Button Link"
+          },
+		  {
+            "type": "header",
+            "content": "Column 5"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column5_enable",
+            "label":"Column5 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column5_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column5_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column5_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column5_image",
+            "label":"Column5 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column5_image_link",
+            "label":"Column5 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column5_menu1",
+            "label":"Column5 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column5_menu1_title",
+            "label":"Column5 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column5_menu2",
+            "label":"Column5 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column5_menu2_title",
+            "label":"Column5 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column5_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column5_btn_link",
+            "label":"Button Link"
+          },
+		  {
+            "type": "header",
+            "content": "Column 6"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column6_enable",
+            "label":"Column6 Enable"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column6_show_border",
+            "label":"Show Border",
+			"info":"The border will only show when the menu is selected."
+          },
+		  {
+            "type":"checkbox",
+            "id":"column6_layout",
+            "label":"Enable 2 column layout"
+          },
+		  {
+            "type":"checkbox",
+            "id":"column6_add_space",
+            "label":"Add space between menu"
+          },
+		  {
+            "type":"image_picker",
+            "id":"column6_image",
+            "label":"Column6 Image",
+			"info":"If you will add image then you can't able to add navigation in this column."
+          },
+		  {
+            "type":"url",
+            "id":"column6_image_link",
+            "label":"Column6 Image Link"
+          },
+		  {
+            "type":"link_list",
+            "id":"column6_menu1",
+            "label":"Column6 Menu1"
+          },
+		  {
+            "type":"text",
+            "id":"column6_menu1_title",
+            "label":"Column6 Menu1 Title"
+          },
+		  {
+            "type":"link_list",
+            "id":"column6_menu2",
+            "label":"Column6 Menu2"
+          },
+		  {
+            "type":"text",
+            "id":"column6_menu2_title",
+            "label":"Column6 Menu2 Title"
+          },
+		  {
+            "type":"text",
+            "id":"column6_btn_text",
+            "label":"Button Text"
+          },
+		  {
+            "type":"url",
+            "id":"column6_btn_link",
+            "label":"Button Link"
+          }
+        ]
+      },
+	  {
+        "type": "article",
+        "name": "Article",
+        "settings": [
+		  {
+            "type":"text",
+            "id":"menu_item",
+            "label":"Menu item",
+            "info":"Enter menu item to apply a megamenu same as main nav"
+          },
+		  {
+            "type": "header",
+            "content": "Column 1"
+          },
+		  {
+            "type": "article",
+            "id": "article1",
+            "label": "Article 1"
+          },
+		  {
+            "type": "url",
+            "id": "article1_link",
+            "label": "Article 1 Link"
+          },
+		  {
+            "type": "text",
+            "id": "c_pro1_launch_date",
+            "label": "Article 1 Launch Date"
+          },
+		  {
+            "type": "header",
+            "content": "Column 2"
+          },
+          {
+            "type": "article",
+            "id": "article2",
+            "label": "Article 2"
+          },
+		  {
+            "type": "url",
+            "id": "article2_link",
+            "label": "Article 2 Link"
+          },
+		  {
+            "type": "text",
+            "id": "c_pro2_launch_date",
+            "label": "Article 2 Launch Date"
+          },
+		  {
+            "type": "header",
+            "content": "Column 3"
+          },
+          {
+            "type": "article",
+            "id": "article3",
+            "label": "Article 3"
+          },
+		  {
+            "type": "url",
+            "id": "article3_link",
+            "label": "Article 3 Link"
+          },
+		  {
+            "type": "text",
+            "id": "c_pro3_launch_date",
+            "label": "Article 3 Launch Date"
+          },
+		  {
+            "type": "header",
+            "content": "Column 4"
+          },
+          {
+            "type": "article",
+            "id": "article4",
+            "label": "Article 4"
+          },
+		  {
+            "type": "url",
+            "id": "article4_link",
+            "label": "Article 4 Link"
+          },
+		  {
+            "type": "text",
+            "id": "c_pro4_launch_date",
+            "label": "Article 4 Launch Date"
+          },
+		  {
+            "type": "header",
+            "content": "View All Button"
+          },
+          {
+            "type": "text",
+            "id": "btn_text",
+            "label": "Button Text"
+          },
+          {
+            "type": "url",
+            "id": "btn_link",
+            "label": "Button Link"
+          }
+		]
+	  }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

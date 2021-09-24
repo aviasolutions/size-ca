@@ -1,0 +1,117 @@
+<script>
+  
+    let amount = 0.0, priceSelector = ""
+    let currency = "CAD", locale = "en_CA" 
+    
+    
+   {% case template.name %} 
+      {% when "product" %}
+          amount = "{{product.selected_or_first_available_variant.price | money_without_currency }}"
+          priceSelector= ".product-single-price"
+    
+      {% when "cart" %}     
+          amount = "{{cart.total_price | money_without_currency }}"
+          priceSelector = ".sub_total"
+  
+    
+      {% when "product" or "cart" %}
+        window._deadstock = window._deadstock || {};
+
+        // load Afterpay conditionally
+        _deadstock.loadAfterpay = function(countryCode){
+          var allowed_cCode = {{- settings.geolocation_allowed_ccode | downcase | json -}};
+          var hideOnPDP = {{- settings.hide_afterpay_on_pdp | json -}};
+          var hideOnCart = {{- settings.hide_afterpay_on_cart | json -}};
+          var tempName = {{- template.name | json -}};
+
+          var showAfterpay = true;
+          if(countryCode && allowed_cCode){
+            countryCode = countryCode.toLowerCase();
+            if(allowed_cCode.indexOf(countryCode) === -1){
+              if(tempName == 'product' && hideOnPDP){
+                showAfterpay = false;
+              }
+              if(tempName == 'cart' && hideOnCart){
+                showAfterpay = false;
+              }
+            }
+          }
+
+          if(showAfterpay){
+            Afterpay.createPlacements({
+              targetSelector: priceSelector, 
+                attributes: {
+                currency: currency,
+                locale: locale,
+                amount: amount,
+                logoType: "lockup",
+                size: "xs",
+                modalTheme: "white"
+              } 
+            });
+          }
+        }
+
+        // FetchLocation
+        _deadstock.fetchUserGeoLocation = function(callback){
+          //http://api.ipstack.com/103.85.9.134?access_key=18558d90da9e0206bf2e1b57d664f60d&format=1
+          fetch("https://api.db-ip.com/v2/free/self")
+          .then(function(res){
+            return res.json()
+          })
+          .then(function(data){
+            if(data){
+              var ccode = data.countryCode;
+              _deadstock.setCookie('ccode',ccode,180);
+              if(callback && (typeof callback === 'function')){
+                callback(ccode);
+              }
+            }
+          })
+          .catch(function(error){
+            loadAfterpay();
+          });
+        }
+
+        _deadstock.setCookie = function(name,value,days) {
+          var expires = "";
+          if (days) {
+              var date = new Date();
+              date.setTime(date.getTime() + (days*24*60*60*1000));
+              expires = "; expires=" + date.toUTCString();
+          }
+          document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+
+        _deadstock.getCookie = function(name) {
+          var nameEQ = name + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0;i < ca.length;i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1,c.length);
+              if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+          }
+          return null;
+        }
+        _deadstock.eraseCookie = function(name) {   
+            document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+
+        window.onload = function(){
+          var ccode = _deadstock.getCookie('ccode');
+          if(ccode){
+            _deadstock.loadAfterpay(ccode);
+          } else {
+            _deadstock.fetchUserGeoLocation(_deadstock.loadAfterpay);
+          }
+        }
+        
+    {%endcase%}
+  </script>
+  
+  <style>
+    afterpay-placement {}
+    .cart  afterpay-placement {text-align: center;}
+  </style>
+  
+  

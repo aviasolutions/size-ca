@@ -1,0 +1,9 @@
+{% if page.metafields.global.drawing.size > 0 %}
+<div id="drawinglogin">
+  {% render 'drawing-login' %}
+ </div>
+    {% render 'drawing-app-form' %}
+{% else %}
+{% section '404-template' %}
+{% endif %}
+  

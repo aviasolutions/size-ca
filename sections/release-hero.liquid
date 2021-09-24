@@ -1,0 +1,194 @@
+<div class="release-hero-wrap">
+  <div class="feature_rows">
+    <div class="feature_row_half feature_text-column">
+      {% assign article = articles[section.settings.article] %}
+      <h2>{{ article.title }}</h2>      
+      
+      {% if section.settings.show_timer %}
+        <p><label>{{ section.settings.timer_title }}</label></p>
+        <div id="countDown_timer"></div>
+      {% endif %}
+      
+      {% if section.settings.btn_link != blank %}
+      <a href="{{ section.settings.btn_link }}" class=" hero_btn btn button">
+        {{ section.settings.btn_text }}
+      </a>
+      {% else %}
+      <a href="#modal-opened" class="view_btn btn button" id="modal-closed">
+        {{ section.settings.btn_text }}
+      </a>
+      {% endif %}
+      
+      <!--start popup-->
+      <div class="modal-container" id="modal-opened">
+        <div class="modal">
+          <div class="popup_rows">
+              <div class="popup_column image_column">
+                <div class="image_wrap">
+                  {{ article | img_url: '1024x1024' | img_tag: article.title }}                  
+                </div>
+                <span class="drop_date">
+                  {% for tag in article.tags %}
+                  {% if tag contains 'Dropdate' %}
+                  {{tag | split :"_" | last }}
+                  {% endif %}
+                  {% endfor %}
+                </span>
+              </div>
+              <div class="popup_column text_column">
+                <div class="text_column__iner">
+                  <h2 class="h3">{{ article.title }}</h2>
+                  <span class="pro_price">
+                    {% for tag in article.tags %}
+                    {% if tag contains 'Price' %}
+                    {{tag | split :"_" | last }}
+                    {% endif %}
+                    {% endfor %}
+                  </span>
+                  <div class="rte">
+                    {{ article.content }}
+                  </div>
+                  <div class="pop_footer">
+                    {% if article.metafields.blog.signup_link != blank %}
+                    <a class="signup_btn" href="{{ article.metafields.blog.signup_link }}">
+                      {{ section.settings.notify_btn }}
+                    </a>
+                    {% endif %}
+                    {% if article.metafields.blog.raffle_btn_url != blank %}
+                    <a class="signup_btn text-center" href="{{ article.metafields.blog.raffle_btn_url }}">
+                      {{ section.settings.raffle_btn }}
+                    </a>
+                    {% endif %}
+                    {% if article.metafields.blog.product_url != blank %}
+                    <a class="signup_btn text-center" href="/products/{{article.metafields.blog.product_url}}" >
+                      {{ section.settings.shopnow_btn }}
+                    </a>
+                    {% endif %}
+                    
+                    <p class="social_title">{{ section.settings.social_title }}</p>
+                    {% include 'social-links' %} 
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="#modal-closed" class="modal-close"><svg id="Capa_1" enable-background="new 0 0 413.348 413.348" height="512" viewBox="0 0 413.348 413.348" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"/></svg></a>
+          
+        </div>
+      </div>
+      <!--end popup-->
+      
+      
+    </div>
+    <div class="feature_row_half feature_image-column">
+      <div class="img_wrap">
+        {% if section.settings.image != blank %}
+        <img class="desktop_img" src="{{ section.settings.image | img_url:'master' }}">
+        {% endif %}
+        {% if section.settings.mobile_image != blank %}
+        <img class="mobile_img" src="{{ section.settings.mobile_image | img_url:'master' }}">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+<input type="hidden" class="ctm_date" value="{{ section.settings.date }}">
+<input type="hidden" class="ctm_time" value="{{ section.settings.time }}">
+<style type="text/css">
+  #shopify-section-{{ section.id }}{
+    background:{{ section.settings.bg_color }};
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Release Hero",
+    "settings": [
+		{
+          "type": "article",
+          "id": "article",
+          "label": "Select Article"
+        },
+		{
+          "type": "image_picker",
+          "id": "image",
+          "label": "Article Custom Image"
+        },
+		{
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Article Custom Mobile Image"
+        },
+		{
+          "type": "text",
+          "id": "btn_text",
+          "label": "Hero Button Text"
+        },
+		{
+          "type": "url",
+          "id": "btn_link",
+          "label": "Hero Button Link"
+        },
+		{
+          "type": "color",
+          "id": "bg_color",
+          "label": "Background Color"
+        },
+	    {
+		  "type": "header",
+		  "content": "Timer Setting"
+		},
+		{
+          "type": "checkbox",
+          "id": "show_timer",
+          "label": "Show Countdown Timer"
+        },
+		{
+          "type": "text",
+          "id": "timer_title",
+          "label": "Timer Title"
+        },
+		{
+		  "type": "text",
+		  "id": "date",
+		  "label": "Date",
+		  "info": "date formate : Apr 22, 2021"
+		},
+		{
+		  "type": "text",
+		  "id": "time",
+		  "label": "Time",
+		  "info": "Time formate : 15:30:25"
+		},
+	    {
+		  "type": "header",
+		  "content": "Popup Setting"
+		},
+		{
+          "type": "text",
+          "id": "shopnow_btn",
+          "label": "Shopnow Button Text"
+        },
+		{
+          "type": "text",
+          "id": "notify_btn",
+          "label": "Notify Button Text"
+        },
+		{
+          "type": "text",
+          "id": "raffle_btn",
+          "label": "Raffle Button Text"
+        },
+		{
+          "type": "text",
+          "id": "social_title",
+          "label": "Social Title Text"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

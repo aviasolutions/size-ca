@@ -1,0 +1,101 @@
+<section class="page__template" data-section-type="page-drawings" data-section-id={{section.id}}>
+    <h1 class="page__title">{{page.title}}</h1>
+  
+    <div class="page-drawings__drawings">
+      {% for block in section.blocks %}
+        <div class="page-drawings__drawing" js-drawing-card>
+          <div class="drawing__image-container">
+            <img class="drawing__image" src="{{ block.settings.image.src | img_url: '800x' }}" alt="">
+          </div>
+          <h1 class="drawing__title">{{block.settings.title}}</h1>
+          {% if block.settings.soldout %}
+            <span class="drawing__soldout">Sold Out</span>
+          {% elsif block.settings.drawing_start != blank %}
+            <div class="drawing__cta-container" data-handle="{{block.settings.handle}}" data-drawing="{{block.settings.drawing_url}}" data-live="{{block.settings.product_live}}" data-start="{{block.settings.drawing_start}}" data-end="{{block.settings.drawing_end}}" js-drawing-cta>
+              <span class="drawing__opening">Drawing Opens: {{block.settings.drawing_start}}</span>
+            </div>
+          {% elsif block.settings.product_live != blank %}
+            <div class="drawing__cta-container" js-drawing-cta>
+              <a href="/products/{{block.settings.handle}}">Shop Now</a>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  
+  
+  
+  {% schema %}
+  {
+    "name": "Drawings",
+    "settings": [
+    ],
+    "blocks": [
+      {
+        "type": "drawing",
+        "name": "Drawing",
+        "settings": [
+          {
+            "type": "header",
+            "content": "Product Information"
+          },
+          {
+            "type": "checkbox",
+            "id": "soldout",
+            "label": "Sold Out"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+          {
+            "type": "text",
+            "id": "handle",
+            "label": "Product Handle"
+          },
+          {
+            "type": "text",
+            "id": "product_live",
+            "label": "Product Live Date & Time (required)",
+            "info": "format: YYYY-MM-DD HH:mmA i.e. '2020-12-04 09:45AM', times are PST"
+          },
+          {
+            "type": "header",
+            "content": "Drawing Information"
+          },
+          {
+            "type": "text",
+            "id": "drawing_url",
+            "label": "Drawing URL"
+          },
+          {
+            "type": "text",
+            "id": "drawing_start",
+            "label": "Drawing Start Date & Time",
+            "info": "format: YYYY-MM-DD HH:mmA i.e. '2020-12-04 09:45AM', times are PST"
+          },
+          {
+            "type": "text",
+            "id": "drawing_end",
+            "label": "Drawing End Date & Time",
+            "info": "format: YYYY-MM-DD HH:mmA i.e. '2020-12-04 09:45AM', times are PST"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Drawings",
+        "category": "Drawings"
+      }
+    ]
+  }
+  
+  {% endschema %}

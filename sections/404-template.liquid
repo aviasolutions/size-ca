@@ -1,0 +1,32 @@
+{% if section.settings.title != blank %}
+<h1>{{ section.settings.title }}</h1>
+{% endif %}
+
+{% if section.settings.description != blank %}
+<div class="rte">{{ section.settings.description }}</div>
+{% endif %}
+
+
+{% schema %}
+  {
+    "name": "404 page",
+    "settings": [
+		{
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+		{
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,1244 @@
+/*String.prototype.slug = function() {
+  return this.toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'-');
+};
+
+crispTheme.getParamFromURL = function(param, paramURL){
+    if(!param){
+      return false;
+    }
+  	
+	var url_str = window.location.href;
+  	if(paramURL && typeof paramURL === "string"){
+    	url_str = paramURL;
+  	}
+	var url = new URL(url_str);
+	var search_params = url.searchParams; 
+	return search_params.get(param);
+}
+
+crispTheme.setParamInURL = function(param, value, paramURL){
+    if(!param || !value){
+      return false;
+    }
+  
+  	var url_str = window.location.href;
+  	if(paramURL && typeof paramURL === "string"){
+    	url_str = paramURL;
+  	}
+  
+  	var url = new URL(url_str);
+	var search_params = url.searchParams;
+	search_params.set(param, value);
+	
+  	//=========================================
+  	url.search = search_params.toString();
+ 	var new_url = url.toString();
+	
+	return new_url;
+}
+
+crispTheme.deleteParamInURL = function(param, paramURL){
+  if(!param){
+    return false;
+  }
+	var url_str = window.location.href;
+  	if(paramURL && typeof paramURL === "string"){
+    	url_str = paramURL;
+  	}
+	var url = new URL(url_str);
+	var search_params = url.searchParams;
+  	search_params.delete(param);
+  	
+  	//=========================================
+  	url.search = search_params.toString();
+	var new_url = url.toString();
+	
+  	return new_url;
+}
+
+crispTheme.onlyUnique = function(value, index, self){
+  return self.indexOf(value) === index;
+}
+
+crispTheme.arrLowerCase = function(arr){
+  if(arr && Array.isArray(arr)){
+    var arrTemp = arr.map(function(item){
+      return item.toLowerCase();
+    });
+    arr = arrTemp;
+  }
+  return arr;
+}
+
+crispTheme.CrispAPI = (function() {
+  var cache = {
+    collection_template: "__DO-NOT-SELECT__.products",
+    search_template: "__DO-NOT-SELECT__",
+    products_per_page: 24,
+    products_per_preview: 5,
+    hide_oos: false
+  }
+  
+  function setHideOOS(flag) {
+    cache.hide_oos = flag; 
+  }
+
+  function initializeCrisp(type, handle) {
+    if(!handle) {
+      console.error("Invalid Collection/Search Handle/Query");
+    }
+    
+    if(type) {
+      if(type == "collection" && handle){
+        return Crisp.Collection({
+          handle: handle, // REQUIRED
+          template: cache.collection_template, // REQUIRED
+      	});
+      }
+      if(type == "search"){
+        if(!handle){
+          handle = '*';
+        }
+        return Crisp.Search({
+          query: handle, // REQUIRED
+          template: cache.search_template, // REQUIRED
+          exact: false,
+    	  types: ['product']
+      	});
+      }
+	
+      if(type == 'searchableCollection' && handle){
+        var query = crispTheme.getParamFromURL('q') || '';
+        return Crisp.SearchableCollection({
+          handle: handle, // REQUIRED
+		  query: query, 
+          collectionTemplate: cache.collection_template, // REQUIRED
+          searchTemplate: cache.search_template, // REQUIRED
+          // Enable * searching
+          exact: false
+        });
+      }
+
+    }
+
+    return false;
+  }
+
+  function initializeCrispFilters(filters) {
+    // filters format: {
+    //   "name": <string>,
+    //   "children": {
+    //     name: <string>,
+    //     context: <jquery>,
+    //     filter: function(payload) {
+    //       - true: show
+    //       - false: skip
+    //     }
+    //   }
+    // }
+
+    return Crisp.Filter({
+      global: [
+        function(payload) {
+          //var product = payload.product;
+          //((product.available || !crispTheme.settings.hide_oos || crispTheme.settings.oos_override));
+          return true;
+        },
+      ],
+      filters: filters
+    });
+  }
+
+
+  function getProducts(crisp) {
+    return crisp.getNext({
+      number: cache.products_per_page
+    });
+  }
+  
+  function getAllProducts(crisp, count){
+    var productCount = 1000;
+    if(count)productCount = count;
+    
+    return crisp.get({
+      number: productCount
+    });
+  }
+  
+  return {
+    initializeCrisp: initializeCrisp,
+    getProducts: getProducts,
+    initializeCrispFilters: initializeCrispFilters,
+    setHideOOS: setHideOOS,
+    getAllProducts: getAllProducts,
+    cache: cache
+  }
+})();
+//src="{ItemFeaturedSmallImage}" 
+crispTheme.Collection = (function() {
+  var cache = {
+    crisp: null,
+    crisp_filter: null,
+    $product_container: $(".collection_product_wrapper"),
+    $product_wrapper: $(".collection-wrapper--bottom"),
+    product_list: [],
+    filter_value: null,
+    filter_data: null,
+    $filters_container: $(".listing-filters__selectors"),
+    filters_logic: [],
+    selected_filters: [],
+    selected_filters_temp: [],
+    unselected_filters:[],
+    $mobileFilterToggle: $(".listing-filters__actions button"),
+    productHtml: '<div class="grid__item large--one-third medium--one-half">'+
+    				'<a href="{ItemURL}" class="grid__image">'+
+    					'<img data-src="{ItemFeaturedImage}" data-sizes="auto" srcset="{ItemFeaturedImageSrcset}" data-widths="[180,360,540,720,900,1080,1296,1512,1728,1944,2048]" class="lazyautosizes lazyload" alt="{ItemTitle}" />'+
+    				'</a>'+
+    				'<div class="quick-view-button">'+
+    					'<a class="quick-view" data-handle="{product.handle}" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 200 200"><defs><style>.cls-1 { fill-rule: evenodd;}</style></defs><path id="BASKET" class="cls-1" d="M128.167,87H150l-14,55H64L50,87H71L99.583,58.417ZM70.8,134h58.4L139,95H61Zm46.367-47L99.583,69.417,82,87h35.167Z"></path></svg> <span>Quick Buy</span></a>'+
+  					'</div>'+
+    				'<p class="h6"><a href="{ItemURL}">{ItemTitle}</a></p>'+
+    				'<div class="price-wrapper"><p>{ItemPrice}</p>{ItemCompareAtPrice}</div>'+
+				'</div>',
+    gridView: '<div class="grid__item">'+
+    			'<div class="grid large--display-table">'+
+                  '<div class="grid__item large--one-fifth large--display-table-cell medium--one-third">'+
+                      '<a href="{ItemURL}">'+
+                          '<img data-src="{ItemFeaturedImage}" srcset="{ItemFeaturedImageSrcset}" data-sizes="auto" data-widths="[180,360,540,720,900,1080,1296,1512,1728,1944,2048]" alt="{ItemTitle}" class="lazyautosizes lazyload grid__image" />'+
+                      '</a>'+
+    				  '<div class="quick-view-button {hide_cls}">'+
+    					'<a class="quick-view" data-handle="{product.handle}" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 200 200"><defs><style>.cls-1 { fill-rule: evenodd;}</style></defs><path id="BASKET" class="cls-1" d="M128.167,87H150l-14,55H64L50,87H71L99.583,58.417ZM70.8,134h58.4L139,95H61Zm46.367-47L99.583,69.417,82,87h35.167Z"></path></svg> <span>Quick Buy</span></a>'+
+  					'</div>'+
+                  '</div>'+
+                  '<div class="grid__item large--four-fifths large--display-table-cell medium--two-thirds">'+
+                      '<div class="grid">'+
+                          '<div class="grid__item large--three-quarters medium--two-thirds"><p class="h6">{ItemTitle}</p></div>'+
+                          '<div class="grid__item large--one-quarter medium--one-third">{ItemPrice}</div>'+
+                      '</div>'+
+                  '</div>'+
+    			'</div>'+
+			'</div>',
+    moneyFormat: crispTheme.settings.moneyFormat,
+    loadMoreType: crispTheme.settings.loadMoreType,
+    paginate: crispTheme.settings.paginate,
+    priceMinMax: Object.assign({},crispTheme.settings.priceMinMax),
+    priceMinMaxFilter: false,
+    sliderInstance: null,
+    colorFilterEnable: crispTheme.settings.colorFilterEnable,
+    page: null,
+    filterParamName: 'filter',
+    API_URL: null,
+    pages:1,
+    filterHtml: '<div class="listing-filters__group" data-group="{prefix}">'+
+                      '<div class="filter-title-wrapper">'+
+                          '<button class="filter-group__title select">{prefixTitle}<span class="filter-group__title--number"></span></button>'+
+                          '<button class="filter-group__action--clear btn btn--secondary">Clear</button>'+
+    				'</div><div class="filter-group__actions">'+
+    				'<div class="filter-group__action--filters">'+
+    				'{filterItemsHtml}</div></div></div>',
+    filterItemHtml: '<div class="filter-group__filter" data-filter="{tag}">'+
+                            '<input data-group="{prefix}" data-filter="{tag}" id="{tagHandle}" class="filter-group__filter--checkbox" type="checkbox" value="{tag}" />'+
+                            '<label data-group="{prefix}" data-filter="{tag}" for="{tagHandle}" class="filter-group__filter--label">{prefixValue}</label>'+
+                         '</div>'
+  }
+  
+  var selectors = {
+    product_listing: ".collection_product_wrapper .grid__item",
+    product_listing_end: ".product__listing--end",
+    product_listing_empty: ".product__listing--empty",
+    filters_container: ".listing-filters__container",
+    filter: ".filter-group__filter--checkbox",
+    filter_count: ".filter-group__title--number",
+    filter_parent: ".listing-filters__group",
+    filter_group: ".filter-group__action--filters",
+    filter_toggle: ".filter-group__title",
+    filter_container: ".filter-group__actions",
+    filter_apply: ".filter-group__action--apply",
+    filter_clear: ".filter-group__action--clear",
+    tabs_container: ".listing-filters__tags",
+    tab: ".listing-filters__tag",
+    sort: "#SortBy",
+    filterParent: '.collection-wrapper--top',
+    clearAll: '.btn-clear-all',
+    pagi_arrow: '.collection-wrapper .pagination-wrapper .next, .collection-wrapper .pagination-wrapper .prev',
+    priceSlider: "#slider-range"
+  }
+  
+  function Collection() {
+    cache.filter_data = crispTheme.settings.collection_filters;
+    var hasFilterItmes = Object.keys(cache.filter_data);
+    if(hasFilterItmes.length === 0){
+      return false;
+    }
+    
+    if($('body.template-collection').length){
+      cache.page = 'collection';
+      // setup variable and data
+      initialSettings();
+    }
+    if($('body.template-search').length){
+      cache.page = 'search';
+      if(crispTheme.settings.paginate.items === 0){
+        setProducts([]);
+        return false;
+      } else {
+        var countInTitle = document.title.match(/\d+/);
+        if(countInTitle){
+          	var t = document.title.replace(countInTitle[0],'');
+        	document.title = t;
+        }
+        getAllProductsData();
+      }
+    }
+  }
+  
+  function getAllProductsData(){
+    if(crispTheme.settings){
+      var paginate = crispTheme.settings.paginate ? crispTheme.settings.paginate : null;
+      if(paginate && paginate.pages){
+        cache.pages = paginate.pages;
+      }
+      
+      var searchTemplate = crispTheme.CrispAPI.cache.search_template;
+      var query = crispTheme.getParamFromURL('q');
+      if(query && searchTemplate){
+        cache.API_URL = '/search?q='+query+'&view='+searchTemplate;
+      }
+      
+      if(cache.pages && cache.API_URL){
+        mergeProductsData().then(function(res){
+          //console.log('ress',res);
+          //window.rr = res;
+          if(res && res.length){
+            afterFetchCallBack(res);
+          } else {
+            //alert('Error');
+            console.log('Error while fetching products data');
+          }
+        });
+      }
+    }
+  }
+  
+  function afterFetchCallBack(res){
+    var count = 0, allProductsData = [];
+    
+    res.map(function(data){
+      var productPayload = data.payload.filter(function(d){
+        return d.objType === 'product';
+      });
+      productPayload.map(function(p){
+        allProductsData.push(p);
+      });
+    });
+	
+    if(allProductsData.length){
+      //window.ress = allProductsData;
+      // change title
+//       var count = allProductsData.length;
+//       var countInTitle = document.title.match(/\d+/);
+//       if(countInTitle){
+//         var t = document.title.replace(countInTitle[0],'');
+//       	document.title = t;
+//       }
+      
+      // build filter items
+      buildFlterItem(allProductsData);
+    } else {
+      	setProducts([]);
+        return false;
+    }
+  }
+  
+  function buildFlterItem(allProductsData){
+    var collectionAllTags = [];
+	var allFilterItems = crispTheme.settings.allowed_filter_tags;
+    allFilterItems = crispTheme.arrLowerCase(allFilterItems);
+    
+    allProductsData.map(function(p){
+      if(p.product.tags){
+        p.product.tags.map(function(t){
+          collectionAllTags.push(t);
+        });
+      }
+    });
+
+    if(allFilterItems.length){
+      var filterItems = {};
+      allFilterItems.map(function(prefix){
+        if(!['colour','size','price'].includes(prefix)){
+          prefix = prefix.trim();
+          filterItems[prefix] = [];
+          collectionAllTags.filter(function(t){
+            var t_downcase = t.toLowerCase().trim();
+            var t_prefix = t.split('_')[0].toLowerCase().trim();
+            if(t_prefix === prefix){
+              filterItems[prefix].push(t_downcase);
+            }
+          });
+          filterItems[prefix] = filterItems[prefix].filter(crispTheme.onlyUnique);
+        }
+      });
+    }
+    
+    //window.filterItems = filterItems;
+	
+    var allowedPrefix = Object.keys(filterItems);
+
+    if(allowedPrefix.length){
+      allowedPrefix.reverse();
+      allowedPrefix.map(function(prefix){
+        var prefixValues = filterItems[prefix];
+        
+        if(prefixValues && prefixValues.length){
+          var filterHtml = cache.filterHtml;
+          var filterItemHtmlStr = '';
+          var prefixTitle = prefix;
+          if(prefixTitle.indexOf('filter category') > -1){
+            prefixTitle = 'category';
+          }
+          if(prefixTitle.indexOf('gender designation') > -1){
+            prefixTitle = 'gender';
+          }
+          filterHtml = filterHtml.replace(/{prefix}/g,prefix);
+          filterHtml = filterHtml.replace(/{prefixTitle}/g,prefixTitle);
+          
+          prefixValues.map(function(v){
+            var filterItemHtml = cache.filterItemHtml;
+            var prefixValue = v.split('_')[1].trim();
+            var tagHandle = v.slug();
+            filterItemHtml = filterItemHtml.replace(/{prefix}/g,prefix);
+            filterItemHtml = filterItemHtml.replace(/{tag}/g,v);
+            filterItemHtml = filterItemHtml.replace(/{tagHandle}/g,tagHandle);
+            filterItemHtml = filterItemHtml.replace(/{prefixValue}/g,prefixValue);
+            filterItemHtmlStr += filterItemHtml;
+          });
+          filterHtml = filterHtml.replace(/{filterItemsHtml}/g,filterItemHtmlStr);
+          $('.listing-filters__container .listing-filters__selectors').prepend(filterHtml);
+        }
+      });
+    }
+    
+    var allPriceFilterItems = crispTheme.settings.collection_filters.all['price'];
+    var allColourFilterItems = crispTheme.settings.collection_filters.all['colour'];
+    var allSizeFilterItems = crispTheme.settings.collection_filters.all['size'];
+    filterItems['price'] = allPriceFilterItems;
+    filterItems['colour'] = allColourFilterItems;
+    filterItems['size'] = allSizeFilterItems;
+    
+    var collectionHandle = crispTheme.settings.collection_handle;
+    crispTheme.settings.collection_filters[collectionHandle] = filterItems;
+    cache.filter_data = crispTheme.settings.collection_filters;
+    
+    initialSettings();
+    
+    // Re-Initialize Crisp Filter
+    //cache.crisp_filter = crispTheme.CrispAPI.initializeCrispFilters(cache.filters_logic);
+  }
+  
+  function fetchProducts( apiUrl ) {
+    return new Promise(function(resolve, reject) {
+      fetch( apiUrl )
+        .then( function(res){
+          return res.json();
+        })
+
+        // CHECK : Return object if good, otherwise resolve as {} to avoid breaking Promise.All & purge in normalizer
+        .then( function(mergeData){
+          if ( mergeData ) {
+            resolve( mergeData );
+          } else {
+            throw new Error( '> Bad data was returned - '+ crispTheme.CrispAPI.cache.search_template +' may have an issue / be missing.' );
+          }
+        })
+
+        // FALLBACK : Do not fail chain, return empty object to purge via normalizer step
+        .catch( function(err) {
+          console.log( '::: ERROR : Unable to fetch data for: '+ apiUrl +' -- Product may no longer exist.'+ err +'' );
+          resolve( {} );
+        });
+    });
+  }
+  
+  function mergeProductsData () {
+    var pagesArr = [];
+    if(cache.pages){
+      var i = 1;
+      while(i <= cache.pages){
+        pagesArr.push(i);
+        i++;
+      }
+    }
+
+    return Promise.all(
+      pagesArr.map( ( pageIndex, index ) => {
+        var newURL = cache.API_URL + '&page='+pageIndex;
+        return fetchProducts( newURL )
+        .then( products => {
+          return products;
+        });
+      })
+    ).catch( err => {
+      throw new Error( err );
+    });
+  }
+  
+  function initialSettings(){
+    if(cache.page == 'collection'){
+		cache.crisp = crispTheme.CrispAPI.initializeCrisp("collection", crispTheme.settings.collection_handle);
+    }
+    if(cache.page == 'search'){
+      var query = crispTheme.getParamFromURL('q') || '';
+      cache.crisp = crispTheme.CrispAPI.initializeCrisp("searchableCollection",'all');
+      cache.crisp.setQuery(query);
+      cache.crisp.setAnd(false);
+      //cache.crisp.setTypes(['title', 'product_type','variants.title']);
+    }
+    
+    cache.filter_value = (typeof crispTheme.settings.parameters.has == "function" ? (crispTheme.settings.parameters.has(cache.filterParamName) ? decodeURIComponent(crispTheme.settings.parameters.get(cache.filterParamName)) : "") : "");
+    
+    if(window.location.search.indexOf('view=list') > -1){
+      cache.productHtml = cache.gridView;
+    }
+    
+    //buildCollectionFilters();
+    
+    // Initialize Crisp Filter
+    cache.crisp_filter = crispTheme.CrispAPI.initializeCrispFilters(cache.filters_logic);
+    
+    // Range slider
+    //initPriceSlider();
+    
+    // Init Filter Events :: Click, Change, scroll etc...
+    //initFilterEvents();
+    
+    //sortSizeFilterOrder();
+    
+    // Update Filter Html :: On Load :: Base on queryString
+    //setFiltersByHistory();
+    
+    /*$(window).load(function(){
+      // Load Products :: Infinite Scrolling
+      if(cache.loadMoreType === 'infinite'){
+        $(window).bind("scroll", checkLocationOnScroll);
+      }
+    });
+  }
+  
+  /*function initPriceSlider(){
+    if(cache.priceMinMax.enable && $(selectors.priceSlider).length){
+      $(selectors.priceSlider).slider({
+        range: true,
+        min: crispTheme.settings.priceMinMax.min || 1,
+        animate: "fast",
+        max: crispTheme.settings.priceMinMax.max || 1000,
+        step: 5,
+        values: [ crispTheme.settings.priceMinMax.min, crispTheme.settings.priceMinMax.max ],
+        //value: crispTheme.settings.priceMinMax.max,
+        stop: function( event, ui ) {
+          //var minAmt = crispTheme.settings.priceMinMax.min * 100;
+          var minAmt = ui.values[0] * 100;
+          var minPrice = Shopify.formatMoney(minAmt,cache.moneyFormat);
+
+          var maxAmt = ui.values[1] * 100;
+          var maxPrice = Shopify.formatMoney(maxAmt,cache.moneyFormat);
+
+          //cache.priceMinMax.min = crispTheme.settings.priceMinMax.min;
+          cache.priceMinMax.min = ui.values[0];
+          cache.priceMinMax.max = ui.values[1];
+
+          $( "#slider-range-amount" ).val( "From " + minPrice + " - To " + maxPrice);
+
+          //updateFilters(true);
+          cache.priceMinMaxFilter = true;
+          applyFilters();
+        }
+      });
+      
+      cache.sliderInstance = $( "#slider-range" ).slider( "instance" );
+    }
+  }
+  
+  /*function initFilterEvents(){
+    // Mobile :: Filter Show / Hide
+    cache.$mobileFilterToggle.on("click", toggleFilters);
+    
+    // Desktop :: Filter Dropdown Show / Hide
+    $(document).on("click", selectors.filter_toggle, toggleFilterDropdown);
+    
+    // Filter Apply Button 
+    //$(document).on("click", selectors.filter_apply, applyFilters);
+    
+    // Filter Clear Button 
+    $(document).on("click", selectors.filter_clear, clearFilterGroup);
+    
+    // Selected filter remove :: Clear selected filter
+    $(document).on("click", selectors.tab, removeFilterViaTab);
+    
+    // clear ALl
+    $(document).on("click", selectors.clearAll, clearFilters);
+    
+    // On Change :: Filter Change
+    $(document).on("change", selectors.filter, applyFilters);
+    
+    // On window URL change
+    window.onpopstate = setFiltersByHistory;
+    
+    // Sort By
+    $(selectors.sort).on('change', function(){
+      var sortVal = $(this).val();
+      cache.crisp.setOrder(sortVal);
+      var newURL = crispTheme.setParamInURL('sort_by',sortVal);
+      applyFilters(newURL);
+    });
+    
+    
+    //Pagination
+    $(document).on('click',selectors.pagi_arrow, function(e){
+      	e.preventDefault();
+      	var totalPages = cache.paginate.pages;
+		var current_page = cache.paginate.current_page;
+      	var productPerPage = cache.paginate.page_size;
+      	
+        if($(this).hasClass('next')){
+         var next_page = current_page + 1; 
+         var offset = current_page * cache.paginate.page_size;
+        } else {
+          var next_page = current_page - 1;
+          var offset = (next_page-1) * cache.paginate.page_size;
+        }
+      
+        if((next_page > totalPages) || (next_page < 1)){
+          return false;
+        }
+      	
+        var productPromise = cache.crisp.get({number:productPerPage, offset:offset});
+      	
+        if(next_page > 1){
+          $(this).closest('.pagination-wrapper').find('.prev').show();
+        } else {
+          $(this).closest('.pagination-wrapper').find('.prev').hide();
+        }
+      
+        if(next_page === totalPages){
+        	$(this).closest('.pagination-wrapper').find('.next').hide();
+        } else {
+          	$(this).closest('.pagination-wrapper').find('.next').show();
+        }
+      
+      	$(this).closest('.pagination-wrapper').find('.current').html(next_page);
+      	
+      	cache.paginate.previous = current_page;
+      	cache.paginate.current_page = next_page;
+      
+        productPromise.then(function(response) {
+          cache.$product_container.children().remove();
+          setProducts(response);
+          var t = $('.collection-wrapper').offset().top - 100;
+          $('html, body').animate({'scrollTop': t+'px'},800);
+        });
+    });
+    
+  }
+  
+  /*function checkLocationOnScroll() {
+    var wst = $(window).scrollTop();
+    var pwh = $('.collection_product_wrapper').height();
+    if(screen.width > 767){
+      pwh = pwh - 300;
+    }
+    var target = $('.products-loadmore').offset().top - 200;
+    //if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
+    if(wst >= pwh){
+      $(window).unbind("scroll", checkLocationOnScroll);
+      $('.products-loadmore').show();
+      setTimeout(function(){
+        getProducts();
+        $(window).bind("scroll", checkLocationOnScroll);
+      },1000);
+      
+    }
+  }
+
+  function updateFilters(update_history, paramURL) {
+    if(cache.page === 'collection'){
+      cache.crisp_filter.setQuery(cache.selected_filters.join(","));
+    }
+    var filter_q = cache.crisp_filter.getQuery();
+    
+    $(selectors.filter_parent).each(function() {
+      var filter_count = $(this).find(":checked").length;
+      $(this).find(selectors.filter_count).html((filter_count > 0 ? "("+filter_count+")" : ""));
+    });
+
+    if(update_history) {
+      var has_q = crispTheme.getParamFromURL(cache.filterParamName, paramURL);
+      var has_sortby = crispTheme.getParamFromURL('sort_by', paramURL);
+      var newURL = window.location.href;
+      
+      if(paramURL && typeof paramURL === "string"){
+          newURL = paramURL;
+      }
+      
+      if(filter_q){
+        newURL = crispTheme.setParamInURL(cache.filterParamName,filter_q, newURL);
+      } else {
+        newURL = crispTheme.deleteParamInURL(cache.filterParamName, newURL);
+      }
+      
+      if(has_sortby){
+        newURL = crispTheme.setParamInURL('sort_by',has_sortby, newURL);
+      }
+      
+      if(cache.selected_filters.indexOf('price') > -1 && cache.priceMinMaxFilter){
+        var priceMin = cache.priceMinMax.min;
+        var priceMax = cache.priceMinMax.max;
+        newURL = crispTheme.setParamInURL('price_min_max',priceMin + '-'+ priceMax, newURL);
+      } else {
+        newURL = crispTheme.deleteParamInURL('price_min_max', newURL);   
+      }
+      
+      history.pushState({ "filters": filter_q }, "size", newURL);
+    }
+	
+    if(cache.page === 'collection'){
+      cache.crisp.setFilter(cache.crisp_filter.fn());
+    } else {
+      cache.crisp.setFilter(cache.crisp_filter.fn());
+//       cache.crisp.setFilter(function(product) {
+//         return true || product.tags.indexOf('no_show') === -1;
+//       });
+    }
+    
+    buildFilterTags();
+    resetProducts();
+    getProducts();
+  }
+  
+  function selectDeSelectFilter(shouldSelect){
+    if(cache.page === 'search'){
+      if(shouldSelect){
+        cache.selected_filters.map(function(t){
+          cache.crisp_filter.select(t);
+		});
+      } else {
+        cache.selected_filters.map(function(t){
+          cache.crisp_filter.deselect(t);
+		});
+      }
+    }
+  }
+
+  function removeFilterViaTab() {
+    var filter = $(this).attr("data-filter");
+    var $elem = $(selectors.filter).filter("[value='"+filter+"']");
+    $(selectors.filter).filter("[value='"+filter+"']").prop("checked", false);
+        
+    var checkedInputs = $elem.closest('.listing-filters__group').find('input:checked').length;
+    if(checkedInputs === 0){
+      $(this).closest('.listing-filters__group').find('.filter-group__action--clear').hide();
+    } else {
+      $(this).closest('.listing-filters__group').find('.filter-group__action--clear').show();
+    }
+    
+    if(cache.page === 'search'){
+      if(cache.selected_filters.indexOf(filter) > -1) cache.crisp_filter.deselect(filter);
+    }
+    
+    resetPriceFilter();
+    applyFilters();
+  }
+  
+  function resetPriceFilter(){
+    var maxAmt = crispTheme.settings.priceMinMax.max * 100;
+    var minPrice = Shopify.formatMoney(100,cache.moneyFormat);
+    var maxPrice = Shopify.formatMoney(maxAmt,cache.moneyFormat);
+    
+    $(selectors.priceSlider).slider( "value", crispTheme.settings.priceMinMax.max );
+    $( "#slider-range-amount" ).val( "From " + minPrice + " - To " + maxPrice);
+    $('.listing-filters__group[data-group="price"] .filter-group__action--clear').hide();
+    $('.listing-filters__tags .listing-filters__tag[data-filter="price"]').remove();
+    
+    if(cache.selected_filters.length){
+      if(cache.page === 'search'){
+        if(cache.selected_filters.indexOf('price') > -1) cache.crisp_filter.deselect('price');
+      }
+      cache.selected_filters = cache.selected_filters.filter(function(f){
+        return f !== 'price';
+      });
+    }  
+    
+    cache.priceMinMax.min = crispTheme.settings.priceMinMax.min;
+    cache.priceMinMax.max = crispTheme.settings.priceMinMax.max;
+    if(cache.sliderInstance){
+      cache.sliderInstance.values([cache.priceMinMax.min,cache.priceMinMax.max]);
+    }
+    cache.priceMinMaxFilter = false;
+  }
+  
+  function clearFilterGroup(){
+    var group = $(this).closest('.listing-filters__group').attr('data-group');
+    if(group === 'price'){
+      resetPriceFilter();
+    }
+    if(cache.page === 'search'){
+      $(this).closest('.listing-filters__group').find('input').each(function(){
+        var value = $(this).val();
+        if(cache.selected_filters.indexOf(value) > -1) cache.crisp_filter.deselect(value);
+      });
+    }
+    
+    $(this).closest('.listing-filters__group').find('input').prop("checked", false);
+    $(this).hide();
+    
+    applyFilters();
+  }
+ 
+  function buildFilterTags() {
+    $(selectors.tabs_container).empty();
+	//cache.selected_filters_temp = cache.selected_filters.concat([]);
+    
+    $.each(cache.selected_filters_temp, function(index, filter) {
+      var rename_filter = filter;
+      if(filter.indexOf('gender designation') > -1){
+        rename_filter = filter.replace(' designation','').trim();
+      }
+      
+      var minPrice = cache.priceMinMax.min;
+      var maxPrice = cache.priceMinMax.max;
+      if(filter === 'price' && minPrice && maxPrice){
+       	$(selectors.tabs_container).append(" \
+        <button class='listing-filters__tag btn btn--secondary' data-filter='"+filter+"'> \
+<span class='visually-hidden'>Remove filter: </span>"+filter+": $"+minPrice+" - $"+maxPrice+" \
+        </button>");  
+      } else {
+       $(selectors.tabs_container).append(" \
+        <button class='listing-filters__tag btn btn--secondary' data-filter='"+filter+"'> \
+<span class='visually-hidden'>Remove filter: </span>"+(rename_filter.replace('_',': '))+" \
+        </button>"); 
+      }
+    });
+  }
+
+  function applyFilters(paramURL) {
+	if(paramURL && typeof paramURL !== 'string' ){
+      var checkedInputs = $(this).closest('.listing-filters__group').find('input:checked').length;
+      if(checkedInputs === 0){
+        $(this).closest('.listing-filters__group').find('.filter-group__action--clear').hide();
+      } else {
+        $(this).closest('.listing-filters__group').find('.filter-group__action--clear').show();
+      }
+      
+      if((!$(this).prop('checked')) && cache.page === 'search'){
+        var el_val = $(this).val();
+        if(cache.selected_filters.indexOf(el_val) > -1) cache.crisp_filter.deselect(el_val);
+      }
+    }
+    
+    cache.selected_filters = [];
+    cache.unselected_filters = [];
+    
+    $(selectors.filter).filter(":checked").each(function() {
+      cache.selected_filters.push($(this).val());
+    });
+//     $(selectors.filter).filter(":not(:checked)").each(function() {
+//       cache.unselected_filters.push($(this).val());
+//     });
+    
+    if(cache.priceMinMaxFilter){
+      cache.selected_filters.push('price');
+      var unique = cache.selected_filters.filter(crispTheme.onlyUnique);
+      cache.selected_filters = unique;
+      $('.listing-filters__group[data-group="price"] .filter-group__action--clear').show();
+    } else {
+      resetPriceFilter();
+    }
+    
+    cache.selected_filters_temp = cache.selected_filters.concat([]);
+    
+    if(cache.page === 'search'){
+      selectDeSelectFilter(true);
+    } else {
+      cache.selected_filters = crispTheme.arrLowerCase(cache.selected_filters);
+    }
+
+    updateFilters(true, paramURL);
+  }
+
+  function clearFilters() {
+    $(selectors.filter).prop("checked", false);
+    
+    if(cache.page === 'search'){
+      selectDeSelectFilter(false);
+    }
+    
+    cache.selected_filters = [];
+    cache.selected_filters_temp = cache.selected_filters.concat([]);
+	resetPriceFilter();
+    updateFilters(true);
+  }
+
+  function setFiltersByHistory() {
+    $(selectors.filter).prop("checked", false);
+
+    if (history.state != null) {
+      if('filters' in history.state && history.state.filters !== "") {
+        cache.selected_filters = history.state.filters.split(',');
+      }
+    }
+    else if(cache.filter_value != "") {
+      //cache.selected_filters = [cache.filter_value];
+      cache.selected_filters = cache.filter_value.split(',');
+    }
+    else {
+      cache.selected_filters = [];
+    }
+    
+    cache.selected_filters_temp = cache.selected_filters.concat([]);
+
+    $.each(cache.selected_filters, function(index, filter) {
+      var filterElem = $(selectors.filter).filter('[value="'+filter+'"]');
+      filterElem.prop("checked", true);
+      filterElem.closest('.listing-filters__group').find('.filter-group__action--clear').show();
+    });
+    
+    var priceMax = crispTheme.getParamFromURL('price_min_max');
+    if(priceMax){
+      priceMaxArr = priceMax.split('-');
+      priceMin = parseInt(priceMaxArr[0]);
+      priceMax = parseInt(priceMaxArr[1]);
+      
+      cache.priceMinMax.min = priceMin;
+      cache.priceMinMax.max = priceMax;
+      
+      var maxAmt = crispTheme.settings.priceMinMax.max * 100;
+      var minPriceFormat = Shopify.formatMoney((priceMin*100),cache.moneyFormat);
+      var maxPriceFormat = Shopify.formatMoney((priceMax*100),cache.moneyFormat);
+      
+      $(selectors.priceSlider).slider( "values", [priceMin, priceMax] );
+      $( "#slider-range-amount" ).val( "From " + minPriceFormat + " - To " + maxPriceFormat);
+      $('.listing-filters__group[data-group="price"] .filter-group__action--clear').show();
+      cache.priceMinMaxFilter = true;
+    }
+    
+    //
+    var sortBy = crispTheme.getParamFromURL('sort_by');
+    if(sortBy){
+      cache.crisp.setOrder(sortBy);
+    }
+
+    updateFilters(false);
+  }
+
+  function toggleFilterDropdown() {
+    var $target = $(this).closest('.listing-filters__group').toggleClass("open").find('.filter-group__actions');
+	$target.toggleClass("open");
+  }
+  
+  function toggleFilters(){}
+
+  function buildCollectionFilters() {
+    var data = {};
+    if(cache.filter_data[crispTheme.settings.collection_handle]) {
+      data = cache.filter_data[crispTheme.settings.collection_handle];
+    }
+    
+    if(Object.keys(data).length == 0) {
+      $(selectors.filters_container).hide();
+      //return false;
+    } else {
+      $(selectors.filters_container).show();
+    }
+
+    $.each(data, function(group, filters) {
+      var children = [];
+      $.each(filters, function(index, filter) {
+        var filter_handle = filter.slug();
+        if(filter_handle){
+          $filter = $('#'+filter_handle);
+          children.push({
+            name: filter,
+            context: $filter,
+            filter: function(payload) {
+              var filter_prefix = filter_handle.split('_')[0];
+              var product = payload.product;
+              var p_options = payload.options;
+              var filter_downcase = filter.toLowerCase();
+              var p_arr = crispTheme.arrLowerCase(product.tags);
+              
+              if(filter_handle === 'price'){
+                var min = cache.priceMinMax.min;
+                var max = cache.priceMinMax.max;
+                var payload_price = product.price / 100;
+                
+                return ((payload_price >= min) && (payload_price <= max));
+                
+              } else if(filter_prefix.indexOf('colour') > -1 && p_options && p_options.length){
+                var h_c = false;
+                p_options.map(function(opt){
+                  var o = opt.name.toLowerCase();
+                  if(o.indexOf('colour') > -1 || o.indexOf('color') > -1){
+                    var c_v = filter.toLowerCase().split('colour_')[1].toLowerCase();
+                    var optionValues = crispTheme.arrLowerCase(opt.values);
+                    if(optionValues.indexOf(c_v) > -1){
+                      h_c = true;
+                    }
+                  }
+                });
+                
+                return h_c;
+              } else if(filter_prefix.indexOf('size') > -1 && p_options && p_options.length){
+                var h_s = false;
+                p_options.map(function(opt){
+                  var o = opt.name.toLowerCase();
+                  if(o.indexOf('size') > -1 || o.indexOf('size') > -1){
+                    var c_v = filter.toLowerCase().split('size_')[1].toLowerCase();
+                    var optionValues = crispTheme.arrLowerCase(opt.values);
+                    if(optionValues.indexOf(c_v) > -1){
+                      h_s = true;
+                    }
+                  }
+                });
+                
+                return h_s;
+              } else {
+               var rounded_rating = Math.round(product.rating);
+              	return ((filter_handle == "" ) || (p_arr.indexOf(filter_downcase) !== -1) || (filter.indexOf(rounded_rating) > -1)); 
+              }
+            }
+          });
+        }
+      });
+
+      cache.filters_logic.push({ title: group, children: children });
+    });
+  }
+
+  function getProducts(){
+	var product_list = crispTheme.CrispAPI.getProducts(cache.crisp);
+    var has_content_blocks = false;
+    product_list.then(function(response) {
+      setProducts(response);
+    });
+  }
+  
+  function setProducts(response) {
+    if (response) {
+      // console.log(response);
+      if(response.length == 0) {
+        if($(selectors.product_listing).length > 0) {
+          if($(selectors.product_listing_end).length < 1) {
+            $(window).unbind("scroll", checkLocationOnScroll);
+            cache.$product_container.append(" \
+              <div class='product__listing--end'> \
+                <label>No more products to show</label> \
+              </div>");
+          }
+        } else {
+          if($(selectors.product_listing_empty).length < 1) {
+            cache.$product_wrapper.append(" \
+              <div class='product__listing--empty'> \
+                <label>No results found</label> \
+              </div>");
+          }
+        }
+      } else {
+        if(cache.loadMoreType === 'pagination'){
+          if(response.length < cache.paginate.page_size){
+            $('.pagination-wrapper .next').hide();
+          } else {
+            $('.pagination-wrapper .next').show();
+          }
+        }
+        cache.$product_wrapper.find('.product__listing--empty').remove();
+        $.each(response, function(index, product) {
+          var $product = createProductListing(product);
+          cache.product_list.push(product.handle);
+          cache.$product_container.append($product);
+        });
+		
+		//  Init Products Reviews
+        //initProductsReview();
+        $(window).unbind("scroll", checkLocationOnScroll);
+        $(window).bind("scroll", checkLocationOnScroll);
+      }
+      $('.products-loadmore').hide();
+    }
+  }
+  
+  function createProductListing(product){
+    var img_widths = [180,360,540,720,900,1080,1296,1512,1728,1944,2048];
+    var img_srcset = '';
+    var p_price = product.price;
+    product = product.product;
+    
+    if(!product){
+      return false;
+      $(window).unbind("scroll", checkLocationOnScroll);
+    }
+    
+    var productHtml = cache.productHtml;
+    
+    // Add Product URL
+    var productURL = '/collections/'+ crispTheme.settings.collection_handle + '/products/' + product.handle;
+    
+    productHtml = productHtml.replace(/{ItemURL}/g, productURL);
+    
+    // Add Product Featured Image
+    var productImageURL = 'https://cdn.shopify.com/s/files/1/0519/9606/5960/files/product-no-image.gif?v=1613821841';
+    if(product.featured_image){
+      productImageURL = product.featured_image;
+    } else {
+      if(product.images && product.images.length) productImageURL = product.images[0];
+    }
+    
+    var productImageURLSmall = productImageURL;
+    
+    if(productImageURL.indexOf('.jpg') > -1){
+      var tempImgArr = productImageURL.split('.jpg');
+      var tempImg = tempImgArr[0] + '_400x' + '.jpg';
+      productImageURLSmall = tempImg;
+      productImageURL = tempImg;
+    }
+    if(productImageURL.indexOf('.png') > -1){
+      var tempImgArr = productImageURL.split('.png');
+      var tempImg = tempImgArr[0] + '_400x' + '.png';
+      productImageURLSmall = tempImg;
+      productImageURL = tempImg;
+    }
+    if(productImageURL.indexOf('.gif') > -1){
+      var tempImgArr = productImageURL.split('.gif');
+      var tempImg = tempImgArr[0] + '_400x' + '.gif';
+      productImageURLSmall = tempImg;
+      productImageURL = tempImg;
+    }
+    
+    if(productImageURLSmall){
+      productHtml = productHtml.replace(/{ItemFeaturedSmallImage}/g,productImageURLSmall);
+    }
+    
+    //ItemFeaturedSmallImage
+    //console.log(productImageURL);
+    
+    var img_widths_len = img_widths.length -1;
+    img_widths.map(function(size, index){
+      img_srcset += productImageURL + ' '+size+'w';
+      if(index !== img_widths_len) img_srcset +=', '
+    });
+    
+    
+    productHtml = productHtml.replace(/{ItemFeaturedImage}/g,productImageURL);
+    productHtml = productHtml.replace(/{ItemFeaturedImageSrcset}/g,img_srcset);
+    
+    // Add Product Title
+    productHtml = productHtml.replace(/{ItemTitle}/g,product.title);
+    
+    // Add Product Price
+    var price = Shopify.formatMoney(product.price,cache.moneyFormat)
+    productHtml = productHtml.replace('{ItemPrice}',price);
+    productHtml = productHtml.replace('{ItemPrice}',price);
+    
+    var compareAtPrice = '';
+    if(product.compare_at_price){
+      compareAtPrice = '<p class="price_comapre_at">'+(Shopify.formatMoney(product.compare_at_price,cache.moneyFormat))+'</p>';
+    }
+    productHtml = productHtml.replace('{ItemCompareAtPrice}',compareAtPrice);
+    productHtml = productHtml.replace('{ItemCompareAtPrice}',compareAtPrice);
+    
+    // Add Product Handle
+    productHtml = productHtml.replace(/{product.handle}/g, product.handle);
+    //console.log(product.variants[0].id)
+    var len = product.variants.length;
+    if(len > 1){
+      productHtml = productHtml.replace(/{add_to_cart_cls}/g,'hide');
+      productHtml = productHtml.replace(/{hide_cls}/g,'');
+    }else{
+      productHtml = productHtml.replace(/{add_to_cart_cls}/g,'');
+      productHtml = productHtml.replace(/{hide_cls}/g,'hide');
+      productHtml = productHtml.replace(/{product_id}/g,product.variants[0].id);
+    }
+    
+    return productHtml;
+  }
+  
+  function initProductsReview(){
+    if(yotpo && Yotpo && Yotpo.API){
+      	var api = new Yotpo.API(yotpo);
+    	api.refreshWidgets();
+    }
+  }
+
+  function resetProducts() {
+    cache.crisp.clearOffset();
+    cache.product_list = [];
+    cache.$product_container.children().remove();
+  }
+  
+  function sortSizeFilterOrder(){
+    if(crispTheme.collAllTags && crispTheme.collAllTags.length){
+      	var stringSizeOrder = ['one size', 'x-Small', 'small', 'medium', 'large', 'x-large','xx-large'];
+    	var sizeFilters = crispTheme.collAllTags.filter(function(t){ 
+      		return t.indexOf('Size_') > -1
+    	});
+      
+      	if(sizeFilters.length){
+          	var final_arr = [];
+          	var sizeFilterscc_temp = sizeFilters.map(function(t){
+               var value = t.split('Size_')[1];
+                return value;
+            });
+          
+          	var sizeFilters_number = sizeFilterscc_temp.filter(function(t){
+                return Number(t);
+            }).map(function(t){
+                return Number(t);
+            });
+            if(sizeFilters_number.length){
+              sizeFilters_number.sort(function(a,b){
+                  return a < b ? -1 : 1;
+              });
+            }
+          
+        	var sizeFilters_string = sizeFilterscc_temp.filter(function(t){
+              return !Number(t);
+            }).map(function(t){
+              return t && t.toLowerCase();
+			});
+            if(sizeFilters_string.length){
+              var sizeFilters_string_temp = stringSizeOrder.concat(sizeFilters_string);
+              sizeFilters_string_temp = sizeFilters_string_temp.filter(function(value, index, self) {
+                return self.indexOf(value) === index;
+              });
+            }
+          	final_arr = sizeFilters_number.concat(sizeFilters_string_temp);
+     		if(final_arr.length){
+              final_arr.reverse();
+              final_arr = final_arr.map(function(t){
+                var elem = 'size_' + t;
+                var $selector = $('.filter-group__filter[data-filter="'+elem+'"]');
+                var parentElem = ".listing-filters__group[data-group='size'] .filter-group__action--filters";
+                if($selector.length){
+                  $selector.prependTo(parentElem);
+                }
+                return elem;
+              });
+            }
+          	//console.log('final_arr', final_arr);
+      	}
+     }
+  }
+
+  return {
+    Collection: Collection,
+    getProducts: getProducts
+  }
+  
+})();
+
+$(document).ready(function(){
+  if($('body.template-collection, body.template-search').length){
+    if(crispTheme && Object.keys(crispTheme.settings.collection_filters).length > 0){
+    	crispTheme.Collection.Collection();
+  	}
+  }
+});*/

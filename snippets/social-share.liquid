@@ -1,0 +1,31 @@
+<div class="social-sharing">
+  <ul class="inline-list text-right">
+    <li>
+      {%- if settings.share_facebook -%}
+      <a target="_blank" rel="noopener" href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" class="social-sharing__link" title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M18.896 3.53445e-08H1.10306C0.493774 0.000305211 -0.000152553 0.494537 3.53445e-08 1.10397V18.8969C0.000305211 19.5062 0.494537 20.0002 1.10397 20H18.896C19.5056 20.0002 19.9998 19.5061 20 18.8965C20 18.8963 20 18.8962 20 18.896V1.10306C19.9997 0.493774 19.5055 -0.000152553 18.896 3.53445e-08Z" fill="#1B1C1E"/><path d="M13.8086 20V12.2657H16.416L16.8066 9.23831H13.8086V7.31021C13.8086 6.43573 14.0514 5.83987 15.3053 5.83987H16.8945V3.13953C16.618 3.10275 15.6694 3.02051 14.5656 3.02051C12.2609 3.02051 10.6836 4.42676 10.6836 7.01038V9.23831H8.08594V12.2657H10.6836V20H13.8086Z" fill="white"/></g><defs><clipPath id="clip0"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>
+        <span class="social-sharing__title visually-hidden" aria-hidden="true">share on facebook</span>
+        <span class="visually-hidden">share on facebook</span>
+      </a>
+      {%- endif -%}
+    </li>
+    <li>      
+      {%- if settings.share_twitter -%}
+      <a target="_blank" rel="noopener" href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" class="social-sharing__link" title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path d="M20 3.79875C19.2563 4.125 18.4637 4.34125 17.6375 4.44625C18.4875 3.93875 19.1363 3.14125 19.4412 2.18C18.6488 2.6525 17.7738 2.98625 16.8412 3.1725C16.0887 2.37125 15.0162 1.875 13.8462 1.875C11.5763 1.875 9.74875 3.7175 9.74875 5.97625C9.74875 6.30125 9.77625 6.61375 9.84375 6.91125C6.435 6.745 3.41875 5.11125 1.3925 2.6225C1.03875 3.23625 0.83125 3.93875 0.83125 4.695C0.83125 6.115 1.5625 7.37375 2.6525 8.1025C1.99375 8.09 1.3475 7.89875 0.8 7.5975C0.8 7.61 0.8 7.62625 0.8 7.6425C0.8 9.635 2.22125 11.29 4.085 11.6712C3.75125 11.7625 3.3875 11.8062 3.01 11.8062C2.7475 11.8062 2.4825 11.7913 2.23375 11.7362C2.765 13.36 4.2725 14.5538 6.065 14.5925C4.67 15.6838 2.89875 16.3412 0.98125 16.3412C0.645 16.3412 0.3225 16.3263 0 16.285C1.81625 17.4563 3.96875 18.125 6.29 18.125C13.835 18.125 17.96 11.875 17.96 6.4575C17.96 6.27625 17.9538 6.10125 17.945 5.9275C18.7588 5.35 19.4425 4.62875 20 3.79875Z" fill="#1B1C1E"/></g><defs><clipPath id="clip0"><rect width="20" height="20" fill="white"/></clipPath></defs></svg>
+        <span class="social-sharing__title visually-hidden" aria-hidden="true">share on twitter</span>
+        <span class="visually-hidden">share on twitter</span>
+      </a>
+      {%- endif -%}
+    </li>
+    <li>
+      {%- if settings.share_pinterest -%}
+      <a target="_blank" rel="noopener" href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: '1024x1024' }}&amp;description={{ share_title | url_param_escape }}" class="social-sharing__link" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.0007 0.000244141C4.47762 0.000244141 0 4.47724 0 9.99895C0 14.0946 2.46192 17.612 5.98615 19.1585C5.95632 18.4596 5.97962 17.6223 6.15862 16.8629C6.35194 16.0506 7.44671 11.4131 7.44671 11.4131C7.44671 11.4131 7.12761 10.7746 7.12761 9.8316C7.12761 8.34937 7.98629 7.2429 9.05506 7.2429C9.96567 7.2429 10.4041 7.9265 10.4041 8.74399C10.4041 9.6578 9.82171 11.0262 9.52204 12.2925C9.27172 13.3536 10.0538 14.2191 11.0993 14.2191C12.9944 14.2191 14.2708 11.7847 14.2708 8.90223C14.2708 6.7111 12.7946 5.07058 10.1096 5.07058C7.07568 5.07058 5.1871 7.33241 5.1871 9.85882C5.1871 10.7305 5.44266 11.3443 5.84606 11.8197C6.0303 12.0389 6.05622 12.1271 5.98877 12.3775C5.94076 12.5617 5.83178 13.0046 5.7851 13.1797C5.71886 13.4334 5.51397 13.5235 5.28442 13.4307C3.88748 12.8593 3.23759 11.3307 3.23759 9.61045C3.23759 6.76944 5.63335 3.36391 10.3833 3.36391C14.2019 3.36391 16.7158 6.12579 16.7158 9.09155C16.7158 13.0143 14.534 15.9455 11.3185 15.9455C10.2393 15.9455 9.2237 15.3611 8.87606 14.6983C8.87606 14.6983 8.29499 17.0029 8.17312 17.4472C7.96037 18.2176 7.54528 18.9891 7.16647 19.5896C8.06543 19.8549 9.01616 19.9995 10.0007 19.9995C15.5237 19.9995 20 15.5226 20 9.99887C20 4.47724 15.5237 0.000244141 10.0007 0.000244141Z" fill="#1B1C1E"/></svg>
+        <span class="social-sharing__title visually-hidden" aria-hidden="true">share on pinterest</span>
+        <span class="visually-hidden">share on pinterest</span>
+      </a>
+      {%- endif -%}
+    </li>
+  </ul>
+</div>

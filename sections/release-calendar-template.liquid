@@ -1,0 +1,267 @@
+<div class="release-calendar-template">
+  <div class="wrapper">
+    <div class="grid--rev">
+      <div class="grid__item large--one-whole">
+
+        <div class="article__head">
+          {% if section.settings.description != blank %}
+          <div class="rte text-center">
+            {{ section.settings.description }}
+          </div>
+          {% endif %}
+        </div>       
+        
+
+    
+        <div class="article_paginate">
+          {% if section.settings.upcomming_heading != blank %}
+          <h2 class="article_type_title">{{ section.settings.upcomming_heading }}</h2>
+          {% endif %}
+
+          <div class="article-items">
+            {% assign first_limit = section.settings.upsell_limit | times: 1 %}
+            {% assign count = 1 %}
+            {% for article_handle in blog.metafields.blog.upcoming_article %}
+            	{% assign article = articles[article_handle] %}
+                  {% if count <= first_limit %}
+                    <div class="article article-item">
+                      <div class="article__img">
+                        {% if article.image %}
+                        <a href="#modal-opened-{{ forloop.index }}" id="modal-closed-{{ forloop.index }}">
+                          <div class="article__featured-image">
+                            {{ article | img_url: '1024x1024' | img_tag: article.title }}
+                          </div>
+                        </a>
+                        {% endif %}
+                        <span class="drop_date">
+                          {% for tag in article.tags %}
+                          {% if tag contains 'Dropdate' %}
+                          {{tag | split :"_" | last }}
+                          {% endif %}
+                          {% endfor %}
+                        </span>
+                      </div>
+                      <div class="article__meta_info">
+                        <h2 class="h3">{{ article.title }}</h2>
+                        <span class="pro_code">
+                          {% for tag in article.tags %}
+                          {% if tag contains 'Code' %}
+                          Product Code: {{tag | split :"_" | last }}
+                          {% endif %}
+                          {% endfor %}
+                        </span>                
+                      </div>
+                      <div class="cd-modal-action">
+                        <a href="#modal-opened-{{ forloop.index }}" class="view_btn" id="modal-closed-{{ forloop.index }}">View Details</a>
+                      </div>                
+
+                      <!--start popup-->
+                      <div class="modal-container" id="modal-opened-{{ forloop.index }}">
+                        <div class="modal">
+                          <div class="popup_rows">
+                            <div class="popup_column image_column" style="background:{{ section.settings.popup_bg }};">
+                              <div class="image_wrap">
+                                {{ article | img_url: '1024x1024' | img_tag: article.title }}
+                              </div>
+                              <span class="drop_date">
+                                {% for tag in article.tags %}
+                                {% if tag contains 'Dropdate' %}
+                                {{tag | split :"_" | last }}
+                                {% endif %}
+                                {% endfor %}
+                              </span>
+                            </div>
+                            <div class="popup_column text_column">
+                              <div class="text_column__iner">
+                                <h2 class="h3">{{ article.title }}</h2>
+                                <span class="pro_price">
+                                  {% for tag in article.tags %}
+                                  {% if tag contains 'Price' %}
+                                  {{tag | split :"_" | last }}
+                                  {% endif %}
+                                  {% endfor %}
+                                </span>
+                                <div class="rte">
+                                  {{ article.content }}
+                                </div>
+                                <div class="pop_footer">
+                                  {% if article.metafields.blog.signup_link != blank %}
+                                  <a class="signup_btn" href="{{ article.metafields.blog.signup_link }}">
+                                    {{ section.settings.notify_btn }}
+                                  </a>
+                                  {% endif %}
+                                  {% if article.metafields.blog.raffle_btn_url != blank %}
+                                  <a class="signup_btn text-center" href="{{ article.metafields.blog.raffle_btn_url }}">
+                                    {{ section.settings.raffle_btn }}
+                                  </a>
+                                  {% endif %}
+                                  <p class="social_title">{{ section.settings.social_title }}</p>
+                                  {% include 'social-links' %} 
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <a href="#modal-closed-{{ forloop.index }}" class="modal-close"><svg id="Capa_1" enable-background="new 0 0 413.348 413.348" height="512" viewBox="0 0 413.348 413.348" width="512" xmlns="http://www.w3.org/2000/svg"><path d="m413.348 24.354-24.354-24.354-182.32 182.32-182.32-182.32-24.354 24.354 182.32 182.32-182.32 182.32 24.354 24.354 182.32-182.32 182.32 182.32 24.354-24.354-182.32-182.32z"/></svg></a>
+                        </div>
+                      </div>
+                      <!--end popup-->
+
+
+                    </div>
+                    {% assign count = count | plus: 1 %}
+                  {% endif %}
+            {% endfor %}
+            
+          </div>
+
+          
+
+        </div>
+        
+        
+        <div class="article_paginate">
+          <h2 class="article_type_title">
+            {{ section.settings.release_heading }} 
+            {% if section.settings.release_btn_text != blank %}
+            <a href="{{ section.settings.release_btn_link }}"><span>{{ section.settings.release_btn_text }}</span><svg width="166" height="5" viewBox="0 0 166 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M165.347 1.62654C165.08 1.45493 164.748 1.31393 164.371 1.21237C163.995 1.11081 163.582 1.05088 163.159 1.03629C159.838 0.962017 156.518 0.88173 153.2 0.795462L133.192 0.380241L123.229 0.252942L96.7849 0.0308235C92.2765 0.0107557 87.7827 -0.00655493 83.2902 0.00244097C77.4465 -0.00655493 71.5975 0.0245641 65.7511 0.0591637L43.3217 0.282676L23.3588 0.62107C16.994 0.740784 10.4581 0.897871 3.36399 1.09301L2.87467 1.13039C2.08016 1.23136 1.37027 1.46458 0.852325 1.7948C0.334377 2.12503 0.0365658 2.53428 0.0039067 2.96068C-0.0403058 3.4635 0.292131 3.95558 0.930911 4.33272C1.56969 4.70986 2.46466 4.94249 3.42631 4.98133L3.69153 5L3.9633 4.98615C10.3904 4.65883 16.7234 4.41944 23.7393 4.16132C26.4709 4.06237 29.2051 3.97861 31.9406 3.89557L53.4989 3.34199L66.6568 3.1344C72.2141 3.06174 77.77 2.98839 83.3326 2.9614L86.2604 2.94062C88.5915 2.92332 90.9279 2.90605 93.2697 2.91228L103.215 2.9157C106.292 2.92816 109.366 2.95377 112.444 2.98007L123.102 3.09981C135.361 3.26173 148.339 3.61742 162.657 4.17932L162.856 4.19384H163.06C163.787 4.18121 164.481 4.03299 165.016 3.77613C165.551 3.51928 165.892 3.17081 165.977 2.79394C166.026 2.58727 165.996 2.37755 165.888 2.17708C165.78 1.97662 165.596 1.78943 165.347 1.62654Z" fill="#FF600B"/></svg></a>
+          	{% endif %}
+          </h2>
+
+          <div class="article-items">
+            {% assign second_limit = section.settings.released_limit | times: 1 %}
+            {% assign new_count = 1 %}
+            {% for article_handle in blog.metafields.blog.released_article %}
+            {% assign article = articles[article_handle] %}
+              {% if second_limit >= new_count %}
+              <div class="article article-item">
+                <div class="article__img">
+                  {% if article.image %}
+                  <a href="/products/{{article.metafields.blog.product_url}}">
+                  <div class="article__featured-image">
+                    {{ article | img_url: '1024x1024' | img_tag: article.title }}
+                  </div>
+                  </a>
+                  {% endif %}
+                  <span class="drop_date">
+                    {% for tag in article.tags %}
+                    {% if tag contains 'Dropdate' %}
+                    {{tag | split :"_" | last }}
+                    {% endif %}
+                    {% endfor %}
+                  </span>                
+                </div>
+                <div class="article__meta_info">
+                  <h2 class="h3">{{ article.title }}</h2>
+                  <span class="pro_price">
+                    {% for tag in article.tags %}
+                    {% if tag contains 'Price' %}
+                    {{tag | split :"_" | last }}
+                    {% endif %}
+                    {% endfor %}
+                  </span>                
+                </div>
+
+                {% if article.metafields.blog.product_url != blank %}
+                <a class="released_view_btn text-center" href="/products/{{article.metafields.blog.product_url}}" >
+                  {{ section.settings.shopnow_btn }}
+                </a>
+                {% endif %}
+              </div>
+              {% assign new_count = new_count | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </div>
+
+        </div>
+    
+
+      </div>      
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Release Calendar",
+    "settings": [
+		{
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+		{
+          "type": "text",
+          "id": "upcomming_heading",
+          "label": "Upcomming Heading"
+        },
+		{
+          "type": "range",
+          "id": "upsell_limit",
+          "min": 2,
+          "max": 24,
+          "step": 2,
+          "label": "Upsell Product Limit",
+          "default": 4
+        },
+		{
+          "type": "text",
+          "id": "release_heading",
+          "label": "Release Heading"
+        },
+		{
+          "type": "text",
+          "id": "release_btn_text",
+          "label": "Release Button Text"
+        },
+		{
+          "type": "url",
+          "id": "release_btn_link",
+          "label": "Release Button Link"
+        },
+		{
+          "type": "range",
+          "id": "released_limit",
+          "min": 2,
+          "max": 24,
+          "step": 2,
+          "label": "Released Product Limit",
+          "default": 4
+        },
+		{
+          "type": "color",
+          "id": "popup_bg",
+          "label": "Popup image background color"
+        },
+		{
+          "type": "text",
+          "id": "shopnow_btn",
+          "label": "Shop Now Button Text"
+        },
+		{
+          "type": "text",
+          "id": "notify_btn",
+          "label": "Notify Button Text"
+        },
+		{
+          "type": "text",
+          "id": "raffle_btn",
+          "label": "Raffle Button Text"
+        },
+		{
+          "type": "text",
+          "id": "social_title",
+          "label": "Social Title Text"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
+
+
+

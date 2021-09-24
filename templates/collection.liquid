@@ -1,0 +1,433 @@
+<!-- /templates/collection.liquid -->
+{% comment %}
+
+  For more information on collection tags:
+    - http://docs.shopify.com/themes/liquid-variables/collection
+
+{% endcomment %}
+
+<div class="collection__header {% if collection.image %}collection_header_bg{% else %}collection_header_notbg{% endif %}">
+  {% if collection.image %}<img class="coll_image" src="{{ collection.image.src | collection_img_url: 'master' }}">{% endif %}
+  <div class="wrapper">
+    
+    <h1 class="section-header__title">{{ collection.title }}</h1>
+    
+    {% if collection.description != blank %}
+    <div class="rte rte--header">
+      {{ collection.description | split: '<!--split-->' | first }} 
+      
+      {% if collection.description contains '<!--split-->'  %}
+      <a class="readmore_toggle" href="javascript:void(0);">Read More</a>
+      {% endif %}
+      
+    </div>
+    {% endif %}
+    
+    {% if collection.description contains '<!--split-->'  %}
+      {% if collection.description != blank %}
+      <div class="rte rte--header readmore_cont">
+        {{ collection.description | split: '<!--split-->' | last }}
+      </div>
+      {% endif %}
+    {% endif %}
+    
+  </div>
+</div>
+
+<div class="wrapper">
+
+{% paginate collection.products by 24 %}
+
+{% include 'breadcrumb' %}
+
+{% comment %}
+  Use .grid--rev so that the collection tags appear below the products on mobile
+{% endcomment %}
+<div class="grid--rev collection-wrapper">
+  
+  {% comment %} ===== Crisp Filter :: Collection Filter Start ===== {% endcomment %}
+    {% if settings.enable_filter %}
+      <div class="collection-wrapper--top">
+        <div class="filter_overlay"></div>
+        <button class="filter_close"><svg class="close__icon" height="329pt" viewBox="0 0 329.26933 329" width="329pt" xmlns="http://www.w3.org/2000/svg"><path d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"></path></svg></button>
+        {% comment %}{% include 'collection-sidebar' %}{% endcomment %}
+        {% include 'collection-filter', collection: collection, paginate:paginate  %}
+      </div>
+    {% endif %}
+  {% comment %} ===== Crisp Filter :: Collection Filter End ===== {% endcomment %}
+  
+  {% comment %} ===== Crisp Filter :: Collection Products Wrapper Start ===== {% endcomment %}
+  	<div class="collection-wrapper--bottom">
+
+    {% comment %}
+      Different markup if a collection description exists
+    {% endcomment %}
+    
+    
+      <div class="collection__toolbar">
+        <div class="collection__toolbar--top">
+          <div class="section-header__right">
+            {% include 'collection-sorting' %}
+          </div>
+          <div class="collection-products--count">
+            {{ collection.all_products_count }} Products found
+          </div>
+        </div>
+      </div>
+	
+    {% comment %}
+      Use class grid-uniform to have evenly sized columns clear
+      each other properly at each breakpoint.
+    {% endcomment %}
+    <div class="grid-uniform collection_product_wrapper">
+
+      {% comment %}
+        Loop through our products in the current collection.
+        See the snippet 'product-grid-item' for the layout.
+      {% endcomment %}
+      
+      {% comment %}
+        {% for product in collection.products %}
+
+          {% include 'product-grid-item' %}
+
+        {% else %}
+
+          {% if collection.handle == 'all' and current_tags == '' %}
+
+            {% comment %}
+              Add default products to help with onboarding for collections/all only
+            {% endcomment %}
+            {% unless emptyState %}
+              {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+              {% assign emptyState = true %}
+            {% endunless %}
+            {% include 'onboarding-empty-collection' %}
+
+          {% else %}
+
+            {% comment %}
+              If collection exists but is empty, display message
+            {% endcomment %}
+            <div class="grid__item">
+              <p>{{ 'collections.general.no_matches' | t }}</p>
+            </div>
+
+          {% endif %}
+
+        {% endfor %}
+      {% endcomment %}
+
+    </div>
+      
+      <div class="products-loadmore">
+        <img src="{{- 'ajax-loader.gif' | file_url -}}" alt="loader" />
+      </div>
+
+    {% if paginate.pages > 1 and settings.loadmore_type == 'pagination' %}
+      <hr />
+      
+      <div class="pagination-wrapper">
+        <ul>
+          <li class="prev hideme">→</li>
+          <li class="page current">{{- paginate.current_page -}}</li>
+          <li class="separator">/</li>
+          <li class="page total">{{- paginate.pages -}}</li>
+          <li class="next">→</li>
+        </ul>
+      </div>
+      
+      {% comment %}
+        <div class="pagination">
+          <span class="prev hideme"><a href="/collections/all?page=1">→</a></span>
+          {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+        </div>
+      {% endcomment %}
+      
+    {% endif %}
+
+  </div>
+
+</div>
+
+{% endpaginate %}
+  
+</div>
+<div id="coll_sizeguide_popup" style="display:none">
+  {% assign page =  pages['size-guide'] %}
+  <h3>Size Guide</h3>
+  <div class="rte-meta_data">
+    <div class="acc">
+
+      <!--Men's Footwear-->
+      <div class="acc__card">            
+        <div class="acc__title">Men's Footwear</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.men_brand.men_brand_name %}
+          {% if page.metafields.men_brand.men_brand_name != blank or page.metafields.men_table.men_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.men_brand.men_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.men_table.men_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Men's Footwear-->
+
+      <!--Women's Footwear-->
+      <div class="acc__card">            
+        <div class="acc__title">Women's Footwear</div>
+        <div class="acc__panel">
+          {% assign count = 0 %}
+          {% for brand in page.metafields.women_brand.women_brand_name %}
+          {% if page.metafields.women_brand.women_brand_name != blank or page.metafields.women_table.women_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.women_brand.women_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.women_table.women_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Women's Footwear-->
+
+      <!--Men's Clothing-->
+      <div class="acc__card">            
+        <div class="acc__title">Men's Clothing</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.men_cloth_brand.men_cloth_brand_name %}
+          {% if page.metafields.men_cloth_brand.men_cloth_brand_name != blank or page.metafields.men_cloth_table.men_cloth_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.men_cloth_brand.men_cloth_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.men_cloth_table.men_cloth_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Men's Clothing-->
+      
+      <!--Women's Clothing-->
+      <div class="acc__card">            
+        <div class="acc__title">Women's Clothing</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.women_cloth_brand.women_cloth_brand_name %}
+          {% if page.metafields.women_cloth_brand.women_cloth_brand_name != blank or page.metafields.women_cloth_table.women_cloth_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.women_cloth_brand.women_cloth_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.women_cloth_table.women_cloth_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Women's Clothing-->
+
+      <!--Accessories-->
+      <div class="acc__card">            
+        <div class="acc__title">Accessories</div>
+        <div class="acc__panel">              
+          {% assign count = 0 %}
+          {% for brand in page.metafields.accessories_brand.accessories_brand_name %}
+          {% if page.metafields.accessories_brand.accessories_brand_name != blank or page.metafields.accessories_table.accessories_sizeguide_table != blank %}                
+          <div class="acc__card_inner">
+            <div class="acc__title_inner">{{ page.metafields.accessories_brand.accessories_brand_name[count] }}</div>
+            <div class="acc__panel_inner">
+              <div class="table_wrap">{{ page.metafields.accessories_table.accessories_sizeguide_table[count] }}</div>
+            </div>
+          </div>                
+          {% endif %}
+          {% assign count = count | plus: 1 %}
+          {% endfor %}              
+        </div>
+      </div>          
+      <!--Accessories-->
+
+    </div>
+
+  </div>
+
+</div>
+<script type="text/javascript">
+// This will fire Collection Page products data to GTM for every page view
+
+// Insert near bottom of collection.liquid
+
+const retrieveCollectionPageRecentlyViewedItemData = () => {
+    const collectionName = $('.collection__header .section-header__title').text();
+    let collectionNameLower = collectionName.toLowerCase();
+    let collectionNameWithoutSpaces = collectionNameLower.replace(/\s+/g, '-');
+    let collectionNameWithoutSingleQuote = collectionNameWithoutSpaces.replace("'","");
+    const uaLabelName = 'plp-' + collectionNameWithoutSingleQuote;
+
+    const $recoProduct = $('.collection_product_wrapper .grid__item a.grid__image');
+    let plpRecoProductData = [];
+    $recoProduct.each(( index,value ) => {
+        let itemName;
+        let itemSku;
+        let itemprice;
+        let itemBrand;
+        let itemCategory = '';
+        let itemSize;
+        let itemColor;
+        let thisItemDataImpression;
+        let thisItemDataClick;
+        const itemPosition = index + 1;
+        let itemProductType;
+        const productPath = $(value).attr('href').split('/products/')[1];
+        // console.log('productPath: ', productPath);
+        const fetchPath = '/products/' + productPath;
+        // console.log('itemPath: ', itemPath);
+      	// console.log('editedItemPath: ', editedItemPath);
+        $.getJSON(fetchPath + '.js', (product) => {
+            productData = product;
+        }).done(function( data ) {
+            let tagProductType;
+            let tagProductCategory;
+            let tagProductSubCategory;
+            let itemTagCategory;
+            let itemTagSubCategory;
+            let itemTagProductType;
+            console.log('data: ', data);
+            const itemPrice = data.price ? (data.price/100).toFixed(2) : '';
+            const firstAvailableVariant = productData.variants.filter(obj => {
+                return obj.available === true
+            })
+
+            if (typeof productData.tags !== 'string') {
+                tagProductType = productData.tags.filter(item => {
+                    return item.includes('Product Type_');
+                });
+                if (typeof tagProductType != 'undefined' && tagProductType.length>0 && tagProductType[0].includes('Product Type_')) itemTagProductType = tagProductType[0].replace('Product Type_','');
+                tagProductCategory = productData.tags.filter(item => {
+                    return item.includes('Category_');
+                });
+                if (typeof tagProductCategory != 'undefined' && tagProductCategory.length>0 && tagProductCategory[0].includes('Category_')) itemTagCategory = tagProductCategory[0].replace('Category_','');
+                tagProductSubCategory = productData.tags.filter(item => {
+                    return item.includes('Sub Category_');
+                });
+                if (typeof tagProductSubCategory != 'undefined' && tagProductSubCategory.length>0 && tagProductSubCategory[0].includes('Sub Category_','')) itemTagSubCategory = tagProductSubCategory[0].replace('Sub Category_','');
+                if (typeof itemTagProductType != 'undefined' && itemTagProductType.length>0) {
+                    itemCategory += itemTagProductType + ' / ';
+                }
+                if (typeof itemTagCategory != 'undefined' && itemTagCategory.length>0) {
+                    itemCategory += itemTagCategory + ' / ';
+                }
+                if (typeof itemTagSubCategory != 'undefined' && itemTagSubCategory.length>0) {
+                    itemCategory += itemTagSubCategory;
+                }
+            }
+            itemCategory = itemCategory.toLowerCase();
+            itemName = productData.title.toLowerCase();
+            itemSku = firstAvailableVariant[0].sku.toLowerCase();
+            itemBrand = productData.vendor.toLowerCase();
+            itemSize = firstAvailableVariant[0].option2.toLowerCase();
+            itemColor = firstAvailableVariant[0].option1.toLowerCase();
+            
+            thisItemDataClick = {
+                'name': itemName,
+                'id': itemSku,
+                'price': itemPrice,
+                'brand': itemBrand,
+                'category': itemCategory,
+                'variant': itemSize,
+                'position': itemPosition,
+                'dimension2': itemColor
+            }
+            thisItemDataImpression = {
+                'name': itemName,
+                'id': itemSku,
+                'price': itemPrice,
+                'brand': itemBrand,
+                'category': itemCategory,
+                'variant': itemSize,
+                'list': 'plp-reco',
+                'position': itemPosition,
+                'dimension2': itemColor
+            }
+            // console.log('thisItemData: ', thisItemData);
+            plpRecoProductData.push(thisItemDataImpression);
+        });
+
+        // When each item in Collection List is clicked, push data to GTM
+        $(value).click((e) => {
+            e.preventDefault();
+            // console.log('thisItemData: ', thisItemData);
+            const thisLink = $(e.currentTarget).attr('href');
+            // console.log('thisLink: ', thisLink);
+            dataLayer.push({
+                event: 'productClick',
+                uaCategory: 'product page', //  event location
+                uaAction: 'product click',
+                uaLabel: 'plp-reco',//list name
+                ecommerce: {
+                    click: {
+                        actionField: {
+                                list: 'plp-reco'
+                        },
+                        products: [thisItemDataClick]
+                    }
+                }
+            });
+          window.location = thisLink;
+        });
+    })
+    // console.log(plpRecoProductData);
+
+    dataLayer.push({
+            event: 'productImpression',
+            uaCategory: 'collection page', //  event location
+            uaAction: 'product impression',
+            uaLabel: uaLabelName, //list name
+            'ecommerce': {
+                'currencyCode': 'CAD',
+                'impressions': plpRecoProductData
+            }
+    });
+}
+
+const startObservingForCollectionProducts = () => {
+    // get Recently Viewed Item Data when present
+    const handleCanvas = (canvas) => {
+        if (document.querySelector('.template-collection .collection_product_wrapper')) {
+            retrieveCollectionPageRecentlyViewedItemData();
+        }
+    }
+
+    // set up the mutation observer
+    const observer = new MutationObserver( (mutations, instance) => {
+        const canvas = document.querySelector('.template-collection .collection_product_wrapper');
+        if (canvas) {
+            handleCanvas(canvas);
+            instance.disconnect(); // stop observing
+            return;
+        }
+    });
+
+    // start observing
+    observer.observe(document.querySelector('.template-collection .collection_product_wrapper'), {
+        childList: true,
+        subtree: true
+    });
+}
+
+if (document.querySelector('body').classList.contains('template-collection')) {
+    startObservingForCollectionProducts();
+}
+</script>

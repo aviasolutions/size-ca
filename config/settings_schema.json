@@ -1,0 +1,396 @@
+[
+  {
+    "name": "theme_info",
+    "logo": "https:\/\/cdn.shopify.com\/s\/files\/1\/0070\/7032\/files\/2010_6_23_Shopify-Green_256x256.jpg",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Timber Framework"
+      },
+      {
+        "type": "paragraph",
+        "content": "v2.1.0"
+      },
+      {
+        "type": "paragraph",
+        "content": "Theme settings allow designers to provide an easy way for any user to customize the look and feel of their shop without having to delve into HTML or CSS code. Please see our [help page on theme settings](http:\/\/docs.shopify.com\/themes\/theme-templates\/settings) to learn more about how you can make the theme customizable."
+      },
+      {
+        "type": "paragraph",
+        "content": "Review [Timber's documentation](http:\/\/shopify.github.io\/Timber\/) for any development help."
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "General colors"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary",
+        "default": "#204a80",
+        "info": "Used for text links, and primary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary",
+        "default": "#dcdcdc",
+        "info": "Used for secondary buttons"
+      },
+      {
+        "type": "color",
+        "id": "color_borders",
+        "label": "Borders",
+        "default": "#e5e5e5"
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "type": "color",
+        "id": "color_body_bg",
+        "label": "Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_body_text",
+        "label": "Text",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "Footer"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_bg",
+        "label": "Background",
+        "default": "#f2f2f2"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_text",
+        "label": "Text",
+        "default": "#636363"
+      },
+      {
+        "type": "color",
+        "id": "color_footer_social_link",
+        "label": "Social media icons",
+        "default": "#bbbbbb"
+      }
+    ]
+  },
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "checkbox",
+        "id": "favicon_enable",
+        "label": "Use custom icon"
+      },
+      {
+        "type": "image",
+        "id": "favicon.png",
+        "label": "Icon",
+        "max-width": 32,
+        "max-height": 32,
+        "info": "32 x 32px .png required"
+      }
+    ]
+  },
+  {
+    "name": "GeoLocation",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "geolocation_allowed_ccode",
+        "label": "Geolocation allowed country code",
+        "default": "CA",
+        "info": "Enter only ISO-2 digit code like CA,US etc. Enter multi value with comma(,) separated."
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_afterpay_on_pdp",
+        "label": "Hide afterpay on PDP",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_afterpay_on_cart",
+        "label": "Hide afterpay on Cart",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enable",
+        "label": "Enable cart notes"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_vendor_enable",
+        "label": "Show product vendor"
+      },
+      {
+        "type": "select",
+        "id": "ajax_cart_method",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          },
+          {
+            "value": "page",
+            "label": "Page"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https:\/\/www.facebook.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https:\/\/www.pinterest.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "https:\/\/instagram.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "http:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_link",
+        "label": "LinkedIn",
+        "info": "https:\/\/www.linkedin.com\/in\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https:\/\/www.youtube.com\/user\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      },
+      {
+        "type": "header",
+        "content": "Social Share"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share Facebook"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Share Twitter"
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Share Pinterest"
+      }
+    ]
+  },
+  {
+    "name": "Collection & Search Page Filter",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Filter"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_filter",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "radio",
+        "id": "loadmore_type",
+        "label": "Load More Type",
+        "options": [
+          {
+            "value": "infinite",
+            "label": "Infinite"
+          },
+          {
+            "value": "pagination",
+            "label": "Pagination"
+          }
+        ],
+        "default": "infinite"
+      },
+      {
+        "type": "header",
+        "content": "Price Filter"
+      },
+      {
+        "type": "checkbox",
+        "id": "price_filter_enable",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "price_filter_min_price",
+        "label": "Minimum Price",
+        "default": 1,
+        "info": "Ex. 1 is equal to $1"
+      },
+      {
+        "type": "number",
+        "id": "price_filter_max_price",
+        "label": "Maximum Price",
+        "default": 500,
+        "info": "Ex. 500 is equal to $500"
+      },
+      {
+        "type": "header",
+        "content": "Allowed Filter Tags"
+      },
+      {
+        "type": "textarea",
+        "id": "allowed_filter_tags",
+        "label": "Tags List",
+        "info": "Add tags prefix comma separated only. Ex. Brand;Category"
+      },
+      {
+        "type": "header",
+        "content": "Color Filter"
+      },
+      {
+        "type": "checkbox",
+        "id": "color_filter_enable",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "radio",
+        "id": "color_filter_layout",
+        "options": [
+          {
+            "value": "swatch",
+            "label": "Swatch"
+          },
+          {
+            "value": "list",
+            "label": "List"
+          }
+        ],
+        "label": "Layout",
+        "default": "list"
+      },
+      {
+        "type": "textarea",
+        "id": "allowed_color_tags",
+        "label": "Color Name",
+        "info": "Add name comma separated only. Ex. red;yellow"
+      },
+      {
+        "type": "header",
+        "content": "Size Filter"
+      },
+      {
+        "type": "checkbox",
+        "id": "size_filter_enable",
+        "label": "Enable",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "allowed_size_tags",
+        "label": "size Name",
+        "info": "Add name comma separated only. Ex. 1;2;M;L;XL"
+      }
+    ]
+  },
+  {
+    "name": "Checkout Page Texts",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "text",
+        "label": "text"
+      },
+      {
+        "type": "textarea",
+        "id": "customer_service_hours_title",
+        "label": "Customer service hours title"
+      },
+      {
+        "type": "textarea",
+        "id": "customer_service_hours",
+        "label": "Customer service hours"
+      },
+      {
+        "type": "textarea",
+        "id": "title_checkout",
+        "label": "Title for checkout page",
+        "default": "Nice choice! Enter your details below to get started."
+      },
+      {
+        "type": "textarea",
+        "id": "title_shipping",
+        "label": "Title for shipping page",
+        "default": "Now let’s get ‘em shipped out before it’s too late."
+      },
+      {
+        "type": "textarea",
+        "id": "title_payment",
+        "label": "Title for payment page",
+        "default": "Almost there! Enter your payment details and you’re good to go."
+      }
+    ]
+  }
+]

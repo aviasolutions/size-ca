@@ -1,0 +1,45 @@
+<div class="page__sidebar">
+  {% if section.settings.header != blank %}
+  <h4>{{ section.settings.header }}</h4>
+  {% endif %}
+  <ul>
+    {% for block in section.blocks %}
+    <li>
+      {% if block.settings.title != blank %}
+      <a href="{{ block.settings.link }}">{{ block.settings.title }}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% schema %}
+  {
+    "name": "Sidebar",
+    "settings": [
+		{
+          "type": "text",
+          "id": "header",
+          "label": "Heading"
+        }
+    ],
+    "blocks": [
+      {
+        "type": "sidebar",
+        "name": "Sidebar",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+          },
+		  {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

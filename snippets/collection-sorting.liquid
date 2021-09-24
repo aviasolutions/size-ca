@@ -1,0 +1,82 @@
+<!-- /snippets/collection-sorting.liquid -->
+<div class="form-horizontal">
+  <label for="SortBy">{{ 'collections.sorting.title' | t }}</label>
+  <select name="SortBy" id="SortBy">
+    <option value="manual">{{ 'collections.sorting.featured' | t }}</option>
+    <option value="best-selling">{{ 'collections.sorting.best_selling' | t }}</option>
+    <option value="title-ascending">{{ 'collections.sorting.az' | t }}</option>
+    <option value="title-descending">{{ 'collections.sorting.za' | t }}</option>
+    <option value="price-ascending">{{ 'collections.sorting.price_ascending' | t }}</option>
+    <option value="price-descending">{{ 'collections.sorting.price_descending' | t }}</option>
+    {% comment %}
+    <option value="created-descending">{{ 'collections.sorting.date_descending' | t }}</option>
+    <option value="created-ascending">{{ 'collections.sorting.date_ascending' | t }}</option>
+    {% endcomment %}
+  </select>
+</div>
+
+{% comment %}
+  Toggle between collection.liquid and collection.list.liquid with the
+  ?view= parameter.
+{% endcomment %}
+
+{% comment %}
+<div class="collection-view">
+  <button type="button" title="{{ 'collections.general.grid_view' | t }}" class="change-view{% unless template contains 'list' %} change-view--active{% endunless %}" data-view="grid">
+    <span class="icon-fallback-text">
+      <span class="icon icon-grid-view" aria-hidden="true"></span>
+      <span class="fallback-text">{{ 'collections.general.grid_view' | t }}</span>
+    </span>
+  </button>
+  <button type="button" title="{{ 'collections.general.list_view' | t }}" class="change-view{% if template contains 'list' %} change-view--active{% endif %}" data-view="list">
+    <span class="icon-fallback-text">
+      <span class="icon icon-list-view" aria-hidden="true"></span>
+      <span class="fallback-text">{{ 'collections.general.list_view' | t }}</span>
+    </span>
+  </button>
+</div>
+{% endcomment %}
+
+<div class="collection_view_row">
+  <div class="lay3_btn lay_btn active">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="lay4_btn lay_btn">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+
+<div class="filter_btn">
+  <button class="filter_toggle btn button"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 373.6 373.6" style="enable-background:new 0 0 373.6 373.6;" xml:space="preserve"><g><g><path d="M343.7,0H29.9c-5.5,0-10.1,4.9-10.1,10.5v64.2c0,0.3,0,0.6,0.1,1c0,0.1,0.1,0.3,0.1,0.4c0,0.2,0.1,0.3,0.1,0.5c0,0.2,0.1,0.3,0.1,0.5c0,0.1,0.1,0.3,0.1,0.4c0.1,0.2,0.1,0.4,0.2,0.5c0,0.1,0.1,0.2,0.1,0.4c0.1,0.2,0.1,0.3,0.2,0.5c0.1,0.1,0.1,0.2,0.2,0.4c0.1,0.2,0.2,0.3,0.2,0.4c0.1,0.1,0.1,0.3,0.2,0.4c0.1,0.1,0.2,0.3,0.3,0.4c0.1,0.1,0.2,0.3,0.3,0.4c0.1,0.1,0.2,0.2,0.3,0.4c0.1,0.1,0.2,0.1,0.2,0.2l114.3,124.6v157.5c0,3.9,2.2,7.4,5.7,9.1c1.3,0.6,2.7,0.9,4.2,0.9c2.4,0,4.7-0.8,6.5-2.4l80.2-68.3c2.2-1.9,3.5-4.7,3.4-7.6v-89.2L351,81.4c0.1-0.1,0.1-0.1,0.2-0.2c0.1-0.1,0.2-0.2,0.3-0.4c0.1-0.1,0.2-0.2,0.3-0.4c0.1-0.2,0.2-0.3,0.3-0.4s0.2-0.3,0.2-0.4c0.1-0.1,0.2-0.3,0.3-0.4c0.1-0.1,0.1-0.2,0.2-0.4c0.1-0.2,0.2-0.3,0.2-0.5c0-0.1,0.1-0.2,0.1-0.4c0.1-0.2,0.1-0.3,0.2-0.5c0-0.1,0.1-0.3,0.1-0.4c0-0.2,0.1-0.3,0.1-0.5s0.1-0.3,0.1-0.5c0-0.1,0.1-0.3,0.1-0.4c0-0.3,0.1-0.6,0.1-1V10.4C353.8,4.9,349.3,0,343.7,0z M219.5,195.6c-1.7,1.8-2.7,4.1-2.7,6.6v88.4l-60,51.3V202.2c0-2.5-1-4.8-2.7-6.6L52.6,85H321L219.5,195.6z M333.8,65h-294V20h294V65z"/></g></g></svg> Filter</button>
+</div>
+
+<script>
+  /*============================================================================
+    Inline JS because collection liquid object is only available
+    on collection pages and not external JS files
+  ==============================================================================*/
+  Shopify.queryParams = {};
+  if (location.search.length) {
+    for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+      aKeyValue = aCouples[i].split('=');
+      if (aKeyValue.length > 1) {
+        Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+      }
+    }
+  }
+
+  /* $(function() {
+    $('#SortBy')
+      .val('{{ collection.sort_by | default: collection.default_sort_by }}')
+      .bind('change', function() {
+        Shopify.queryParams.sort_by = jQuery(this).val();
+        location.search = jQuery.param(Shopify.queryParams);
+      }
+    );
+  }); */
+</script>

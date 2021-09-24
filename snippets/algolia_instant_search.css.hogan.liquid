@@ -1,0 +1,156 @@
+.ais-RefinementList-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.section-header__right, .ais-sort {
+	display: flex;
+	align-items: center;
+}
+
+.listing-filters__actions {
+	font-size: 1.5em;
+	font-weight: bold;
+	padding: 10px;
+}
+
+.ctm_filter_active {
+	overflow: hidden;
+}
+
+@media screen and (max-width: 1024px) {
+  .listing-filters__container {
+    min-height: 100%;
+    height: -moz-available !important;          /* WebKit-based browsers will ignore this. */
+    height: -webkit-fill-available !important;  /* Mozilla-based browsers will ignore this. */
+    height: fill-available !important;
+    overflow: auto;
+    padding: 0;
+  }
+
+  .listing-filters__content {
+  	padding: 30px 20px 20px;
+  }
+
+  .ais-facets {
+  	max-height: calc(100vh - 103px);
+  }
+
+	.filter_close {
+		position: relative;
+		top: 0;
+	}
+
+	.listing-filters__actions { display: flex; justify-content: space-between; align-items: center; }
+}
+
+@media screen and (max-width: 768px) {
+	.ais-facets {
+		max-height: calc(100vh - 122px);
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.collection-wrapper--top {
+		max-width: 100vw !important;
+	}
+}
+
+.ais-hit--price-striked {
+	color: #666;
+	text-decoration: line-through;
+	padding-left: 5px;
+	display: inline-block;
+}
+
+.ais-hit--price-discount { display: none; }
+
+
+.ais-sort-orders-container { margin-left: 10px; }
+
+.ctm_filter_active { overflow: hidden; }
+
+
+.listing-filters__content {
+	height: calc(100% - 90px);
+	overflow: auto;
+}
+
+.ais-facets .apply_filter {
+	padding: 20px;
+	margin-top: 0;
+	background: #fff;
+}
+
+@media screen and (min-width: 1025px) {
+  .ais-facets .apply_filter {
+	display: none;
+  }
+}
+
+.ais-RangeSlider .rheostat-tooltip {
+  display: none;
+  background: transparent;
+  position: absolute;
+  font-size: 0.8em;
+  transform: translate(-50%, -100%);
+  left: 50%;
+  line-height: 1.5em;
+  text-align: center;
+}
+
+@media (hover) {
+  .ais-RangeSlider .rheostat-handle:hover .rheostat-tooltip {
+    display: block;
+  }
+}
+
+.ais-RangeSlider .rheostat-handle {
+  background: #fff;
+  border-radius: 50%;
+  cursor: grab;
+  height: 20px;
+  outline: none;
+  transform: translate(-50%, calc(-50% + -3px));
+  border: 1px solid #ccc;
+  width: 20px;
+  z-index: 1;
+}
+
+.ais-RangeSlider .rheostat-value {
+  padding-top: 15px;
+  font-size: 0.8em;
+  transform: translateX(-50%);
+  position: absolute;
+}
+
+.ais-RangeSlider .rheostat-horizontal {
+  cursor: pointer;
+  margin: 16px 16px 24px;
+}
+
+.ais-RangeSlider .rheostat-background {
+  background-color: rgba(65, 66, 71, 0.08);
+  border: 1px solid #ddd;
+  height: 6px;
+}
+
+.ais-RangeSlider .rheostat-progress {
+  background-color: #000;
+  cursor: pointer;
+  height: 4px;
+  top: 1px;
+  position: absolute;
+}
+
+.ais-RangeSlider .rheostat-marker { display: none; }
+.ais-RangeSlider .rheostat-marker:nth-child(5), .ais-RangeSlider .rheostat-marker:last-of-type { display: block; }
+
+.rheostat-value {
+	display: flex;
+	align-items: center;
+}
+
+.rheostat-value::before, .rheostat-tooltip::before { content: '$'; }
+.rheostat-value::after, .rheostat-tooltip::after { content: '.00'; }

@@ -1,0 +1,111 @@
+<!-- /snippets/product-grid-item.liquid -->
+{% comment %}
+
+  This snippet is used to showcase each product during the loop,
+  'for product in collection.products' in collection.liquid.
+
+  A liquid variable (grid_item_width) is set just before the this
+  snippet is included to change the size of the container.
+  Once the variable is set on a page, all future instances of this
+  snippet will use that width. Overwrite the variable to adjust this.
+
+  Example
+    - assign grid_item_width = 'large--one-quarter medium--one-half'
+
+{% endcomment %}
+
+{% comment %}
+  Set the default grid_item_width if no variable is set
+{% endcomment %}
+{% unless grid_item_width %}
+  {% assign grid_item_width = 'large--one-quarter medium--one-half small--one-half' %}
+{% endunless %}
+
+{% comment %}
+  Check if the product is on sale and set a variable to be used below.
+{% endcomment %}
+{% assign on_sale = false %}
+{% if product.compare_at_price > product.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{% comment %}
+  Check if the product is sold out and set a variable to be used below.
+{% endcomment %}
+{% assign sold_out = true %}
+{% if product.available %}
+  {% assign sold_out = false %}
+{% endif %}
+
+<div class="grid__item {{ grid_item_width }}">
+
+  {% comment %}
+    Link to your product with the 'within: collection' filter for the link to be aware of the collection.
+    This allows you to create collection-based navigation on the product page.
+
+    Results of using 'within: collection':
+    - Instead of a URL with /products/product-handle
+      you would get /collections/collection-handle/products/product-handle
+
+    For more info on navigation within a collection
+      - http://docs.shopify.com/support/your-store/collections/how-to-navigate-within-a-collection
+
+  {% endcomment %}
+  {%- liquid
+  assign image = product.featured_image
+   assign media_aspect_ratio = image.aspect_ratio
+  assign media_width = image.width
+  assign media_height = image.height
+  
+-%}
+  
+  <a href="{{ product.url | within: collection }}" class="grid__image">
+    {%- liquid
+          assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.'
+        -%}
+<div class="image-wrap{% if has_video and video_modal == false %} hide{% endif %}" style="height: 0; padding-bottom: {{ 100 | divided_by: media_aspect_ratio }}%;">
+        <img class="responsive-image__image lazyload"
+             src="{{ image | img_url: '30x' }}"
+          data-src="{{ img_url }}"
+          data-widths="[180, 280, 360, 540]"
+          data-aspectratio="{{ media_aspect_ratio }}"
+          data-sizes="auto"
+          alt="{{ image.alt | escape | split: '#' | first }}">
+    </div>
+  </a>
+  <div class="quick-view-button">
+    <a class="quick-view" data-handle="{{ product.handle }}" href="javascript:void(0);"><svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 200 200"><defs><style>.cls-1 { fill-rule: evenodd;}</style></defs><path id="BASKET" class="cls-1" d="M128.167,87H150l-14,55H64L50,87H71L99.583,58.417ZM70.8,134h58.4L139,95H61Zm46.367-47L99.583,69.417,82,87h35.167Z"></path></svg> <span>Quick Buy</span></a>
+  </div>
+  <p class="h6">
+    <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
+  </p>  
+  <p>
+    {% comment %}
+      You can show a leading 'from' or 'up to' by checking 'product.price_varies'
+      if your variants have different prices.
+    {% endcomment %}
+    {% if on_sale %}
+      {% if product.price_varies %}
+        {% assign sale_price = product.price | money %}
+        {{ 'products.product.on_sale_from_html' | t: price: sale_price }}
+      {% else %}
+        {{ product.price | money }}
+      {% endif %}
+    {% else %}
+      {% if product.price_varies %}
+        {% assign price = product.price | money %}
+        {{ 'products.general.from_text_html' | t: price: price }}
+      {% else %}
+        {{ product.price | money }}
+      {% endif %}
+    {% endif %}
+    {% if sold_out %}
+      <strong>{{ 'products.product.sold_out' | t }}</strong>
+    {% endif %}
+    {% if on_sale %}
+      <span class="visually-hidden">{{ 'products.general.regular_price' | t }}</span>
+      <s class="sale_price">{{ product.compare_at_price | money }}</s>
+    {% endif %}
+  </p>
+
+</div>

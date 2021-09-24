@@ -1,0 +1,392 @@
+.drawing__loading-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.drawing__image-container {
+  margin-bottom: 20px;
+}
+
+.drawing__information {
+  padding: 0 20px;
+}
+
+.drawing__date {
+  margin: 0 0 5px;
+}
+
+.drawing__title {
+  margin: 0 0 10px;
+}
+
+.drawing__price {
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.drawing__description {
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.drawing__captcha-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drawing__option-group {
+  margin-bottom: 20px;
+}
+
+.drawing__option-group-title {
+  margin-bottom: 10px;
+}
+
+.drawing__options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+}
+
+.drawing__options--size {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.drawing__option {
+  position: relative;
+}
+
+.drawing__option-image {
+  margin-bottom: 10px;
+}
+
+.drawing__option--active {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 1024px) {
+  .drawing__form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-bottom: 2px solid #000;
+  border-radius: 0px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+
+// animations...
+.slide-up-enter {
+  transform: translateY(10px);
+  /* start 10px down*/
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transition: all 0.2s ease;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity;
+  transition-timing-function: ease;
+  overflow: hidden;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
+}
+
+.VueCarousel {
+  width: 94%;
+  margin: 0 auto;
+}
+
+.VueCarousel-inner {
+  height: auto !important;
+}
+
+.VueCarousel-navigation-pre {
+  left: 10px;
+}
+
+.VueCarousel-navigation-next {
+  right: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+
+  .VueCarousel-navigation,
+  .VueCarousel-navigation-prev,
+  .VueCarousel-navigation-next {
+    display: none !important;
+  }
+}
+
+.social-icons {
+  margin-top: 20px;
+}
+
+.social-icon {
+  width: 25px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.social-icon:hover {
+  opacity: 0.66;
+}
+
+.VueCarousel-dot-container {
+  margin-top: 0 !important;
+}
+
+.twitter-follow-button {
+  position: relative;
+  height: 20px;
+  box-sizing: border-box;
+  padding: 1px 8px 1px 6px;
+  background-color: #1b95e0;
+  color: #fff;
+  border-radius: 3px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 2.5px 5px;
+}
+
+.embed-container {
+  margin: 10px auto;
+}
+
+.twitter-follow-button:hover {
+  background-color: #0789d8;
+}
+
+/***===DEFAULT TEMPLATE===***/
+
+.drawing-customer-info__inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.drawing-customer__container {
+  margin: 10px;
+}
+
+.drawing__form {
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.drawing__date,
+.drawing__thank-you-subtitle,
+.drawing__thank-you {
+  text-transform: none;
+}
+
+.drawing__option-group,
+ .drawing-cc__form,
+ .drawing__message {
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 20px;
+  background-color: #f1f1f1;
+}
+
+.drawing__option-text {
+  padding: 10px;
+}
+
+.drawing__options--location .drawing__option--active .drawing__option-text,
+.drawing__options--model .drawing__option--active .drawing__option-text {
+  border-bottom: 3px solid #000;
+  text-decoration: none;
+}
+
+.drawing__option--size {
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #000;
+  padding: 5px;
+}
+
+.drawing__option--size:hover {
+  color: #000;
+  background-color: #fff;
+}
+
+.drawing__option--size:focus {
+  color: #000;
+  background-color: #fff;
+}
+
+.drawing__option--size.drawing__option--active {
+  color: #000;
+  background-color: #fff;
+  text-decoration: none;
+}
+
+.drawing-submit-form__checkbox-container {
+  margin-bottom: 20px;
+}
+
+.drawing__option--active {
+  text-decoration: none;
+}
+
+.drawing-submit-form__error p {
+  color: #d43f3a;
+}
+
+.drawing__information,
+.drawing__price,
+.drawing__description {
+  padding: 0;
+}
+
+.drawing__date,
+.drawing__title,
+.drawing__price,
+.drawing__description {
+   margin-bottom: 10px;
+}
+
+.drawing__information,
+.drawing__price,
+.drawing__description {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.drawing__title {
+  text-transform: uppercase;
+}
+
+.drawing-submit-form__disclaimer {
+ 	margin-top: 20px; 
+}
+
+.drawing__option-group-text {
+ margin-top: 10px; 
+}
+
+.drawing__image-container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.drawing__date, 
+.drawing__title, 
+.drawing__thank-you-wrapper{
+  margin-left: 20px;
+}
+
+.drawing-message__select {
+  font-size: 14px;
+}
+
+#drawing-message {
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+
+.drawing__date, 
+.drawing__title, 
+.drawing__thank-you-wrapper{
+  margin-left: 0;
+}
+
+  .drawing__options {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .drawing__options--size {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .drawing__option--size .drawing__option-text {
+    padding: 2.5px 5px;
+  }
+
+  .drawing__option-group,
+  .drawing-cc__form  {
+    margin: 20px 0;
+  }
+
+  .drawing__thank-you-wrapper {
+    margin-bottom: 20px;
+  }
+
+  .drawing__information,
+  .drawing__price,
+  .drawing__description {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  
+  .drawing-message__select {
+    font-size: 12px;
+  }
+
+  .drawing__message {
+    margin: 0;
+  }
+}
+
+p[data-f-id='pbf'] {
+  display: none !important;
+}
+
+#drawingaccountaddress, 
+#drawinglogin {
+  display: none;
+}
+
+/***===DEFAULT TEMPLATE===***/

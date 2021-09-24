@@ -1,0 +1,66 @@
+<!-- /templates/search.liquid -->
+{% comment %}
+
+  To return only products or pages in results:
+    - http://docs.shopify.com/manual/configuration/store-customization/return-only-product-in-storefront-search-results
+    - Or manually add type=product or type=page to the search URL as a parameter
+
+{% endcomment %}
+
+{% comment %}
+  Set grid_results to true and set search results as a grid instead of a list.
+  This works well when your search is only for products.
+{% endcomment %}
+{% assign grid_results = false %}
+
+{% comment %}
+  Check to enforce respond.js
+{% endcomment %}
+{% assign respond_js_secret_key = shop.domain | md5 %}
+
+{% unless search.terms == respond_js_secret_key %}
+
+{% comment %}
+  Avoid accessing search.results before the opening paginate tag.
+  If you do, the pagination of results will be broken.
+{% endcomment %}
+
+{% paginate search.results by 24 %}
+
+  <div class="grid">
+    <div class="grid__item large--two-thirds push--large--one-sixth">
+		{% comment %}
+          {% if search.performed %}
+            {% if search.results_count == 0 %}
+              <h1 class="text-center">{{ 'general.search.no_results_html' | t: terms: search.terms }}</h1>
+            {% else %}
+              <h1 class="text-center">{{ 'general.search.results_for_html' | t: terms: search.terms }}</h1>
+            {% endif %}
+          {% else %}
+            <h1 class="text-center">{{ 'general.search.title' | t }}</h1>
+          {% endif %}
+
+          {% include 'search-bar' %}
+     	{% endcomment %}
+      
+        <div class="page__search">
+          {%- include 'search-form' -%}
+        </div>
+
+      	{% comment %}{% if search.performed and false %}{%- include 'search-result' -%}{% endif %}{% endcomment %}
+      
+        <div class="grid--rev collection-wrapper">
+          {%- include 'search-result' -%}
+          {%- include 'search-result-new' -%}
+        </div>
+    </div>
+  </div>
+
+{% endpaginate %}
+
+{% else %}
+
+  {% include 'respond' %}
+  {% layout none %}
+
+{% endunless %}

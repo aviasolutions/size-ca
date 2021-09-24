@@ -1,0 +1,221 @@
+   <script src="https://polyfill.io/v3/polyfill.js?features=default"></script>
+<div class="store_detail__section">
+  <div class="wrapper">
+    <div class="grid">
+      
+      <div class="grid__item large--one-sixth medium--one-half small--one-whole">
+        <div class="store_contact">
+          {% if section.settings.contact_heading != blank %}
+          <h4>{{ section.settings.contact_heading }}</h4>
+          {% endif %}
+          {% if section.settings.contact != blank %}
+          <div class="rte">
+            {{ section.settings.contact }}
+          </div>
+          {% endif %}
+          {% if section.settings.contact_btn_text != blank %}
+          <a class="get_direction_btn btn button" href="{{ section.settings.contact_btn_link }}">{{ section.settings.contact_btn_text }}</a>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="grid__item large--two-sixths medium--one-half small--one-whole">
+        <div class="store_hours">
+          {% if section.settings.hours_heading != blank %}
+          <h4>{{ section.settings.hours_heading }}</h4>
+          {% endif %}
+          {% if section.settings.hours_content != blank %}
+          <div class="rte">
+            {{ section.settings.hours_content }}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      
+      <div class="grid__item large--three-sixths medium--one-half small--one-whole">
+        <div class="store_location">
+          {% if section.settings.location_heading != blank %}
+          <h4>{{ section.settings.location_heading }}</h4>
+          {% endif %}
+          <div class="location_map" >
+            <div id="style-selector-control" class="map-control" style="display:none;">
+              <input
+                     type="radio"
+                     name="show-hide"
+                     id="hide-poi"
+                     class="selector-control"
+                      checked="checked"
+                     />
+              <label for="hide-poi">Hide</label>
+              <input
+                     type="radio"
+                     name="show-hide"
+                     id="show-poi"
+                     class="selector-control"
+                    
+                     />
+              <label for="show-poi">Show</label>
+            </div>
+             <div id="map"></div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+  <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq4ZHyzmrVtpgA-WJcETRJFnMCuRHYhlA&callback=initMap&libraries=&v=weekly&channel=2"
+      async
+    ></script>
+<script>
+  let map;
+
+function initMap() {
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: new google.maps.LatLng(43.644513699577494, -79.41872630198152),
+    zoom: 16,
+     mapTypeControl: false,
+  });
+  const iconBase =
+    "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
+  const icons = {
+    parking: {
+      icon: "https://cdn.shopify.com/s/files/1/0519/9606/5960/files/pin.png?v=1625849493",
+    },
+    library: {
+      icon: iconBase + "library_maps.png",
+    }
+  };
+  const features = [
+    {
+      position: new google.maps.LatLng(43.644513699577494, -79.41872630198152),
+      type: "parking"
+    }
+  ];
+
+  // Create markers.
+  for (let i = 0; i < features.length; i++) {
+    const marker = new google.maps.Marker({
+      position: features[i].position,
+      icon: icons[features[i].type].icon,
+      map: map,
+    });
+    
+   map.setOptions({ styles: styles["hide"] });
+  }
+  
+  
+ 
+  
+  
+  
+}
+
+const styles = {
+  default: [],
+  hide: [
+    {
+      featureType: "poi.business",
+      stylers: [{ visibility: "off" }],
+    },
+    {
+      featureType: "transit",
+      elementType: "labels.icon",
+      stylers: [{ visibility: "off" }],
+    },
+  ],
+};
+</script>
+
+<style>
+  .map-control {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 2px rgba(33, 33, 33, 0.4);
+  font-family: "Roboto", "sans-serif";
+  margin: 10px;
+  padding-right: 5px;
+  /* Hide the control initially, to prevent it from appearing
+           before the map loads. */
+  
+}
+  
+  #map .map-control {
+  display: block;
+}
+
+.selector-control {
+  font-size: 14px;
+  line-height: 30px;
+  vertical-align: baseline;
+}
+</style>
+
+
+
+
+
+{% schema %}
+  {
+    "name": "Store Detail",
+	"class": "store-detail__section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Store Contact"
+      },
+      {
+        "type": "text",
+        "id": "contact_heading",
+        "label": "Contact Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "contact",
+        "label": "Contact content"
+      },
+      {
+        "type": "text",
+        "id": "contact_btn_text",
+        "label": "Contact Button Text"
+      },
+      {
+        "type": "url",
+        "id": "contact_btn_link",
+        "label": "Contact Button Link"
+      },
+	  {
+        "type": "header",
+        "content": "Store Hours"
+      },
+      {
+        "type": "text",
+        "id": "hours_heading",
+        "label": "Hours Heading"
+      },
+      {
+        "type": "html",
+        "id": "hours_content",
+        "label": "hours content"
+      },
+	  {
+        "type": "header",
+        "content": "Store Location"
+      },
+      {
+        "type": "text",
+        "id": "location_heading",
+        "label": "Location Heading"
+      }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

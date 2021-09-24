@@ -1,0 +1,198 @@
+<!-- /templates/article.liquid -->
+{% comment %}
+
+  Comments will not appear right after they are submitted, either to be checked for spam
+  or to await moderation. When a comment is submitted, the browser is redirected to a page
+  that includes the new comment id in its URL.
+    Example: http://shopname.myshopify.com/blogs/news/2022072-my-post?comment=3721372
+
+  More information:
+    - http://docs.shopify.com/themes/liquid-variables/comment
+
+{% endcomment %}
+
+{% assign number_of_comments = article.comments_count %}
+
+{% comment %}
+  If a comment was just submitted and it has no blank fields, we have an extra comment to count.
+{% endcomment %}
+{% if comment and comment.created_at %}
+  {% assign number_of_comments = article.comments_count | plus: 1 %}
+{% endif %}
+
+{% include 'breadcrumb' %}
+
+<div class="grid">
+
+  <article class="grid__item large--one-whole" itemscope itemtype="http://schema.org/Article">
+
+    <header class="section-header">
+      <div class="section-header__left text-center">
+        <h1>{{ article.title }}</h1>
+        <div class="article__img">
+          {% if article.image %}
+          <a class="article__featured-image">
+            {{ article | img_url: 'master' | img_tag: article.title }}
+          </a>
+          {% endif %}
+        </div>
+        
+        {% comment %}
+        {% capture author %}<strong>{{ article.author }}</strong>{% endcapture %}
+        {% capture date %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endcapture %}
+        <p>{{ 'blogs.article.author_on_date_html' | t: author: author, date: date }}</p>
+        {% endcomment %}
+        
+      </div>
+    </header>
+
+    <div class="rte" itemprop="articleBody">
+      {{ article.content }}
+    </div>
+
+    {% comment %}
+      Show off meta information like comments and tags.
+    {% endcomment %}
+    <div class="article_footer">
+      <div class="grid">
+        <div class="grid__item large--one-half">
+          <ul class="inline-list">
+            {% include 'tags-article' %}
+          </ul>
+        </div>
+        <div class="grid__item large--one-half">
+          {% include 'social-share' %}
+        </div>
+      </div>
+    </div>
+
+    {% comment %}
+      Create links to the next and previous articles, if available.
+    {% endcomment %}
+    {% if blog.next_article or blog.previous_article %}      
+      <p class="next-prev__article clearfix">
+        {% if blog.previous_article %}
+          <a href="{{ blog.previous_article.url }}" class="pre_post">	
+            <span class="left text-left">
+              <svg width="40" height="17" viewBox="0 0 40 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.7231 17L21.6869 17C22.6072 14.3714 22.2323 13.7596 19.5811 13.3119C17.1086 12.8929 14.6507 12.3925 11.8813 11.8702C12.3716 11.4221 12.4707 11.2502 12.5772 11.2452C21.0574 10.886 29.5354 10.5664 38.01 10.1396C38.6925 10.1056 39.3376 9.34543 40 8.92253L40 8.44745C38.8819 8.02345 37.756 7.22487 36.6474 7.24684C33.6908 7.30561 30.746 7.8087 27.7894 7.97017C21.8674 8.29367 15.9387 8.51226 10.0123 8.74733C9.77771 8.75612 9.53147 8.487 8.92479 8.13604C11.6958 6.69762 14.1365 5.36794 16.6345 4.1547C18.3877 3.30285 18.605 2.26317 17.351 0.845614L16.8691 0.845614C15.532 1.66561 14.2563 2.5971 12.8546 3.28418C8.59554 5.37124 4.28913 7.36658 0.00167017 9.39762L0.00167026 10.3478C1.48301 11.1716 2.87521 12.2909 4.46518 12.7644C7.59721 13.6942 10.8546 14.2061 14.0306 15.0052C16.2852 15.5726 18.4947 16.3283 20.7231 17Z" fill="black"/></svg>
+              <br>{{ 'blogs.article.older_post' | t }} <br><span class="article_title">{{ blog.previous_article.title }}</span>
+            </span>
+          </a>
+        {% endif %}
+        {% if blog.next_article %}
+          <a href="{{ blog.next_article.url }}" class="next_post">
+            <span class="right  text-right">
+              <svg width="40" height="17" viewBox="0 0 40 17" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.2769 0H18.3131C17.3928 2.6286 17.7677 3.24043 20.4189 3.68805C22.8914 4.10711 25.3493 4.60746 28.1187 5.12977C27.6284 5.57794 27.5293 5.74985 27.4228 5.75479C18.9426 6.11399 10.4646 6.43364 1.98997 6.86038C1.30752 6.89444 0.662396 7.65457 0 8.07747V8.55255C1.11811 8.97655 2.24401 9.77513 3.35265 9.75316C6.30919 9.69439 9.25404 9.1913 12.2106 9.02983C18.1326 8.70633 24.0613 8.48774 29.9877 8.25267C30.2223 8.24389 30.4685 8.51301 31.0752 8.86396C28.3042 10.3024 25.8635 11.6321 23.3655 12.8453C21.6123 13.6972 21.395 14.7368 22.649 16.1544H23.1309C24.468 15.3344 25.7437 14.4029 27.1454 13.7158C31.4045 11.6288 35.7109 9.63343 39.9983 7.60239V6.65223C38.517 5.82839 37.1248 4.70906 35.5348 4.23563C32.4028 3.30579 29.1454 2.79391 25.9694 1.99479C23.7148 1.42744 21.5053 0.671704 19.2769 0Z" fill="black"/></svg>
+              <br>{{ 'blogs.article.newer_post' | t }} <br><span class="article_title">{{ blog.next_article.title }}</span>
+            </span>
+          </a>
+        {% endif %}
+      </p>
+    {% endif %}
+
+    {% if blog.comments_enabled? %}
+      <hr>
+
+      <h2 class="h3">{{ 'blogs.comments.with_count' | t: count: number_of_comments }}</h2>
+
+      <hr>
+
+      {% comment %}
+        Just like blog.liquid page, define how many comments should be on each page.
+      {% endcomment %}
+      {% paginate article.comments by 5 %}
+        {% comment %}
+          #comments is required, it is used as an anchor link by Shopify.
+        {% endcomment %}
+        <div id="comments">
+
+          {% if comment and comment.created_at %}
+            <p class="note form-success">
+              {% if blog.moderated? %}
+                {{ 'blogs.comments.success_moderated' | t }}
+              {% else %}
+                {{ 'blogs.comments.success' | t }}
+              {% endif %}
+            </p>
+          {% endif %}
+
+          {% if number_of_comments > 0 %}
+            <ul class="no-bullets">
+              {% comment %}
+                If a comment was just submitted with no blank field, show it.
+              {% endcomment %}
+              {% if comment and comment.created_at %}
+                <li id="{{ comment.id }}" class="comment first{% if article.comments_count == 0 %} last{% endif %}">
+                  {% include 'comment' %}
+                </li>
+              {% endif %}
+
+              {% comment %}
+                Showing the rest of the comments.
+              {% endcomment %}
+              {% for comment in article.comments %}
+                <li id="{{ comment.id }}" class="comment{% unless number_of_comments > article.comments_count %}{% if forloop.first %} first{% endif %}{% endunless %}{% if forloop.last %} last {% endif %}">
+                  {% include 'comment' %}
+                </li>
+
+                {% unless forloop.last %}
+                  <li><hr></li>
+                {% endunless %}
+              {% endfor %}
+            </ul>
+
+            {% if paginate.pages > 1 %}
+              <hr>
+              <div class="pagination">
+                {{ paginate | default_pagination | replace: '&laquo; Previous', '&larr;' | replace: 'Next &raquo;', '&rarr;' }}
+              </div>
+            {% endif %}
+
+            <hr>
+
+          {% endif %}
+
+          <div class="form-vertical">
+            {% form 'new_comment', article %}
+              <h2 class="h3">{{ 'blogs.comments.title' | t }}</h2>
+
+              {{ form.errors | default_errors }}
+
+              <div class="grid">
+
+                <div class="grid__item large--one-half">
+                  <label for="CommentAuthor" class="hidden-label">{{ 'blogs.comments.name' | t }}</label>
+                  <input type="text" name="comment[author]" id="CommentAuthor" class="input-full{% if form.errors contains 'author' %} error{% endif %}" placeholder="{{ 'blogs.comments.name' | t }}" value="{{ form.author }}" autocapitalize="words">
+
+                  <label for="CommentEmail" class="hidden-label">{{ 'blogs.comments.email' | t }}</label>
+                  <input type="email" name="comment[email]" id="CommentEmail" class="input-full{% if form.errors contains 'email' %} error{% endif %}" placeholder="{{ 'blogs.comments.email' | t }}" value="{{ form.email }}" autocorrect="off" autocapitalize="off">
+                </div>
+
+                <div class="grid__item large--one-half">
+                  <label for="CommentBody" class="hidden-label">{{ 'blogs.comments.message' | t }}</label>
+                  <textarea name="comment[body]" id="CommentBody" class="input-full{% if form.errors contains 'body' %} error{% endif %}" placeholder="{{ 'blogs.comments.message' | t }}">{{ form.body }}</textarea>
+                </div>
+
+              </div>
+
+              {% if blog.moderated? %}
+                <p>{{ 'blogs.comments.moderated' | t }}</p>
+              {% endif %}
+
+              <input type="submit" class="btn" value="{{ 'blogs.comments.post' | t }}">
+            {% endform %}
+          </div>
+
+        </div>
+      {% endpaginate %}
+    {% endif %}
+
+  </article>
+
+  {% comment %}
+  <aside class="grid__item large--one-quarter" role="complementary">
+    {% include 'blog-sidebar' %}
+  </aside>
+  {% endcomment %}
+  
+</div>

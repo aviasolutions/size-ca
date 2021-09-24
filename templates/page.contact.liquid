@@ -1,0 +1,92 @@
+<!-- /templates/page.contact.liquid -->
+{% comment %}
+
+  This page template is a requirement if you are submitting your theme to the Shopify Theme Store.
+  Be sure to select page.contact as the template from the admin page to have this template take effect.
+
+  For information on adding more fields, visit:
+    - http://docs.shopify.com/support/configuration/store-customization/adding-fields-to-the-liquid-contact-form
+
+{% endcomment %}
+
+
+<div class="cms_pages_wrapper contact-page">
+  <div class="grid">
+
+    <div class="grid__item large--one-whole">
+
+      {% include 'breadcrumb' %}
+      <div class="page-header">
+          <h1>{{ page.title }}</h1>
+      </div>
+
+    </div> 
+
+  </div>
+
+  <div class="grid">
+
+    <div class="grid__item large--one-quarter">
+      {% section 'page-sidebar' %}
+    </div>
+    <div class="grid__item large--three-quarters">
+
+      {% comment %}
+        Regular page content goes here.
+      {% endcomment %}
+      <div class="rte">
+        {{ page.content }}
+      </div>
+
+      {% comment %}
+        Contact form starts here
+      {% endcomment %}
+      <br>
+      
+      <div class="form-vertical">
+        {% form 'contact' %}
+
+          {% comment %}
+            Successful message
+          {% endcomment %}
+          {% if form.posted_successfully? %}
+            <p class="note form-success">
+              {{ 'contact.form.post_success' | t }}
+            </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+		
+          <div class="form-field">
+            {% assign name_attr = 'contact.form.name' | t | handle %}
+            <label for="ContactFormName" class="field-label">{{ 'contact.form.name' | t }}<sup>*</sup></label>
+            <input type="text" id="ContactFormName" class="input-full" name="contact[{{ name_attr }}]" placeholder="" autocapitalize="words" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.name }}{% endif %}">
+          </div>	
+
+          <div class="form-field">
+            <label for="ContactFormEmail" class="field-label">{{ 'contact.form.email' | t }}<sup>*</sup></label>
+            <input type="email" id="ContactFormEmail" class="input-full" name="contact[email]" placeholder="" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+          </div>
+        
+          {% comment %}
+          <div class="form-field">
+            {% assign name_attr = 'contact.form.phone' | t | handle %}
+            <label for="ContactFormPhone" class="field-label">{{ 'contact.form.phone' | t }}</label>
+            <input type="tel" id="ContactFormPhone" class="input-full" name="contact[{{ name_attr }}]" placeholder="" pattern="[0-9\-]*" value="{% if form[name_attr] %}{{ form[name_attr] }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+          </div>
+          {% endcomment %}
+
+          <div class="form-field">
+            <label for="ContactFormMessage" class="field-label">{{ 'contact.form.message' | t }}<sup>*</sup></label>
+            <textarea rows="10" id="ContactFormMessage" class="input-full" name="contact[body]" placeholder="">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <input type="submit" class="btn right" value="{{ 'contact.form.send' | t }}">
+
+        {% endform %}
+      </div>
+
+    </div>
+
+  </div>
+</div>

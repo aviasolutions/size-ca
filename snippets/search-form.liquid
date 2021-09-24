@@ -1,0 +1,9 @@
+<form action="/search" method="get" class="input-group search-bars" role="search">
+  {% comment %}<input type="hidden" name="type" value="product">{% endcomment %}
+  <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search" class="input-group-field" aria-label="{{ 'general.search.placeholder' | t }}">
+  <span class="input-group-btn">
+    <button type="submit" class="btn icon-fallback-text">
+      <svg class="header_icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"> <g id="Layer_1-2" data-name="Layer 1-2"> <path id="Path_190" data-name="Path 190" d="M16.095,14.545A9.014,9.014,0,0,0,3.495,1.906,8.64,8.64,0,0,0,1.9,3.5,9.032,9.032,0,0,0,9,18.081a8.874,8.874,0,0,0,5.52-1.911l7.89,7.93L24,22.475Zm-1.612-1.618A6.718,6.718,0,1,1,15.75,9.053,6.685,6.685,0,0,1,14.482,12.928Z" transform="translate(0 -0.1)" fill="#fff"/> </g></svg>
+    </button>
+  </span>
+</form>

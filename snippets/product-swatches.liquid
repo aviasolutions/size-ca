@@ -1,0 +1,36 @@
+<select name="id" id="productSelect" class="product-single__variants">
+  {% for variant in product.variants %}
+  {% if variant.available %}
+
+  {% comment %}
+  Note: if you use option_selection.js, your <select> tag will be overwritten, meaning what you have inside <option> will not reflect what you coded below.
+  {% endcomment %}
+  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+
+  {% else %}
+  <option disabled="disabled">
+    {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+  </option>
+  {% endif %}
+  {% endfor %}
+</select>
+
+
+  <!-- For product variant Radio btn    -->
+  {% for option in product.options_with_values %}
+  <div class="variant-wrapper variant-wrapper--button">
+    <label {% if option.name == 'default' %}class="variant__label" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+      {{ option.name }}
+    </label>
+    <fieldset class="variant-input-wrap" name="Size" data-index="option1">
+      {% for variant in product.variants %}
+      <div class="variant-input" data-index="option1" data-value="XS">
+        <input id="swatch-{{ forloop.index }}-{{ value | handle }}" type="radio" name="option-{{ option_index }}" value="{{ variant | escape }}"{% if variant == product.selected_or_first_available_variant %} checked{% endif %} {% unless variant.available %}disabled{% endunless %} data-price="{{ variant.price | money }}"/>
+        <label for="swatch-{{ forloop.index }}-{{ value | handle }}" class="variant__button-label">{{ variant.title }}</label>
+      </div>
+      {% endfor %}
+    </fieldset>
+  </div>
+  {% endfor %}
+  <!--  End for variant radio btn   -->
+
