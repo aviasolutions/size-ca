@@ -168,6 +168,21 @@ ShopifyAPI.changeItem = function(line, quantity, callback, plusOrMinus) {
   jQuery.ajax(params);
 };
 
+// Fetch Cart Data
+ShopifyAPI.fetchCart = function(successCB, errorCB){
+  fetch('/cart?view=json').then(function(res){
+    return res.json();
+  }).then(function(cart){
+    if(successCB && typeof successCB === 'function'){
+      successCB(cart);
+    }
+  }).catch(function(err){
+    if(errorCB && typeof errorCB === 'function'){
+      errorCB(err);
+    }
+  })
+}
+
 /*============================================================================
   Ajax Shopify Add To Cart
 ==============================================================================*/
@@ -185,7 +200,7 @@ var ajaxCart = (function(module, $) {
   var $formContainer, $addToCart, $cartCountSelector, $cartCostSelector, $cartContainer, $drawerContainer;
 
   // Private functions
-  var updateCountPrice, formOverride, itemAddedCallback, itemErrorCallback, cartUpdateCallback, buildCart, cartCallback, adjustCart, adjustCartCallback, createQtySelectors, qtySelectors, validateQty;
+  var updateCountPrice, formOverride, itemAddedCallback, itemErrorCallback, cartUpdateCallback, buildCart, setupCart, cartCallback, adjustCart, adjustCartCallback, createQtySelectors, qtySelectors, validateQty;
 
   /*============================================================================
     Initialise the plugin and define global options
@@ -292,11 +307,13 @@ var ajaxCart = (function(module, $) {
     buildCart(cart);
   };
 
-  
-  buildCart = function (cart) {
+  setupCart = function(cartjson){
     // Start with a fresh cart div
+    console.log('cartjson',cartjson);
+    var cart = cartjson.cart ? cartjson.cart : cartjson;
+    var cart_items = cartjson.items ? cartjson.items : [];
     $cartContainer.empty();
-
+  
     // Show empty cart
     if (cart.item_count === 0) {
       $cartContainer
@@ -304,17 +321,17 @@ var ajaxCart = (function(module, $) {
       cartCallback(cart);
       return;
     }
-
+  
     // Handlebars.js cart layout
     var items = [],
         item = {},
         data = {},
         source = $("#CartTemplate").html(),
         template = Handlebars.compile(source);
-
+  
     // Add each item to our handlebars.js data
     $.each(cart.items, function(index, cartItem) {
-
+      //console.log(cartItem);
       /* Hack to get product image thumbnail
        *   - If image is not null
        *     - Remove file extension, add _small, and re-add extension
@@ -327,11 +344,29 @@ var ajaxCart = (function(module, $) {
         var prodImg = "//cdn.shopify.com/s/assets/admin/no-image-medium-cc9732cb976dd349a0df1d39816fbcc7.gif";
       }
 
+      var inv_qty = cart_items.filter(function(c_i){
+        return c_i.id === cartItem.id;
+      })[0];
+      
+      $.getJSON('/products/'+cartItem.handle+'.js',function(product){
+        // console.log(product);
+        var tag_len = product.tags.length;
+        var tags = product.tags;
+        for(var i = 0; i < tag_len; i++){
+          if(tags[i] == 'limit-quantity' || tags[i] == 'Limit-quantity' || tags[i] == 'Limit-Quantity'){
+            console.log('demo 123456');
+            $('.ajaxcart__row[data-id="'+product.id+'"] .ajaxcart__qty .ajaxcart__qty--plus').hide();
+            $('.ajaxcart__row[data-id="'+product.id+'"] .ajaxcart__qty .ctm_plus_btn').show();
+            $('.ajaxcart__row[data-id="'+product.id+'"] .ajaxcart__qty .ajaxcart__qty-num').addClass('ctm_disabled');
+          }
+        }
+      })
       // Create item's data object and add to 'items' array
       item = {
         key: cartItem.key,
         line: index + 1, // Shopify uses a 1+ index in the API
         url: cartItem.url,
+        id: cartItem.product_id,
         img: prodImg,
         name: cartItem.product_title,
         variation: cartItem.variant_title,
@@ -344,12 +379,13 @@ var ajaxCart = (function(module, $) {
         linePrice: Shopify.formatMoney(cartItem.line_price, settings.moneyFormat),
         originalLinePrice: Shopify.formatMoney(cartItem.original_line_price, settings.moneyFormat),
         discounts: cartItem.discounts,
-        discountsApplied: cartItem.line_price === cartItem.original_line_price ? false : true
+        discountsApplied: cartItem.line_price === cartItem.original_line_price ? false : true,
+        inv_qty: inv_qty.inventory_quantity
       };
-
+  
       items.push(item);
     });
-
+  
     // Gather all cart data and add to DOM
     data = {
       items: items,
@@ -357,12 +393,31 @@ var ajaxCart = (function(module, $) {
       totalPrice: Shopify.formatMoney(cart.total_price, settings.moneyFormat),
       totalCartDiscount: cart.total_discount === 0 ? 0 : {{ 'cart.general.savings_html' | t: price: '[savings]' | json }}.replace('[savings]', Shopify.formatMoney(cart.total_discount, settings.moneyFormat)),
       totalCartDiscountApplied: cart.total_discount === 0 ? false : true
-    }
-
+    };
+  
     $cartContainer.append(template(data));
-
+  
     cartCallback(cart);
+    $('.ctm_plus_btn').on('click',function(e){
+      e.preventDefault();
+       $(this).closest('.ajaxcart__row').find('.limitation_msg').remove();
+      $(this).closest('.ajaxcart__row').append('<p class="limitation_msg" style="color:#ff600b; margin: 5px 0 0;">Sorry! This product is Final Sale and limited to one per customer.</p>')
+      var _this = $(this);
+      setTimeout(function(e){
+        _this.closest('.ajaxcart__row').find('.limitation_msg').remove();
+      },5000)
+      return false;
+    })
     $('.js-drawer-open-right #CartCount,.js-drawer-open-right #CartCount2').text(cart.item_count);
+
+  };
+  
+  buildCart = function (cart) {
+    ShopifyAPI.fetchCart(function(cartjson){
+      setupCart(cartjson);
+    }, function(err){
+      setupCart(cart);
+    });
   };
   
   window.buildCart = buildCart ;
@@ -400,6 +455,15 @@ var ajaxCart = (function(module, $) {
         plusOrMinus = 'minus'
         qty -= 1;
         if (qty <= 0) qty = 0;
+      }
+
+      var $parent = $el.closest('.ajaxcart__product');
+      var maxQty = $parent.data('maxqty');
+      if(qty > maxQty){
+        $parent.find('.error-msg').removeClass('hide');
+        return;
+      } else {
+        $parent.find('.error-msg').addClass('hide');
       }
 
       // If it has a data-line, update the cart.
@@ -617,12 +681,12 @@ const pushAddedItemDataToGTM = (data) => {
     if (data.url.includes('?variant=')) {
         fetchPath = data.url.split("?variant=")[0];
     }
-    let itemName = data.product_title.toLowerCase();
-    let itemSku = data.sku.toLowerCase();
-    let itemBrand = data.vendor.toLowerCase();
+    let itemName;
+    let itemSku;
+    let itemBrand;
     let itemCategory = '';
-    let itemSize = data.variant_options.length ? data.variant_options[1] : '';
-    let itemColor = data.variant_options.length ? data.variant_options[0] : '';
+    let itemSize;
+    let itemColor;
     let thisItemData;
     let itemProductType;
     let collectionOrigin = '';
@@ -673,11 +737,11 @@ const pushAddedItemDataToGTM = (data) => {
             }
         }
       	itemCategory = itemCategory.toLowerCase();
-        //itemName = productData.title.toLowerCase();
-        //itemSku = firstAvailableVariant[0].sku.toLowerCase();
-        //itemBrand = productData.vendor.toLowerCase();
-        //itemSize = firstAvailableVariant[0].option2.toLowerCase();
-        //itemColor = firstAvailableVariant[0].option1.toLowerCase();
+        itemName = productData.title.toLowerCase();
+        itemSku = firstAvailableVariant[0].sku.toLowerCase();
+        itemBrand = productData.vendor.toLowerCase();
+        itemSize = firstAvailableVariant[0].option2.toLowerCase();
+        itemColor = firstAvailableVariant[0].option1.toLowerCase();
         
         thisItemData = {
             'name': itemName,
@@ -721,7 +785,10 @@ const pushAddedItemDataToGTM = (data) => {
                 }
             }
         }
-        dataLayer.push(thisItemObj)
+
+        console.log('thisItemData: ', thisItemData);
+        console.log('thisItemObj: ', thisItemObj);
+            dataLayer.push(thisItemObj)
     });
 }
 
@@ -828,7 +895,7 @@ const sendUpdatedQtyDataToGTM = (line, data, plusOrMinus) => {
                       products: [thisItemData]
                   }
               }
-            }
+              }
         }
         // console.log('dataLayerObj: ', dataLayerObj);
     

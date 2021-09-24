@@ -11,8 +11,8 @@
     <form action="/cart" method="post" novalidate class="cart ajaxcart">
       <div class="ajaxcart__inner">
         {{#items}}
-        <div class="ajaxcart__product">
-          <div class="ajaxcart__row" data-line="{{line}}">
+        <div class="ajaxcart__product" data-maxqty="{{inv_qty}}">
+          <div class="ajaxcart__row" data-id="{{id}}" data-line="{{line}}">
             <div class="grid">
               <div class="grid__item one-quarter">
                 <a href="{{url}}" class="ajaxcart__product-image"><img src="{{img}}" alt=""></a>
@@ -49,6 +49,11 @@
                         <span class="fallback-text" aria-hidden="true">+</span>
                         <span class="visually-hidden">{% endraw %}{{ 'cart.general.increase_quantity' | t }}{% raw %}</span>
                       </button>
+                       <button type="button" class="icon-fallback-text ctm_plus_btn" style="display:none;">
+                        <span class="icon icon-plus" aria-hidden="true"></span>
+                        <span class="fallback-text" aria-hidden="true">+</span>
+                        <span class="visually-hidden">{% endraw %}{{ 'cart.general.increase_quantity' | t }}{% raw %}</span>
+                      </button>
                     </div>
                   </div>
                   <div class="grid__item display-table-cell one-half text-right">
@@ -70,6 +75,9 @@
                   {{/if}}
                 </div>
               </div>
+            </div>
+            <div class="error-msg hide">
+              Sorry! This item is out of stock. More units cannot be added to your basket.
             </div>
           </div>
         </div>

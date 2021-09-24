@@ -53,18 +53,7 @@
   {{ 'algolia_init.js' | asset_url | script_tag }}
   <script src="{{ 'algolia_analytics.js' | asset_url }}" defer></script>
   <!-- /Algolia head -->
-  <link rel="preconnect" href="//cdn.dynamicyield.com">
-  <link rel="preconnect" href="//st.dynamicyield.com">
-  <link rel="preconnect" href="//rcom.dynamicyield.com">
-  <link rel="dns-prefetch" href="//cdn.dynamicyield.com">
-  <link rel="dns-prefetch" href="//st.dynamicyield.com">
-  <link rel="dns-prefetch" href="//rcom.dynamicyield.com">
-  <script>
-  window.DY = window.DY || {};
-  DY.recommendationContext = {type: 'OTHER'};
-  </script>
-  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_dynamic.js"></script>
-  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_static.js"></script>
+
   </head>
   <body>
     
@@ -382,45 +371,6 @@
      if ((Shopify && Shopify.Checkout !== undefined)) {
        fetchProductsInCart();
      }
-
-    const paymentMethods = document.querySelectorAll('.section--payment-method .radio-wrapper.content-box__row:not(.content-box__row--secondary)');
-    paymentMethods.forEach((method) => {
-      console.log(method);
-      method.addEventListener('click', (e) => {
-        console.log('method click');
-        DY.API('event', {
-          name: 'Payment Method Clicked',
-          properties: {
-            gateway: method.dataset.gatewayName,
-            label: method.querySelector('.radio__label__primary').innerText,
-          }
-        });
-      })
-    });
-
-     if(document.querySelector(".page--thank-you")) {
-      DY.API("event", {
-        name: "Purchase", // Human-readable name, not used to identify an event type
-        properties: {
-          uniqueTransactionId: "{{checkout.order_number}}", // Will remove redundant events. Must be a string. Max 64 characters.
-          dyType: "purchase-v1", // Identifies this event as a purchase
-          value: {{checkout.line_items_subtotal_price | money_without_currency}}, // Total cart value in actual payment currency, as float (dollars dot cents)
-          currency: "{{checkout.currency}}", // Optional non-default currency used
-          cart: [
-            {%- for item in checkout.line_items %}
-            {
-              productId: '{{item.sku}}',
-              itemPrice: {{item.final_price | money_without_currency}},
-              quantity: {{item.quantity}},
-              {%- for option in item.options_with_values %}
-              {{option.name}}: '{{option.value}}',
-              {%- endfor %}
-            },
-            {%- endfor %}
-          ]
-        }
-      });
-    }
 </script>
   </body>
 </html>
