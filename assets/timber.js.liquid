@@ -536,10 +536,7 @@ $(document).ready(function(){
   $(".service__toggle").click(function(){
      $(".header__services").toggleClass("active");
   });
-  $(".search-bar").click(function(e){
-    if(!$("body").hasClass('search_active')) {
-      e.preventDefault();
-    }
+  $(".search-bar").click(function(){
      $(".site-header").addClass("search_active");
      $(".predictive__search").addClass("active");
      $("body").addClass("search_active");

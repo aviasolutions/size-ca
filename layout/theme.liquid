@@ -23,36 +23,6 @@
   <meta name="keywords" content="size, sneakers, kicks, clothing, jackets, shirts, polos, adidas, nike," />
   {% endif %}
 
-  <link rel="preconnect" href="//cdn.dynamicyield.com">
-  <link rel="preconnect" href="//st.dynamicyield.com">
-  <link rel="preconnect" href="//rcom.dynamicyield.com">
-  <link rel="dns-prefetch" href="//cdn.dynamicyield.com">
-  <link rel="dns-prefetch" href="//st.dynamicyield.com">
-  <link rel="dns-prefetch" href="//rcom.dynamicyield.com">
-  <script>
-  window.DY = window.DY || {};
-  {%case template.name %}
-    {% when "index" %}
-      DY.recommendationContext = {type:'HOMEPAGE'};
-    {%when "collection" %}
-      DY.recommendationContext = {type:'CATEGORY', data: ["{{collection.title}}"]};
-    {%when "product"%}
-      DY.recommendationContext = {type:'PRODUCT', data: ['{{product.variants[0].sku}}']};
-    {%when "cart"%}
-      DY.recommendationContext = {type:'CART', data: ['{{ cart.items | map: "sku" | join: "', '"}}']};
-    {% else %}
-      DY.recommendationContext = {type: 'OTHER'};
-  {%endcase%}
-  {% if customer %}
-      var customer = {
-          id: '{{customer.id}}',
-          email: '{{customer.email}}',
-      }
-  {% endif %}
-  </script>
-  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_dynamic.js"></script>
-  <script type="text/javascript" src="//cdn.dynamicyield.com/api/8777812/api_static.js"></script>
-
   {% if settings.favicon_enable %}
   <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
   {% endif %}
@@ -302,7 +272,7 @@ Add the page template as a class for easy page or template specific styling.
   {{ 'velocity.min.js' | asset_url | script_tag }}
   {% endif %}
   {{ 'timber.js' | asset_url | script_tag }}
-  {{ 'dynamic-yield-events.js' | asset_url | script_tag }}
+
   {% comment %}
   Template-specific js
   {% endcomment %}
@@ -333,7 +303,7 @@ Add the page template as a class for easy page or template specific styling.
         cartCostSelector: '#CartCost',
         moneyFormat: {{ shop.money_format | json }}
       });
-    });
+      });
 
       jQuery(document.body).on('afterCartLoad.ajaxCart', function(evt, cart) {
         // Bind to 'afterCartLoad.ajaxCart' to run any javascript after the cart has loaded in the DOM
@@ -369,8 +339,21 @@ Add the page template as a class for easy page or template specific styling.
           $('.err').remove();
         },2000);
       })
-
+      
     });
+    
+    $(window).on('load',function(e){
+      $(document).on('click','.ctm_plus_btn',function(e){
+        e.preventDefault();
+        $(this).closest('.ajaxcart__row').append('<p class="Sorry! This product is Final Sale and limited to one per customer.</p>')
+        var _this = $(this);
+        setTimeout(function(e){
+          _this.closest('.ajaxcart__row').find('.limitation_msg').remove();
+        },3000)
+        return false;
+      })
+    })
+    
 
     $(document).on('keyup','#faqInput',function(e){
       e.preventDefault();
